@@ -298,7 +298,7 @@ class Form extends Model
 
         $view->setTemplateMode(View::TEMPLATE_MODE_CP);
 
-        $html = $view->renderTemplateMacro('_include/forms', $macro, [$config]);
+        $html = $view->renderTemplateMacro('_includes/forms', $macro, [$config]);
 
         $view->setTemplateMode($templateMode);
 

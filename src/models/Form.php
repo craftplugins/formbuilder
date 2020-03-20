@@ -151,11 +151,7 @@ class Form extends Model
             $tags[] = Html::redirectInput($this->redirect);
         }
 
-        foreach ($this->fields as $field) {
-            $tags[] = Html::tag('div', $this->renderFieldGroup($field), [
-                'class' => $this->fieldsClass,
-            ]);
-        }
+        $tags[] = $this->renderFieldGroups($this->fields);
 
         return new Markup(
             implode("\n", $tags),
@@ -285,6 +281,28 @@ class Form extends Model
 
         return Html::tag('div', implode("\n", $tags), [
             'class' => $this->rowClass,
+        ]);
+    }
+
+    /**
+     * @param array $fields
+     *
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\Exception
+     */
+    protected function renderFieldGroups(array $fields): string
+    {
+        $tags = [];
+
+        foreach ($fields as $field) {
+            $tags[] = $this->renderFieldGroup($field);
+        }
+
+        return Html::tag('div', implode("\n", $tags), [
+            'class' => $this->fieldsClass,
         ]);
     }
 

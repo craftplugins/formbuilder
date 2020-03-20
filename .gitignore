@@ -1,5 +1,8 @@
-.cache
-.DS_Store
-/.idea
-node_modules
-vendor
+*.bak
+*.DS_Store
+*.idea/*
+*.log
+*.orig
+*Thumbs.db
+composer.lock
+vendor/

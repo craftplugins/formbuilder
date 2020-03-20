@@ -6,6 +6,7 @@ use craft\base\Plugin as BasePlugin;
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
+use craftplugins\formbuilder\controllers\FormController;
 use craftplugins\formbuilder\services\FormsService;
 use craftplugins\formbuilder\variables\FormsBuilderVariable;
 use yii\base\Event;
@@ -18,6 +19,13 @@ use yii\base\Event;
  */
 class Plugin extends BasePlugin
 {
+    /**
+     * @var array
+     */
+    public $controllerMap = [
+        'form' => FormController::class,
+    ];
+
     /**
      * @inheritDoc
      */

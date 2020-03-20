@@ -67,7 +67,7 @@ class Form extends Model
     /**
      * @var string
      */
-    public $formMethod;
+    public $formMethod = 'post';
 
     /**
      * @var array

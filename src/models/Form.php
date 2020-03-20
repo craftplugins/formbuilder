@@ -216,6 +216,7 @@ class Form extends Model
         $fieldType = ArrayHelper::getValue($config, 'fieldType', 'textField');
         $label = ArrayHelper::getValue($config, 'label');
         $name = ArrayHelper::getValue($config, 'name');
+        $value = ArrayHelper::getValue($config, 'value');
 
         if ($name) {
             $config['errors'] = ArrayHelper::getValue($this->errors, $name);
@@ -231,6 +232,9 @@ class Form extends Model
                 break;
             case 'submit' :
                 $content = Html::submitButton($label, $config);
+                break;
+            case 'hidden' :
+                $content = Html::hiddenInput($name, $value);
                 break;
             default :
                 $content = $this->renderFormMacro($fieldType, $config);

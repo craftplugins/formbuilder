@@ -101,10 +101,18 @@ class Form extends Model
     {
         parent::init();
 
-        if ($this->errors === null) {
-            // If no errors were supplied try and pull then in via route params
-            $routeParams = Craft::$app->getUrlManager()->getRouteParams();
-            $this->errors = ArrayHelper::getValue($routeParams, 'formBuilderErrors');
+        $routeParams = Craft::$app->getUrlManager()->getRouteParams();
+
+        /** @var \craftplugins\formbuilder\models\Values $formBuilderValues */
+        $formBuilderValues = ArrayHelper::getValue($routeParams, 'formBuilderValues');
+
+        if ($formBuilderValues && $this->errors === null) {
+            $this->errors = $formBuilderValues->getErrors();
+        }
+
+        if ($formBuilderValues) {
+            // Override values with submitted values
+            $this->values = $formBuilderValues->getAttributes();
         }
     }
 

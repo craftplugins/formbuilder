@@ -3,7 +3,10 @@
 namespace craftplugins\formbuilder;
 
 use craft\base\Plugin as BasePlugin;
+use craft\web\twig\variables\CraftVariable;
 use craftplugins\formbuilder\services\FormsService;
+use craftplugins\formbuilder\variables\FormsBuilderVariable;
+use yii\base\Event;
 
 /**
  * Class Plugin
@@ -13,6 +16,25 @@ use craftplugins\formbuilder\services\FormsService;
  */
 class Plugin extends BasePlugin
 {
+    /**
+     * @inheritDoc
+     */
+    public function init(): void
+    {
+        parent::init();
+
+        // Register variables
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            static function (Event $event) {
+                /** @var CraftVariable $variable */
+                $variable = $event->sender;
+                $variable->set('formsBuilder', FormsBuilderVariable::class);
+            }
+        );
+    }
+
     /**
      * @return static
      */

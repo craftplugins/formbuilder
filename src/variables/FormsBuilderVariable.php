@@ -5,11 +5,11 @@ namespace craftplugins\formbuilder\variables;
 use craftplugins\formbuilder\models\Form;
 
 /**
- * Class FormsVariable
+ * Class FormsBuilderVariable
  *
  * @package craftplugins\formbuilder\variables
  */
-class FormsVariable
+class FormsBuilderVariable
 {
     /**
      * @param array $config

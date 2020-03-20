@@ -88,6 +88,30 @@ class Form extends Model
     public $values;
 
     /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->errors === null) {
+            // If no errors were supplied try and pull then in via route params
+            $routeParams = Craft::$app->getUrlManager()->getRouteParams();
+            $this->errors = ArrayHelper::getValue($routeParams, 'formBuilderErrors');
+        }
+    }
+
+    /**
+     * @return string
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function __toString()
+    {
+        return $this->render()->__toString();
+    }
+
+    /**
      * @return \Twig\Markup
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException

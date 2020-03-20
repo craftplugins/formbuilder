@@ -57,6 +57,11 @@ class Form extends Model
     /**
      * @var string
      */
+    public $fieldsClass = 'form-fields';
+
+    /**
+     * @var string
+     */
     public $formAction;
 
     /**
@@ -147,7 +152,9 @@ class Form extends Model
         }
 
         foreach ($this->fields as $field) {
-            $tags[] = $this->renderFieldGroup($field);
+            $tags[] = Html::tag('div', $this->renderFieldGroup($field), [
+                'class' => $this->fieldsClass,
+            ]);
         }
 
         return new Markup(

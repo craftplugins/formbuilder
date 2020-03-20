@@ -16,7 +16,7 @@ class FormsBuilderVariable
      *
      * @return \craftplugins\formbuilder\models\Form
      */
-    public function getForm(array $config):Form
+    public function getForm(array $config): Form
     {
         return new Form($config);
     }

@@ -3,7 +3,9 @@
 namespace craftplugins\formbuilder;
 
 use craft\base\Plugin as BasePlugin;
+use craft\events\RegisterUrlRulesEvent;
 use craft\web\twig\variables\CraftVariable;
+use craft\web\UrlManager;
 use craftplugins\formbuilder\services\FormsService;
 use craftplugins\formbuilder\variables\FormsBuilderVariable;
 use yii\base\Event;
@@ -22,6 +24,10 @@ class Plugin extends BasePlugin
     public function init(): void
     {
         parent::init();
+
+        $this->setComponents([
+            'forms' => FormsService::class,
+        ]);
 
         // Register variables
         Event::on(

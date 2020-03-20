@@ -5,9 +5,9 @@ namespace craftplugins\formbuilder\controllers;
 use Craft;
 use craft\web\Controller;
 use craft\web\Response;
+use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\models\Values;
 use craftplugins\formbuilder\Plugin;
-use yii\base\DynamicModel;
 
 /**
  * Class FormController
@@ -32,8 +32,8 @@ class FormController extends Controller
     public function actionProcess(): ?Response
     {
         $request = Craft::$app->getRequest();
-        $action = $request->getRequiredBodyParam('formBuilderAction');
-        $config = $request->getRequiredBodyParam('formBuilderConfig');
+        $action = $request->getRequiredBodyParam(Form::ACTION_NAME);
+        $config = $request->getRequiredBodyParam(Form::RULES_NAME);
 
         $rules = Plugin::getInstance()->getForms()->decodeRules($config);
 
@@ -41,7 +41,7 @@ class FormController extends Controller
 
         if ($model->hasErrors()) {
             Craft::$app->getUrlManager()->setRouteParams([
-                'formBuilderValues' => $model,
+                Form::VALUES_ROUTE_PARAMS_KEY => $model,
             ]);
 
             return null;

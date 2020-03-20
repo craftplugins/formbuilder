@@ -19,6 +19,12 @@ use yii\base\InvalidConfigException;
  */
 class Form extends Model
 {
+    public const ACTION_NAME = 'formBuilderAction';
+
+    public const RULES_NAME = 'formBuilderConfig';
+
+    public const VALUES_ROUTE_PARAMS_KEY = 'formBuilderValues';
+
     /**
      * @var string
      */
@@ -104,7 +110,7 @@ class Form extends Model
         $routeParams = Craft::$app->getUrlManager()->getRouteParams();
 
         /** @var \craftplugins\formbuilder\models\Values $formBuilderValues */
-        $formBuilderValues = ArrayHelper::getValue($routeParams, 'formBuilderValues');
+        $formBuilderValues = ArrayHelper::getValue($routeParams, self::VALUES_ROUTE_PARAMS_KEY);
 
         if ($formBuilderValues && $this->errors === null) {
             $this->errors = $formBuilderValues->getErrors();
@@ -112,7 +118,7 @@ class Form extends Model
 
         if ($formBuilderValues) {
             // Override values with submitted values
-            $this->values = $formBuilderValues->getAttributes();
+            $this->values = $formBuilderValues->getValues();
         }
     }
 
@@ -145,10 +151,10 @@ class Form extends Model
 
         if ($this->rules) {
             $tags[] = Html::actionInput('formbuilder/forms/process');
-            $tags[] = Html::hiddenInput('formBuilderAction', $this->action);
+            $tags[] = Html::hiddenInput(self::ACTION_NAME, $this->action);
 
             $encodedRules = Plugin::getInstance()->getForms()->encodeRules($this->rules);
-            $tags[] = Html::hiddenInput('formBuilderConfig', $encodedRules);
+            $tags[] = Html::hiddenInput(self::RULES_NAME, $encodedRules);
         } elseif ($this->action) {
             $tags[] = Html::actionInput($this->action);
         } else {
@@ -254,6 +260,7 @@ class Form extends Model
                 ArrayHelper::getValue($config, 'fieldClass'),
             ];
 
+            // TODO: Classes aren’t being prefixed (needs fixing)
             $content = $this->namespaceClasses(
                 Html::parseTag($content),
                 $this->classPrefix,

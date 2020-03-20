@@ -10,11 +10,11 @@ use craftplugins\formbuilder\models\Values;
 use craftplugins\formbuilder\Plugin;
 
 /**
- * Class FormController
+ * Class FormsController
  *
  * @package craftplugins\formbuilder\controllers
  */
-class FormController extends Controller
+class FormsController extends Controller
 {
     /**
      * @var bool

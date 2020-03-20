@@ -45,7 +45,7 @@ class Form extends Model
     /**
      * @var array
      */
-    public $fieldDefaults;
+    public $fieldDefaults = [];
 
     /**
      * @var array

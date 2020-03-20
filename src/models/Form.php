@@ -7,8 +7,10 @@ use craft\base\Model;
 use craft\helpers\ArrayHelper;
 use craft\helpers\Html;
 use craft\helpers\StringHelper;
+use craft\web\View;
 use craftplugins\formbuilder\Plugin;
 use Twig\Markup;
+use yii\base\InvalidConfigException;
 
 /**
  * Class Form
@@ -103,6 +105,9 @@ class Form extends Model
 
     /**
      * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
@@ -113,6 +118,9 @@ class Form extends Model
 
     /**
      * @return \Twig\Markup
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
@@ -193,6 +201,10 @@ class Form extends Model
      * @param array $config
      *
      * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\Exception
      */
     protected function renderField(array $config): string
     {
@@ -218,7 +230,7 @@ class Form extends Model
                 $content = Html::submitButton($label, $config);
                 break;
             default :
-                $content = '';
+                $content = $this->renderFormMacro($fieldType, $config);
         }
 
         if ($this->classPrefix) {
@@ -247,6 +259,10 @@ class Form extends Model
      * @param array $fields
      *
      * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\Exception
      */
     protected function renderFieldGroup(array $fields): string
     {
@@ -263,5 +279,29 @@ class Form extends Model
         return Html::tag('div', implode("\n", $tags), [
             'class' => $this->rowClass,
         ]);
+    }
+
+    /**
+     * @param string $macro
+     * @param array  $config
+     *
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\Exception
+     */
+    protected function renderFormMacro(string $macro, array $config): string
+    {
+        $view = Craft::$app->getView();
+        $templateMode = $view->getTemplateMode();
+
+        $view->setTemplateMode(View::TEMPLATE_MODE_CP);
+
+        $html = $view->renderTemplateMacro('_include/forms', $macro, [$config]);
+
+        $view->setTemplateMode($templateMode);
+
+        return $html;
     }
 }

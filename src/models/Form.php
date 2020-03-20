@@ -128,8 +128,10 @@ class Form extends Model
 
             $encodedRules = Plugin::getInstance()->getForms()->encodeRules($this->rules);
             $tags[] = Html::hiddenInput('formBuilderConfig', $encodedRules);
-        } else {
+        } elseif ($this->action) {
             $tags[] = Html::actionInput($this->action);
+        } else {
+            throw new InvalidConfigException('Missing required parameter: action');
         }
 
         if ($this->redirect) {

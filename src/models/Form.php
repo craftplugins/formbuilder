@@ -109,6 +109,19 @@ class Form extends Model
     public $values;
 
     /**
+     * Form constructor.
+     *
+     * @param string|null $handle
+     * @param array       $config
+     */
+    public function __construct(string $handle, array $config = [])
+    {
+        parent::__construct($config);
+
+        $this->handle = $handle;
+    }
+
+    /**
      * @inheritDoc
      */
     public function init()
@@ -128,6 +141,17 @@ class Form extends Model
             // Override values with submitted values
             $this->values = $formBuilderValues->getValues();
         }
+    }
+
+    /**
+     * @param string|null $handle
+     * @param array       $config
+     *
+     * @return static
+     */
+    public static function create(string $handle, array $config = []): self
+    {
+        return new self($handle, $config);
     }
 
     /**

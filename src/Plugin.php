@@ -49,7 +49,7 @@ class Plugin extends BasePlugin
             static function (Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
-                $variable->set('formsBuilder', FormsBuilderVariable::class);
+                $variable->set('formBuilder', FormsBuilderVariable::class);
             }
         );
     }

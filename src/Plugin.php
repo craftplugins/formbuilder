@@ -10,7 +10,6 @@ use craftplugins\formbuilder\models\Config;
 use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\services\FormsService;
 use craftplugins\formbuilder\variables\FormBuilderVariable;
-use Swift_Transport_Esmtp_Auth_XOAuth2Authenticator;
 use Twig\Extension\EscaperExtension;
 use yii\base\Event;
 

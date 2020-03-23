@@ -33,9 +33,15 @@ class FormsController extends Controller
     {
         $request = Craft::$app->getRequest();
         $action = $request->getRequiredBodyParam(Form::ACTION_NAME);
-        $config = $request->getRequiredBodyParam(Form::RULES_NAME);
+        $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);
+        $encodedRules = $request->getRequiredBodyParam(Form::RULES_NAME);
 
-        $rules = Plugin::getInstance()->getForms()->decodeRules($config);
+        if ($handle) {
+            $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
+            $rules = $form->rules;
+        } else {
+            $rules = Plugin::getInstance()->getForms()->decodeRules($encodedRules);
+        }
 
         $model = Values::validateData($request->getBodyParams(), $rules);
 

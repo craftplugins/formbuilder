@@ -21,6 +21,8 @@ class Form extends Model
 {
     public const ACTION_NAME = 'formBuilderAction';
 
+    public const HANDLE_NAME = 'formBuilderHandle';
+
     public const RULES_NAME = 'formBuilderConfig';
 
     public const VALUES_ROUTE_PARAMS_KEY = 'formBuilderValues';
@@ -79,6 +81,11 @@ class Form extends Model
      * @var array
      */
     public $formOptions;
+
+    /**
+     * @var string
+     */
+    public $handle;
 
     /**
      * @var string
@@ -154,8 +161,12 @@ class Form extends Model
             $tags[] = Html::actionInput('formbuilder/forms/process');
             $tags[] = Html::hiddenInput(self::ACTION_NAME, $this->action);
 
-            $encodedRules = Plugin::getInstance()->getForms()->encodeRules($this->rules);
-            $tags[] = Html::hiddenInput(self::RULES_NAME, $encodedRules);
+            if ($this->handle) {
+                $tags[] = Html::hiddenInput(self::HANDLE_NAME, $this->handle);
+            } else {
+                $encodedRules = Plugin::getInstance()->getForms()->encodeRules($this->rules);
+                $tags[] = Html::hiddenInput(self::RULES_NAME, $encodedRules);
+            }
         } elseif ($this->action) {
             $tags[] = Html::actionInput($this->action);
         } else {

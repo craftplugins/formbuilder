@@ -23,7 +23,7 @@ class FormsService extends Component
      */
     public function createForm(array $config): Form
     {
-        return new Form($config);
+        return new Form(null, $config);
     }
 
     /**
@@ -52,15 +52,19 @@ class FormsService extends Component
     {
         $forms = Plugin::getInstance()->getConfig()->forms;
 
-        if (empty($config = $forms[$handle])) {
-            throw new Exception("No form with handle: {$handle}");
+        foreach ($forms as $config) {
+            if ($config instanceof Form) {
+                $form = $config;
+            } else {
+                $form = $this->createForm((array) $config);
+            }
+
+            if ($form->handle === $handle) {
+                return $form;
+            }
         }
 
-        /** @var Form $form */
-        $form = $this->createForm($config);
-        $form->handle = $handle;
-
-        return $form;
+        throw new Exception("No form found with handle: {$handle}");
     }
 
     /**

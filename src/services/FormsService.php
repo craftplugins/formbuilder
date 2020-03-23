@@ -27,6 +27,25 @@ class FormsService extends Component
     }
 
     /**
+     * @param string $rules
+     *
+     * @return array
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function decodeRules(string $rules): array
+    {
+        return unserialize(
+            Craft::$app->getSecurity()->decryptByKey(
+                StringHelper::base64UrlDecode($rules)
+            ),
+            [
+                'allowed_classes' => false,
+            ]
+        );
+    }
+
+    /**
      * @param array $rules
      *
      * @return string
@@ -65,24 +84,5 @@ class FormsService extends Component
         }
 
         throw new Exception("No form found with handle: {$handle}");
-    }
-
-    /**
-     * @param string $rules
-     *
-     * @return array
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function decodeRules(string $rules): array
-    {
-        return unserialize(
-            Craft::$app->getSecurity()->decryptByKey(
-                StringHelper::base64UrlDecode($rules)
-            ),
-            [
-                'allowed_classes' => false,
-            ]
-        );
     }
 }

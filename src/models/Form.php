@@ -209,6 +209,186 @@ class Form extends Model
     }
 
     /**
+     * @param string $action
+     *
+     * @return $this
+     */
+    public function setAction(string $action): self
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * @param string $classPrefix
+     *
+     * @return $this
+     */
+    public function setClassPrefix(string $classPrefix): self
+    {
+        $this->classPrefix = $classPrefix;
+
+        return $this;
+    }
+
+    /**
+     * @param string $columnClass
+     *
+     * @return $this
+     */
+    public function setColumnClass(string $columnClass): self
+    {
+        $this->columnClass = $columnClass;
+
+        return $this;
+    }
+
+    /**
+     * @param array $errors
+     *
+     * @return $this
+     */
+    public function setErrors(array $errors): self
+    {
+        $this->errors = $errors;
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldClass
+     *
+     * @return $this
+     */
+    public function setFieldClass(string $fieldClass): self
+    {
+        $this->fieldClass = $fieldClass;
+
+        return $this;
+    }
+
+    /**
+     * @param array $fieldDefaults
+     *
+     * @return $this
+     */
+    public function setFieldDefaults(array $fieldDefaults): self
+    {
+        $this->fieldDefaults = $fieldDefaults;
+
+        return $this;
+    }
+
+    /**
+     * @param array $fields
+     *
+     * @return $this
+     */
+    public function setFields(array $fields): self
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldsClass
+     *
+     * @return $this
+     */
+    public function setFieldsClass(string $fieldsClass): self
+    {
+        $this->fieldsClass = $fieldsClass;
+
+        return $this;
+    }
+
+    /**
+     * @param string $formAction
+     *
+     * @return $this
+     */
+    public function setFormAction(string $formAction): self
+    {
+        $this->formAction = $formAction;
+
+        return $this;
+    }
+
+    /**
+     * @param string $formMethod
+     *
+     * @return $this
+     */
+    public function setFormMethod(string $formMethod): self
+    {
+        $this->formMethod = $formMethod;
+
+        return $this;
+    }
+
+    /**
+     * @param array $formOptions
+     *
+     * @return $this
+     */
+    public function setFormOptions(array $formOptions): self
+    {
+        $this->formOptions = $formOptions;
+
+        return $this;
+    }
+
+    /**
+     * @param string $redirect
+     *
+     * @return $this
+     */
+    public function setRedirect(string $redirect): self
+    {
+        $this->redirect = $redirect;
+
+        return $this;
+    }
+
+    /**
+     * @param string $rowClass
+     *
+     * @return $this
+     */
+    public function setRowClass(string $rowClass): self
+    {
+        $this->rowClass = $rowClass;
+
+        return $this;
+    }
+
+    /**
+     * @param array $rules
+     *
+     * @return $this
+     */
+    public function setRules(array $rules): self
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function setValues(array $values): self
+    {
+        $this->values = $values;
+
+        return $this;
+    }
+
+    /**
      * @param array  $tagInfo
      * @param string $classPrefix
      * @param array  $exclude

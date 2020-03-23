@@ -113,7 +113,7 @@ class Form extends Model
      * @param string|null $handle
      * @param array       $config
      */
-    public function __construct(string $handle, array $config = [])
+    public function __construct(?string $handle, array $config = [])
     {
         parent::__construct($config);
 
@@ -148,7 +148,7 @@ class Form extends Model
      *
      * @return static
      */
-    public static function create(string $handle, array $config = []): self
+    public static function create(?string $handle, array $config = []): self
     {
         return new self($handle, $config);
     }

@@ -46,13 +46,15 @@ class FormsService extends Component
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function decodeRules(string $rules):array
+    public function decodeRules(string $rules): array
     {
         return unserialize(
             Craft::$app->getSecurity()->decryptByKey(
                 StringHelper::base64UrlDecode($rules)
             ),
-            null
+            [
+                'allowed_classes' => false,
+            ]
         );
     }
 }

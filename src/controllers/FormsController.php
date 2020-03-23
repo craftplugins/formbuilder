@@ -38,13 +38,17 @@ class FormsController extends Controller
         $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);
 
         if ($handle) {
+            // If a handle is set we’ll use the configured rules
             $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
             $rules = $form->rules;
         } else {
+            // If no handle is set we’ll try and load any encoded rules
             $encodedRules = $request->getRequiredBodyParam(Form::RULES_NAME);
             $rules = Plugin::getInstance()->getForms()->decodeRules($encodedRules);
         }
 
+        // Validate the posted data with our rules
+        // We’re using Yii’s DynamicModel here to conduct ad hoc validation
         $model = Values::validateData($request->getBodyParams(), $rules);
 
         if ($model->hasErrors()) {

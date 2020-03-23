@@ -7,10 +7,8 @@ use craft\base\Plugin as BasePlugin;
 use craft\web\twig\variables\CraftVariable;
 use craftplugins\formbuilder\controllers\FormsController;
 use craftplugins\formbuilder\models\Config;
-use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\services\FormsService;
 use craftplugins\formbuilder\variables\FormBuilderVariable;
-use Twig\Extension\EscaperExtension;
 use yii\base\Event;
 
 /**
@@ -54,15 +52,6 @@ class Plugin extends BasePlugin
                 $variable->set('formBuilder', FormBuilderVariable::class);
             }
         );
-
-        /** @var EscaperExtension $escaper */
-        $escaper = Craft::$app
-            ->getView()
-            ->getTwig()
-            ->getExtension(EscaperExtension::class);
-
-        // Register our form class as safe with Twig
-        $escaper->addSafeClass(Form::class, ['html']);
     }
 
     /**

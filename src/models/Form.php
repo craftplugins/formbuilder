@@ -99,7 +99,6 @@ class Form extends Model
 
     /**
      * @var array
-     * @todo: Parse these somehow so they’re simpler to input via templates
      */
     public $rules;
 

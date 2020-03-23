@@ -31,6 +31,8 @@ class FormsController extends Controller
      */
     public function actionProcess(): ?Response
     {
+        $this->requirePostRequest();
+
         $request = Craft::$app->getRequest();
         $action = $request->getRequiredBodyParam(Form::ACTION_NAME);
         $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);

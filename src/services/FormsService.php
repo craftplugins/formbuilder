@@ -14,6 +14,16 @@ use craft\helpers\StringHelper;
 class FormsService extends Component
 {
     /**
+     * @param array $config
+     *
+     * @return \craftplugins\formbuilder\models\Form
+     */
+    public function createForm(array $config): Form
+    {
+        return new Form($config);
+    }
+
+    /**
      * @param array $rules
      *
      * @return string

@@ -17,10 +17,11 @@ class FormsBuilderVariable
      * @param array $config
      *
      * @return \craftplugins\formbuilder\models\Form
+     * @throws \yii\base\InvalidConfigException
      */
-    public function getForm(array $config): Form
+    public function createForm(array $config): Form
     {
-        return new Form($config);
+        return Plugin::getInstance()->getForms()->createForm($config);
     }
 
     /**

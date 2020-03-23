@@ -2,9 +2,11 @@
 
 namespace craftplugins\formbuilder;
 
+use Craft;
 use craft\base\Plugin as BasePlugin;
 use craft\web\twig\variables\CraftVariable;
 use craftplugins\formbuilder\controllers\FormsController;
+use craftplugins\formbuilder\models\Config;
 use craftplugins\formbuilder\services\FormsService;
 use craftplugins\formbuilder\variables\FormsBuilderVariable;
 use yii\base\Event;
@@ -23,6 +25,11 @@ class Plugin extends BasePlugin
     public $controllerMap = [
         'forms' => FormsController::class,
     ];
+
+    /**
+     * @var array
+     */
+    protected $config;
 
     /**
      * @inheritDoc
@@ -56,6 +63,20 @@ class Plugin extends BasePlugin
         $instance = parent::getInstance();
 
         return $instance;
+    }
+
+    /**
+     * @return \craftplugins\formbuilder\models\Config
+     */
+    public function getConfig(): Config
+    {
+        if ($this->config === null) {
+            $this->config = new Config(
+                Craft::$app->getConfig()->getConfigFromFile('formbuilder')
+            );
+        }
+
+        return $this->config;
     }
 
     /**

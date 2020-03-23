@@ -5,6 +5,9 @@ namespace craftplugins\formbuilder\services;
 use Craft;
 use craft\base\Component;
 use craft\helpers\StringHelper;
+use craftplugins\formbuilder\models\Form;
+use craftplugins\formbuilder\Plugin;
+use yii\base\Exception;
 
 /**
  * Class FormsService
@@ -37,6 +40,27 @@ class FormsService extends Component
                 serialize($rules)
             )
         );
+    }
+
+    /**
+     * @param string $handle
+     *
+     * @return \craftplugins\formbuilder\models\Form
+     * @throws \yii\base\Exception
+     */
+    public function getFormByHandle(string $handle): Form
+    {
+        $forms = Plugin::getInstance()->getConfig()->forms;
+
+        if (empty($config = $forms[$handle])) {
+            throw new Exception("No form with handle: {$handle}");
+        }
+
+        /** @var Form $form */
+        $form = $this->createForm($config);
+        $form->handle = $handle;
+
+        return $form;
     }
 
     /**

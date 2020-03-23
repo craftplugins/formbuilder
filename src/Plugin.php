@@ -8,7 +8,7 @@ use craft\web\twig\variables\CraftVariable;
 use craftplugins\formbuilder\controllers\FormsController;
 use craftplugins\formbuilder\models\Config;
 use craftplugins\formbuilder\services\FormsService;
-use craftplugins\formbuilder\variables\FormsBuilderVariable;
+use craftplugins\formbuilder\variables\FormBuilderVariable;
 use yii\base\Event;
 
 /**
@@ -49,7 +49,7 @@ class Plugin extends BasePlugin
             static function (Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
-                $variable->set('formBuilder', FormsBuilderVariable::class);
+                $variable->set('formBuilder', FormBuilderVariable::class);
             }
         );
     }

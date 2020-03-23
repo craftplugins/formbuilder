@@ -6,11 +6,11 @@ use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\Plugin;
 
 /**
- * Class FormsBuilderVariable
+ * Class FormBuilderVariable
  *
  * @package craftplugins\formbuilder\variables
  */
-class FormsBuilderVariable
+class FormBuilderVariable
 {
     /**
      * @param array $config

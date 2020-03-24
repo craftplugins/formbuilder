@@ -84,13 +84,10 @@ class Form extends AbstractComponent
     /**
      * Form constructor.
      *
-     * @param string $handle
-     * @param array  $config
+     * @param array $config
      */
-    public function __construct(string $handle, $config = [])
+    public function __construct($config = [])
     {
-        $this->handle = $handle;
-
         parent::__construct($config);
 
         // Get any route params set by the controller
@@ -126,7 +123,9 @@ class Form extends AbstractComponent
      */
     public static function create(string $handle, $config = []): self
     {
-        return new static($handle, $config);
+        $config['handle'] = $handle;
+
+        return new static($config);
     }
 
     /**
@@ -142,7 +141,7 @@ class Form extends AbstractComponent
      *
      * @return $this
      */
-    public function setActionRoute($actionRoute): self
+    public function setActionRoute(string $actionRoute): self
     {
         $this->actionRoute = $actionRoute;
 
@@ -284,6 +283,18 @@ class Form extends AbstractComponent
     }
 
     /**
+     * @param string $handle
+     *
+     * @return $this
+     */
+    public function setHandle(string $handle): self
+    {
+        $this->handle = $handle;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getRedirectUrl(): string
@@ -312,11 +323,11 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @param $rules
+     * @param array $rules
      *
      * @return $this
      */
-    public function setRules($rules): self
+    public function setRules(array $rules): self
     {
         $this->rules = $rules;
 

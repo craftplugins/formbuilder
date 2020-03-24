@@ -124,11 +124,32 @@ class Plugin extends BasePlugin
 
         // Set our default types
         $event->types = [
-            'buttonField' => ButtonField::class,
-            'inputField' => InputField::class,
+            'button' => ButtonField::class,
+            'checkbox' => InputField::class,
+            'color' => InputField::class,
+            'date' => InputField::class,
+            'datetime-local' => InputField::class,
+            'email' => InputField::class,
+            'file' => InputField::class,
+            'hidden' => InputField::class,
+            'image' => InputField::class,
+            'input' => InputField::class,
+            'month' => InputField::class,
+            'number' => InputField::class,
+            'password' => InputField::class,
+            'radio' => InputField::class,
+            'range' => InputField::class,
+            'reset' => InputField::class,
             'row' => Row::class,
-            'selectField' => SelectField::class,
-            'textareaField' => TextareaField::class,
+            'search' => InputField::class,
+            'select' => SelectField::class,
+            'submit' => InputField::class,
+            'tel' => InputField::class,
+            'text' => InputField::class,
+            'textarea' => TextareaField::class,
+            'time' => InputField::class,
+            'url' => InputField::class,
+            'week' => InputField::class,
         ];
 
         $this->trigger(self::EVENT_REGISTER_COMPONENT_TYPES, $event);

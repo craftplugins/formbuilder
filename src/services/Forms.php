@@ -18,16 +18,6 @@ use yii\base\Exception;
 class Forms extends Component
 {
     /**
-     * @param array $config
-     *
-     * @return \craftplugins\formbuilder\models\components\Form
-     */
-    public function createForm($config = []): Form
-    {
-        return new Form(null, $config);
-    }
-
-    /**
      * @param string $rules
      *
      * @return array
@@ -74,7 +64,7 @@ class Forms extends Component
                 continue;
             }
 
-            $form = new Form(null, $form);
+            $form = new Form($form);
         }
 
         return $forms;

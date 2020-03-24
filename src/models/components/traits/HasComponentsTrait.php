@@ -84,9 +84,7 @@ trait HasComponentsTrait
      */
     protected function createComponent(array $config): ComponentInterface
     {
-        if (empty($componentType = $config['type'])) {
-            throw new InvalidArgumentException('Component type not specified.');
-        }
+        $componentType = $config['type'] ?? 'input';
 
         if (!ArrayHelper::isAssociative($config)) {
             // Assume we’re building a row for non-associative arrays

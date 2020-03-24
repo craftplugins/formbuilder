@@ -25,9 +25,9 @@ trait HasComponentsTrait
     /**
      * @param ComponentInterface|array $component
      *
-     * @return \craftplugins\formbuilder\models\components\traits\HasComponentsTrait
+     * @return \craftplugins\formbuilder\models\components\ComponentInterface|\craftplugins\formbuilder\models\components\traits\HasComponentsTrait
      */
-    public function addComponent($component): HasComponentsTrait
+    public function addComponent($component): ComponentInterface
     {
         if (is_array($component)) {
             $component = $this->createComponent($component);
@@ -43,12 +43,21 @@ trait HasComponentsTrait
     }
 
     /**
-     * @param mixed ...$components
+     * @param                                                                $first
+     * @param \craftplugins\formbuilder\models\components\ComponentInterface ...$components
      *
-     * @return $this
+     * @return \craftplugins\formbuilder\models\components\ComponentInterface|\craftplugins\formbuilder\models\components\traits\HasComponentsTrait
      */
-    public function addComponents(...$components): self
+    public function addComponents($first, ComponentInterface ...$components): ComponentInterface
     {
+        if (!is_array($first)) {
+            $first = [$first];
+        }
+
+        foreach ($first as $component) {
+            $this->addComponent($component);
+        }
+
         foreach ($components as $component) {
             $this->addComponent($component);
         }
@@ -67,9 +76,9 @@ trait HasComponentsTrait
     /**
      * @param array $fields
      *
-     * @return $this
+     * @return \craftplugins\formbuilder\models\components\ComponentInterface|\craftplugins\formbuilder\models\components\traits\HasComponentsTrait
      */
-    public function setComponents(array $fields): self
+    public function setComponents(array $fields): ComponentInterface
     {
         $this->components = [];
         $this->addComponents($fields);
@@ -84,20 +93,20 @@ trait HasComponentsTrait
      */
     protected function createComponent(array $config): ComponentInterface
     {
-        $componentType = $config['type'] ?? 'input';
+        $componentType = ArrayHelper::getValue($config, 'type', 'input');
 
-        if (!ArrayHelper::isAssociative($config)) {
+        if (ArrayHelper::isAssociative($config) === false) {
             // Assume we’re building a row for non-associative arrays
             return Row::create($config);
         }
 
         $componentTypes = Plugin::getInstance()->getComponentTypes();
 
-        if (empty($componentTypes[$componentType])) {
+        if (empty($componentClass = $componentTypes[$componentType])) {
             throw new InvalidArgumentException("Missing component type: {$componentType}");
         }
 
-        $component = new $componentType($config);
+        $component = new $componentClass($config);
 
         if ($component instanceof ComponentInterface) {
             return $component;

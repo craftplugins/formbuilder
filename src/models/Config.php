@@ -1,6 +1,5 @@
 <?php
 
-
 namespace craftplugins\formbuilder\models;
 
 use craft\base\Model;
@@ -13,7 +12,7 @@ use craft\base\Model;
 class Config extends Model
 {
     /**
-     * @var \craftplugins\formbuilder\models\Form[]|array
+     * @var \craftplugins\formbuilder\models\components\Form[]|array
      */
     public $forms = [];
 }

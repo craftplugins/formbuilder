@@ -2,7 +2,7 @@
 
 namespace craftplugins\formbuilder\variables;
 
-use craftplugins\formbuilder\models\Form;
+use craftplugins\formbuilder\models\components\Form;
 use craftplugins\formbuilder\Plugin;
 
 /**
@@ -15,7 +15,7 @@ class FormBuilderVariable
     /**
      * @param array $config
      *
-     * @return \craftplugins\formbuilder\models\Form
+     * @return \craftplugins\formbuilder\models\components\Form
      * @throws \yii\base\InvalidConfigException
      */
     public function createForm(array $config): Form
@@ -26,8 +26,9 @@ class FormBuilderVariable
     /**
      * @param string $handle
      *
-     * @return \craftplugins\formbuilder\models\Form
+     * @return \craftplugins\formbuilder\models\components\Form
      * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public function getFormByHandle(string $handle): Form
     {

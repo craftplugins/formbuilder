@@ -5,7 +5,7 @@ namespace craftplugins\formbuilder\services;
 use Craft;
 use craft\base\Component;
 use craft\helpers\StringHelper;
-use craftplugins\formbuilder\models\Form;
+use craftplugins\formbuilder\models\components\Form;
 use craftplugins\formbuilder\Plugin;
 use yii\base\Exception;
 
@@ -13,15 +13,16 @@ use yii\base\Exception;
  * Class FormsService
  *
  * @package craftplugins\formbuilder\services
+ * @property array|\craftplugins\formbuilder\models\components\Form[] $forms
  */
-class FormsService extends Component
+class Forms extends Component
 {
     /**
      * @param array $config
      *
-     * @return \craftplugins\formbuilder\models\Form
+     * @return \craftplugins\formbuilder\models\components\Form
      */
-    public function createForm(array $config): Form
+    public function createForm($config = []): Form
     {
         return new Form(null, $config);
     }
@@ -62,23 +63,33 @@ class FormsService extends Component
     }
 
     /**
+     * @return Form[]
+     */
+    public function getForms():array
+    {
+        $forms = Plugin::getInstance()->getConfig()->forms;
+
+        foreach ($forms as &$form) {
+            if ($form instanceof Form) {
+                continue;
+            }
+
+            $form = new Form(null, $form);
+        }
+
+        return $forms;
+    }
+
+    /**
      * @param string $handle
      *
-     * @return \craftplugins\formbuilder\models\Form
+     * @return \craftplugins\formbuilder\models\components\Form
      * @throws \yii\base\Exception
      */
     public function getFormByHandle(string $handle): Form
     {
-        $forms = Plugin::getInstance()->getConfig()->forms;
-
-        foreach ($forms as $config) {
-            if ($config instanceof Form) {
-                $form = $config;
-            } else {
-                $form = $this->createForm((array) $config);
-            }
-
-            if ($form->handle === $handle) {
+        foreach ($this->getForms() as $form) {
+            if ($form->getHandle() === $handle) {
                 return $form;
             }
         }

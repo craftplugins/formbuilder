@@ -44,17 +44,7 @@ class Form extends AbstractComponent
     /**
      * @var array
      */
-    protected $formAttributes = [];
-
-    /**
-     * @var string
-     */
-    protected $formClass = 'form';
-
-    /**
-     * @var string
-     */
-    protected $formId;
+    protected $formAttributes = ['class' => 'form'];
 
     /**
      * @var string
@@ -193,13 +183,7 @@ class Form extends AbstractComponent
      */
     public function getFormAttributes(): array
     {
-        return array_replace_recursive(
-            [
-                'id' => $this->getFormId(),
-                'class' => $this->getFormClass(),
-            ],
-            $this->formAttributes
-        );
+        return $this->formAttributes;
     }
 
     /**
@@ -210,46 +194,6 @@ class Form extends AbstractComponent
     public function setFormAttributes(array $formAttributes): self
     {
         $this->formAttributes = $formAttributes;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFormClass(): ?string
-    {
-        return $this->formClass;
-    }
-
-    /**
-     * @param string|null $formClass
-     *
-     * @return $this
-     */
-    public function setFormClass(?string $formClass): self
-    {
-        $this->formClass = $formClass;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFormId(): ?string
-    {
-        return $this->formId;
-    }
-
-    /**
-     * @param string|null $formId
-     *
-     * @return $this
-     */
-    public function setFormId(?string $formId): self
-    {
-        $this->formId = $formId;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace craftplugins\formbuilder\models\components;
 
 use Craft;
+use craft\helpers\ArrayHelper;
 use craft\helpers\Html;
 use Twig\Markup;
 
@@ -10,14 +11,16 @@ use Twig\Markup;
  * Class AbstractField
  *
  * @package craftplugins\formbuilder\models\components
+ * @property string $errorsHtml
+ * @property string $headingHtml
  * @property string $controlHtml
  */
 abstract class AbstractField extends AbstractComponent
 {
     /**
-     * @var string|null
+     * @var array
      */
-    protected $controlClass = 'field-control';
+    protected $controlAttributes = ['class' => 'field-control'];
 
     /**
      * @var array|null
@@ -25,19 +28,19 @@ abstract class AbstractField extends AbstractComponent
     protected $errors;
 
     /**
-     * @var string|null
+     * @var array
      */
-    protected $errorsClass = 'field-errors';
+    protected $errorsAttributes = ['class' => 'field-errors'];
 
     /**
-     * @var string|null
+     * @var array
      */
-    protected $fieldClass = 'field';
+    protected $fieldAttributes = ['class' => 'field-label'];
 
     /**
-     * @var string|null
+     * @var array
      */
-    protected $headingClass = 'field-heading';
+    protected $headingAttributes = ['class' => 'field-heading'];
 
     /**
      * @var array|null
@@ -45,19 +48,9 @@ abstract class AbstractField extends AbstractComponent
     protected $inputAttributes = [];
 
     /**
-     * @var string|null
+     * @var array
      */
-    protected $inputClass = 'field-input';
-
-    /**
-     * @var string|null
-     */
-    protected $inputId;
-
-    /**
-     * @var string|null
-     */
-    protected $instructionsClass = 'field-instructions';
+    protected $instructionsAttributes = ['class' => 'field-instructions'];
 
     /**
      * @var string|null
@@ -65,9 +58,9 @@ abstract class AbstractField extends AbstractComponent
     protected $instructionsText;
 
     /**
-     * @var string|null
+     * @var array
      */
-    protected $labelClass = 'field-label';
+    protected $labelAttributes = ['class' => 'field-label'];
 
     /**
      * @var string|null
@@ -100,21 +93,21 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string|null
+     * @return array
      */
-    public function getControlClass(): ?string
+    public function getControlAttributes(): array
     {
-        return $this->controlClass;
+        return $this->controlAttributes;
     }
 
     /**
-     * @param string|null $controlClass
+     * @param array $controlAttributes
      *
      * @return $this
      */
-    public function setControlClass(?string $controlClass): self
+    public function setControlAttributes(array $controlAttributes): self
     {
-        $this->controlClass = $controlClass;
+        $this->controlAttributes = $controlAttributes;
 
         return $this;
     }
@@ -145,61 +138,61 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string|null
+     * @return array
      */
-    public function getErrorsClass(): ?string
+    public function getErrorsAttributes(): array
     {
-        return $this->errorsClass;
+        return $this->errorsAttributes;
     }
 
     /**
-     * @param string|null $errorsClass
+     * @param array $errorsAttributes
      *
      * @return $this
      */
-    public function setErrorsClass(?string $errorsClass): self
+    public function setErrorsAttributes(array $errorsAttributes): self
     {
-        $this->errorsClass = $errorsClass;
+        $this->errorsAttributes = $errorsAttributes;
 
         return $this;
     }
 
     /**
-     * @return string|null
+     * @return array
      */
-    public function getFieldClass(): ?string
+    public function getFieldAttributes(): array
     {
-        return $this->fieldClass;
+        return $this->fieldAttributes;
     }
 
     /**
-     * @param string|null $fieldClass
+     * @param array $fieldAttributes
      *
      * @return $this
      */
-    public function setFieldClass(?string $fieldClass): self
+    public function setFieldAttributes(array $fieldAttributes): self
     {
-        $this->fieldClass = $fieldClass;
+        $this->fieldAttributes = $fieldAttributes;
 
         return $this;
     }
 
     /**
-     * @return string|null
+     * @return array
      */
-    public function getHeadingClass(): ?string
+    public function getHeadingAttributes(): array
     {
-        return $this->headingClass;
+        return $this->headingAttributes;
     }
 
     /**
-     * @param string|null $headingClass
+     * @param array $headingAttributes
      *
      * @return $this
      */
-    public function setHeadingClass(?string $headingClass): self
+    public function setHeadingAttributes(array $headingAttributes): self
     {
-        $this->headingClass = $headingClass;
+        $this->headingAttributes = $headingAttributes;
 
         return $this;
     }
@@ -209,13 +202,9 @@ abstract class AbstractField extends AbstractComponent
      */
     public function getInputAttributes(): array
     {
-        return array_replace_recursive(
-            [
-                'id' => $this->getInputId(),
-                'class' => $this->getInputClass(),
-            ],
-            $this->inputAttributes
-        );
+        return array_merge($this->inputAttributes, [
+            'id' => $this->getInputId(),
+        ]);
     }
 
     /**
@@ -231,61 +220,21 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string|null
+     * @return array
      */
-    public function getInputClass(): ?string
+    public function getInstructionsAttributes(): array
     {
-        return $this->inputClass;
+        return $this->instructionsAttributes;
     }
 
     /**
-     * @param string|null $inputClass
+     * @param array $instructionsAttributes
      *
      * @return $this
      */
-    public function setInputClass(?string $inputClass): self
+    public function setInstructionsAttributes(array $instructionsAttributes): self
     {
-        $this->inputClass = $inputClass;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getInputId(): ?string
-    {
-        return $this->inputId;
-    }
-
-    /**
-     * @param string|null $inputId
-     *
-     * @return $this
-     */
-    public function setInputId(?string $inputId): self
-    {
-        $this->inputId = $inputId;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getInstructionsClass(): ?string
-    {
-        return $this->instructionsClass;
-    }
-
-    /**
-     * @param string|null $instructionsClass
-     *
-     * @return $this
-     */
-    public function setInstructionsClass(?string $instructionsClass): self
-    {
-        $this->instructionsClass = $instructionsClass;
+        $this->instructionsAttributes = $instructionsAttributes;
 
         return $this;
     }
@@ -311,21 +260,21 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string|null
+     * @return array
      */
-    public function getLabelClass(): ?string
+    public function getLabelAttributes(): array
     {
-        return $this->labelClass;
+        return $this->labelAttributes;
     }
 
     /**
-     * @param string|null $labelClass
+     * @param array $labelAttributes
      *
      * @return $this
      */
-    public function setLabelClass(?string $labelClass): self
+    public function setLabelAttributes(array $labelAttributes): self
     {
-        $this->labelClass = $labelClass;
+        $this->labelAttributes = $labelAttributes;
 
         return $this;
     }
@@ -418,9 +367,12 @@ abstract class AbstractField extends AbstractComponent
         $pieces = [];
 
         $headingHtml = $this->getHeadingHtml();
-        $controlHtml = Html::tag('div', $this->getControlHtml(), [
-            'class' => $this->getControlClass(),
-        ]);
+
+        $controlHtml = Html::tag(
+            'div',
+            $this->getControlHtml(),
+            $this->getControlAttributes()
+        );
 
         if (in_array($this->getType(), ['checkbox', 'radio'])) {
             $pieces[] = $controlHtml;
@@ -455,11 +407,13 @@ abstract class AbstractField extends AbstractComponent
             return '';
         }
 
-        $list = Html::tag('ul', implode(PHP_EOL, $items));
+        $listHtml = Html::tag('ul', implode(PHP_EOL, $items));
 
-        return Html::tag('div', $list, [
-            'class' => $this->getErrorsClass(),
-        ]);
+        return Html::tag(
+            'div',
+            $listHtml,
+            $this->getErrorsAttributes()
+        );
     }
 
     /**
@@ -473,21 +427,41 @@ abstract class AbstractField extends AbstractComponent
         $pieces = [];
 
         if ($labelText) {
-            $pieces[] = Html::label($labelText, $this->getInputId(), [
-                'class' => $this->getLabelClass(),
-            ]);
+            $pieces[] = Html::label(
+                $labelText,
+                $this->getInputId(),
+                $this->getLabelAttributes()
+            );
         }
 
         if ($instructionsText) {
-            $pieces[] = Html::tag('div', $instructionsText, [
-                'class' => $this->getLabelClass(),
-            ]);
+            $pieces[] = Html::tag(
+                'div',
+                $instructionsText,
+                $this->getInstructionsAttributes()
+            );
         }
 
         if (empty($pieces)) {
             return '';
         }
 
-        return implode(PHP_EOL, $pieces);
+        return Html::tag(
+            'div',
+            implode(PHP_EOL, $pieces),
+            $this->getHeadingAttributes()
+        );
+    }
+
+    /**
+     * @return string
+     */
+    protected function getInputId(): string
+    {
+        return ArrayHelper::getValue(
+            $this->inputAttributes,
+            'id',
+            'field-' . $this->getName()
+        );
     }
 }

@@ -439,14 +439,16 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    protected function getInputId(): string
+    protected function getInputId(): ?string
     {
-        return ArrayHelper::getValue(
-            $this->inputAttributes,
-            'id',
-            'field-' . $this->getName()
-        );
+        $default = null;
+
+        if ($name = $this->getName()) {
+            $default = 'field-' . $name;
+        }
+
+        return ArrayHelper::getValue($this->inputAttributes, 'id', $default);
     }
 }

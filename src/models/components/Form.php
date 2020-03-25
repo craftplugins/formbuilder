@@ -52,6 +52,27 @@ class Form extends AbstractComponent
     protected $formMethod = 'post';
 
     /**
+     * @var array
+     */
+    protected $componentsAttributes = ['class' => 'form-components'];
+
+    /**
+     * @return array
+     */
+    public function getComponentsAttributes(): array
+    {
+        return $this->componentsAttributes;
+    }
+
+    /**
+     * @param array $componentsAttributes
+     */
+    public function setComponentsAttributes(array $componentsAttributes): void
+    {
+        $this->componentsAttributes = $componentsAttributes;
+    }
+
+    /**
      * @var string|null
      */
     protected $handle;
@@ -335,7 +356,11 @@ class Form extends AbstractComponent
             $pieces[] = Html::redirectInput($redirectUrl);
         }
 
-        $pieces[] = $this->renderComponents();
+        $pieces[] = Html::tag(
+            'div',
+            $this->renderComponents(),
+            $this->getComponentsAttributes()
+        );
 
         $pieces[] = Html::endForm();
 

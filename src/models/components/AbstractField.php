@@ -13,6 +13,7 @@ use Twig\Markup;
  * @package craftplugins\formbuilder\models\components
  * @property string $errorsHtml
  * @property string $headingHtml
+ * @property string $inputId
  * @property string $controlHtml
  */
 abstract class AbstractField extends AbstractComponent
@@ -35,7 +36,7 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @var array
      */
-    protected $fieldAttributes = ['class' => 'field-label'];
+    protected $fieldAttributes = ['class' => 'field'];
 
     /**
      * @var array

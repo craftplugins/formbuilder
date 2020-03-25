@@ -30,9 +30,9 @@ interface ParentInterface
     public function getRowAttributes(): array;
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getValues(): array;
+    public function getValues(): ?array;
 
     /**
      * @param array $components

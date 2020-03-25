@@ -36,6 +36,8 @@ interface ParentInterface
 
     /**
      * @param array $components
+     *
+     * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface
      */
-    public function setComponents(array $components): void;
+    public function setComponents(array $components): ParentInterface;
 }

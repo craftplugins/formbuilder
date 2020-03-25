@@ -55,9 +55,9 @@ trait ParentTrait
     /**
      * @param array $components
      *
-     * @return \craftplugins\formbuilder\models\components\interfaces\ComponentInterface|\craftplugins\formbuilder\models\components\traits\ParentTrait
+     * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface|\craftplugins\formbuilder\models\components\traits\ParentTrait
      */
-    public function setComponents(array $components): ComponentInterface
+    public function setComponents(array $components): ParentInterface
     {
         $this->components = [];
         $this->addComponents($components);

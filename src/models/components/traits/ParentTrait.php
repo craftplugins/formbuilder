@@ -25,7 +25,10 @@ trait ParentTrait
      */
     public function addComponent(ComponentInterface $component): ParentInterface
     {
-        $this->components[] = $component;
+        /** @var ParentInterface $this */
+        $parent = $this;
+
+        $this->components[] = $component->setParent($parent);
 
         return $this;
     }

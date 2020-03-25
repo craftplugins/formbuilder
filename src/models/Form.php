@@ -8,8 +8,10 @@ use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
 use craftplugins\formbuilder\models\components\Row;
 use craftplugins\formbuilder\models\components\traits\ParentTrait;
+use Throwable;
 use Twig\Markup;
 use yii\base\BaseObject;
+use yii\base\InvalidConfigException;
 
 /**
  * Class Form
@@ -91,8 +93,6 @@ class Form extends BaseObject implements ParentInterface
      * Form constructor.
      *
      * @param array $config
-     *
-     * @throws \yii\base\InvalidConfigException
      */
     public function __construct($config = [])
     {
@@ -110,13 +110,16 @@ class Form extends BaseObject implements ParentInterface
         if ($request->getIsPost()) {
             $generalConfig = Craft::$app->getConfig()->getGeneral();
 
-            $values = $request->getBodyParams();
-            ArrayHelper::remove($values, $generalConfig->actionTrigger);
-            ArrayHelper::remove($values, $generalConfig->csrfTokenName);
-            ArrayHelper::remove($values, self::ACTION_NAME);
-            ArrayHelper::remove($values, self::HANDLE_NAME);
+            try {
+                $values = $request->getBodyParams();
+                ArrayHelper::remove($values, $generalConfig->actionTrigger);
+                ArrayHelper::remove($values, $generalConfig->csrfTokenName);
+                ArrayHelper::remove($values, self::ACTION_NAME);
+                ArrayHelper::remove($values, self::HANDLE_NAME);
 
-            $this->setValues($values);
+                $this->setValues($values);
+            } catch (InvalidConfigException $exception) {
+            }
         }
     }
 
@@ -125,7 +128,6 @@ class Form extends BaseObject implements ParentInterface
      * @param array  $config
      *
      * @return static
-     * @throws \yii\base\InvalidConfigException
      */
     public static function create(string $handle, $config = []): self
     {

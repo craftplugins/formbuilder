@@ -69,7 +69,7 @@ abstract class AbstractField extends AbstractComponent
     protected $labelText;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $name;
 
@@ -301,19 +301,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      *
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 

@@ -38,18 +38,14 @@ class FormsController extends Controller
         $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);
 
         $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
+        $model = DynamicModel::validateData($request->getBodyParams(), $form->getRules());
 
-        if ($rules = $form->getRules()) {
-            // Validate the posted data with our rules
-            $model = DynamicModel::validateData($request->getBodyParams(), $rules);
+        Craft::$app->getUrlManager()->setRouteParams([
+            Form::VALUES_KEY => $model
+        ]);
 
-            if ($errors = $model->hasErrors()) {
-                Craft::$app->getUrlManager()->setRouteParams([
-                    Form::ERRORS_KEY => $errors,
-                ]);
-
-                return null;
-            }
+        if ($model->hasErrors() && !$form->isActionRunWithErrors()) {
+            return null;
         }
 
         /** @var \craft\web\Response $response */

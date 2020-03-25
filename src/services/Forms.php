@@ -25,8 +25,9 @@ class Forms extends Component
     {
         $forms = Plugin::getInstance()->getConfig()->forms;
 
+        /** @var Form $form */
         if ($form = ArrayHelper::firstWhere($forms, 'handle', $handle)) {
-            return $form;
+            return $form->populateParams();
         }
 
         throw new Exception("No form found with handle: {$handle}");

@@ -8,10 +8,8 @@ use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
 use craftplugins\formbuilder\models\components\Row;
 use craftplugins\formbuilder\models\components\traits\ParentTrait;
-use Throwable;
 use Twig\Markup;
 use yii\base\BaseObject;
-use yii\base\InvalidConfigException;
 
 /**
  * Class Form
@@ -27,12 +25,17 @@ class Form extends BaseObject implements ParentInterface
 
     public const HANDLE_NAME = 'formBuilderHandle';
 
-    public const ERRORS_KEY = 'formBuilderValues';
+    public const VALUES_KEY = 'formBuilderValues';
 
     /**
      * @var string|null
      */
     protected $actionRoute;
+
+    /**
+     * @var bool
+     */
+    protected $actionRunWithErrors = false;
 
     /**
      * @var array
@@ -43,6 +46,11 @@ class Form extends BaseObject implements ParentInterface
      * @var array
      */
     protected $componentsAttributes = ['class' => 'form-components'];
+
+    /**
+     * @var array|null
+     */
+    protected $defaultValues;
 
     /**
      * @var array|null
@@ -90,40 +98,6 @@ class Form extends BaseObject implements ParentInterface
     protected $values;
 
     /**
-     * Form constructor.
-     *
-     * @param array $config
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-
-        $routeParams = Craft::$app->getUrlManager()->getRouteParams();
-        $errors = ArrayHelper::getValue($routeParams, self::ERRORS_KEY);
-
-        if ($errors && $this->getErrors() === null) {
-            $this->setErrors($errors);
-        }
-
-        $request = Craft::$app->getRequest();
-
-        if ($request->getIsPost()) {
-            $generalConfig = Craft::$app->getConfig()->getGeneral();
-
-            try {
-                $values = $request->getBodyParams();
-                ArrayHelper::remove($values, $generalConfig->actionTrigger);
-                ArrayHelper::remove($values, $generalConfig->csrfTokenName);
-                ArrayHelper::remove($values, self::ACTION_NAME);
-                ArrayHelper::remove($values, self::HANDLE_NAME);
-
-                $this->setValues($values);
-            } catch (InvalidConfigException $exception) {
-            }
-        }
-    }
-
-    /**
      * @param string $handle
      * @param array  $config
      *
@@ -131,9 +105,47 @@ class Form extends BaseObject implements ParentInterface
      */
     public static function create(string $handle, $config = []): self
     {
-        $config['handle'] = $handle;
+        $instance = new static($config);
 
-        return new static($config);
+        return $instance->setHandle($handle);
+    }
+
+    /**
+     * @param array|null $errors
+     *
+     * @return $this
+     */
+    public function addErrors(?array $errors): self
+    {
+        if ($errors === null) {
+            return $this;
+        }
+
+        $mergedErrors = array_merge_recursive(
+            $this->getErrors() ?? [],
+            $errors
+        );
+
+        return $this->setErrors($mergedErrors);
+    }
+
+    /**
+     * @param array|null $values
+     *
+     * @return $this
+     */
+    public function addValues(?array $values): self
+    {
+        if ($values === null) {
+            return $this;
+        }
+
+        $mergedValues = array_merge_recursive(
+            $this->getValues() ?? [],
+            $values
+        );
+
+        return $this->setValues($mergedValues);
     }
 
     /**
@@ -239,11 +251,6 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
-     * @var array|null
-     */
-    protected $defaultValues;
-
-    /**
      * @return array|null
      */
     public function getDefaultValues(): ?array
@@ -262,8 +269,6 @@ class Form extends BaseObject implements ParentInterface
 
         return $this;
     }
-
-
 
     /**
      * @return array|null
@@ -417,6 +422,55 @@ class Form extends BaseObject implements ParentInterface
     public function setRules(?array $rules): self
     {
         $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActionRunWithErrors(): bool
+    {
+        return $this->actionRunWithErrors;
+    }
+
+    /**
+     * @param bool $actionRunWithErrors
+     *
+     * @return $this
+     */
+    public function setActionRunWithErrors(bool $actionRunWithErrors): self
+    {
+        $this->actionRunWithErrors = $actionRunWithErrors;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function populateParams(): self
+    {
+        $routeParams = Craft::$app->getUrlManager()->getRouteParams();
+
+        /** @var \yii\base\DynamicModel $model */
+        $model = ArrayHelper::getValue($routeParams, self::VALUES_KEY);
+
+        if ($model === null) {
+            return $this;
+        }
+
+        $generalConfig = Craft::$app->getConfig()->getGeneral();
+
+        $modelValues = $model->getAttributes(null, [
+            $generalConfig->actionTrigger,
+            $generalConfig->csrfTokenName,
+            self::ACTION_NAME,
+            self::HANDLE_NAME,
+        ]);
+        $this->setValues($modelValues);
+
+        $this->setErrors($model->getErrors());
 
         return $this;
     }

@@ -116,9 +116,9 @@ trait HasComponentsTrait
     }
 
     /**
-     * @return \Twig\Markup
+     * @return string
      */
-    public function renderComponents(): Markup
+    public function getComponentsHtml(): string
     {
         $pieces = [];
 
@@ -126,9 +126,6 @@ trait HasComponentsTrait
             $pieces[] = $component->render();
         }
 
-        return new Markup(
-            implode(PHP_EOL, $pieces),
-            Craft::$app->getView()->getTwig()->getCharset()
-        );
+        return implode(PHP_EOL, $pieces);
     }
 }

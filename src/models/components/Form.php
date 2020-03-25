@@ -358,7 +358,7 @@ class Form extends AbstractComponent
 
         $pieces[] = Html::tag(
             'div',
-            $this->renderComponents(),
+            $this->getComponentsHtml(),
             $this->getComponentsAttributes()
         );
 

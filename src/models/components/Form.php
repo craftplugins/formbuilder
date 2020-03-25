@@ -27,12 +27,12 @@ class Form extends AbstractComponent
     public const VALUES_KEY = 'formBuilderValues';
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $actionRoute;
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $errors;
 
@@ -62,7 +62,7 @@ class Form extends AbstractComponent
     protected $formMethod = 'post';
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $handle;
 
@@ -129,19 +129,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getActionRoute()
+    public function getActionRoute(): ?string
     {
         return $this->actionRoute;
     }
 
     /**
-     * @param $actionRoute
+     * @param string|null $actionRoute
      *
      * @return $this
      */
-    public function setActionRoute(string $actionRoute): self
+    public function setActionRoute(?string $actionRoute): self
     {
         $this->actionRoute = $actionRoute;
 
@@ -157,11 +157,11 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @param array $errors
+     * @param array|null $errors
      *
      * @return $this
      */
-    public function setErrors(array $errors): self
+    public function setErrors(?array $errors): self
     {
         $this->errors = $errors;
 
@@ -169,19 +169,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getFormAction()
+    public function getFormAction(): ?string
     {
         return $this->formAction;
     }
 
     /**
-     * @param $formAction
+     * @param string|null $formAction
      *
      * @return $this
      */
-    public function setFormAction($formAction): self
+    public function setFormAction(?string $formAction): self
     {
         $this->formAction = $formAction;
 
@@ -215,19 +215,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFormClass(): string
+    public function getFormClass(): ?string
     {
         return $this->formClass;
     }
 
     /**
-     * @param string $formClass
+     * @param string|null $formClass
      *
      * @return $this
      */
-    public function setFormClass(string $formClass): self
+    public function setFormClass(?string $formClass): self
     {
         $this->formClass = $formClass;
 
@@ -235,19 +235,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFormId(): string
+    public function getFormId(): ?string
     {
         return $this->formId;
     }
 
     /**
-     * @param string $formId
+     * @param string|null $formId
      *
      * @return $this
      */
-    public function setFormId(string $formId): self
+    public function setFormId(?string $formId): self
     {
         $this->formId = $formId;
 
@@ -275,19 +275,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getHandle()
+    public function getHandle(): ?string
     {
         return $this->handle;
     }
 
     /**
-     * @param string $handle
+     * @param string|null $handle
      *
      * @return $this
      */
-    public function setHandle(string $handle): self
+    public function setHandle(?string $handle): self
     {
         $this->handle = $handle;
 
@@ -295,19 +295,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRedirectUrl(): string
+    public function getRedirectUrl(): ?string
     {
         return $this->redirectUrl;
     }
 
     /**
-     * @param string $redirectUrl
+     * @param string|null $redirectUrl
      *
      * @return $this
      */
-    public function setRedirectUrl(string $redirectUrl): self
+    public function setRedirectUrl(?string $redirectUrl): self
     {
         $this->redirectUrl = $redirectUrl;
 
@@ -315,19 +315,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getRules()
+    public function getRules(): ?array
     {
         return $this->rules;
     }
 
     /**
-     * @param array $rules
+     * @param array|null $rules
      *
      * @return $this
      */
-    public function setRules(array $rules): self
+    public function setRules(?array $rules): self
     {
         $this->rules = $rules;
 
@@ -335,19 +335,19 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getValues(): array
+    public function getValues(): ?array
     {
         return $this->values;
     }
 
     /**
-     * @param array $values
+     * @param array|null $values
      *
      * @return $this
      */
-    public function setValues(array $values): self
+    public function setValues(?array $values): self
     {
         $this->values = $values;
 

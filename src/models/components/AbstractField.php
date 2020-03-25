@@ -15,62 +15,62 @@ use Twig\Markup;
 abstract class AbstractField extends AbstractComponent
 {
     /**
-     * @var string
+     * @var string|null
      */
     protected $controlClass = 'field-control';
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $errors;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $errorsClass = 'field-errors';
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $fieldClass = 'field';
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $headingClass = 'field-heading';
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $inputAttributes = [];
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $inputClass = 'field-input';
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $inputId;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $instructionsClass = 'field-instructions';
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $instructionsText;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $labelClass = 'field-label';
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $labelText;
 
@@ -85,7 +85,7 @@ abstract class AbstractField extends AbstractComponent
     protected $type;
 
     /**
-     * @var mixed
+     * @var mixed|null
      */
     protected $value;
 
@@ -100,41 +100,44 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getControlClass(): string
+    public function getControlClass(): ?string
     {
         return $this->controlClass;
     }
 
     /**
-     * @param string $controlClass
+     * @param string|null $controlClass
      *
      * @return $this
      */
-    public function setControlClass(string $controlClass): self
+    public function setControlClass(?string $controlClass): self
     {
         $this->controlClass = $controlClass;
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
     abstract public function getControlHtml(): string;
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getErrors(): array
+    public function getErrors(): ?array
     {
         return $this->errors;
     }
 
     /**
-     * @param array $errors
+     * @param array|null $errors
      *
      * @return $this
      */
-    public function setErrors(array $errors): self
+    public function setErrors(?array $errors): self
     {
         $this->errors = $errors;
 
@@ -142,19 +145,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getErrorsClass(): string
+    public function getErrorsClass(): ?string
     {
         return $this->errorsClass;
     }
 
     /**
-     * @param string $errorsClass
+     * @param string|null $errorsClass
      *
      * @return $this
      */
-    public function setErrorsClass(string $errorsClass): self
+    public function setErrorsClass(?string $errorsClass): self
     {
         $this->errorsClass = $errorsClass;
 
@@ -162,19 +165,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFieldClass(): string
+    public function getFieldClass(): ?string
     {
         return $this->fieldClass;
     }
 
     /**
-     * @param string $fieldClass
+     * @param string|null $fieldClass
      *
      * @return $this
      */
-    public function setFieldClass(string $fieldClass): self
+    public function setFieldClass(?string $fieldClass): self
     {
         $this->fieldClass = $fieldClass;
 
@@ -182,19 +185,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getHeadingClass(): string
+    public function getHeadingClass(): ?string
     {
         return $this->headingClass;
     }
 
     /**
-     * @param string $headingClass
+     * @param string|null $headingClass
      *
      * @return $this
      */
-    public function setHeadingClass(string $headingClass): self
+    public function setHeadingClass(?string $headingClass): self
     {
         $this->headingClass = $headingClass;
 
@@ -228,19 +231,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getInputClass(): string
+    public function getInputClass(): ?string
     {
         return $this->inputClass;
     }
 
     /**
-     * @param string $inputClass
+     * @param string|null $inputClass
      *
      * @return $this
      */
-    public function setInputClass(string $inputClass): self
+    public function setInputClass(?string $inputClass): self
     {
         $this->inputClass = $inputClass;
 
@@ -248,19 +251,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getInputId(): string
+    public function getInputId(): ?string
     {
         return $this->inputId;
     }
 
     /**
-     * @param string $inputId
+     * @param string|null $inputId
      *
      * @return $this
      */
-    public function setInputId(string $inputId): self
+    public function setInputId(?string $inputId): self
     {
         $this->inputId = $inputId;
 
@@ -268,19 +271,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getInstructionsClass(): string
+    public function getInstructionsClass(): ?string
     {
         return $this->instructionsClass;
     }
 
     /**
-     * @param string $instructionsClass
+     * @param string|null $instructionsClass
      *
      * @return $this
      */
-    public function setInstructionsClass(string $instructionsClass): self
+    public function setInstructionsClass(?string $instructionsClass): self
     {
         $this->instructionsClass = $instructionsClass;
 
@@ -288,19 +291,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getInstructionsText(): string
+    public function getInstructionsText(): ?string
     {
         return $this->instructionsText;
     }
 
     /**
-     * @param string $instructionsText
+     * @param string|null $instructionsText
      *
      * @return $this
      */
-    public function setInstructionsText(string $instructionsText): self
+    public function setInstructionsText(?string $instructionsText): self
     {
         $this->instructionsText = $instructionsText;
 
@@ -308,19 +311,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLabelClass(): string
+    public function getLabelClass(): ?string
     {
         return $this->labelClass;
     }
 
     /**
-     * @param string $labelClass
+     * @param string|null $labelClass
      *
      * @return $this
      */
-    public function setLabelClass(string $labelClass): self
+    public function setLabelClass(?string $labelClass): self
     {
         $this->labelClass = $labelClass;
 
@@ -328,19 +331,19 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getLabelText()
+    public function getLabelText(): ?string
     {
         return $this->labelText;
     }
 
     /**
-     * @param $labelText
+     * @param string|null $labelText
      *
      * @return $this
      */
-    public function setLabelText($labelText): self
+    public function setLabelText(?string $labelText): self
     {
         $this->labelText = $labelText;
 
@@ -348,9 +351,9 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -388,7 +391,7 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return mixed
+     * @return mixed|null
      */
     public function getValue()
     {
@@ -396,7 +399,7 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @param $value
+     * @param mixed|null $value
      *
      * @return $this
      */

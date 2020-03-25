@@ -12,5 +12,5 @@ class EmailField extends InputField
     /**
      * @var string
      */
-    protected $type = 'email';
+    protected $inputType = 'email';
 }

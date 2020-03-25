@@ -22,7 +22,7 @@ class CheckboxField extends InputField
     /**
      * @var string
      */
-    protected $type = 'checkbox';
+    protected $inputType = 'checkbox';
 
     /**
      * @return string

@@ -12,5 +12,5 @@ class RadioField extends CheckboxField
     /**
      * @var string
      */
-    protected $type = 'radio';
+    protected $inputType = 'radio';
 }

@@ -384,11 +384,8 @@ abstract class AbstractField extends AbstractComponent
         }
 
         $content = Html::div(
-            Html::div(
-                implode(PHP_EOL, $fieldTags),
-                $this->getFieldAttributes()
-            ),
-            $this->getParent()->getColumnAttributes()
+            implode(PHP_EOL, $fieldTags),
+            $this->getFieldAttributes()
         );
 
         return Plugin::getInstance()->getView()->createMarkup($content);

@@ -54,7 +54,7 @@ class Row extends AbstractComponent implements ParentInterface
     /**
      * @inheritDoc
      */
-    public function getErrors(): array
+    public function getErrors(): ?array
     {
         return $this->getParent()->getErrors();
     }
@@ -62,7 +62,7 @@ class Row extends AbstractComponent implements ParentInterface
     /**
      * @inheritDoc
      */
-    public function getValues(): array
+    public function getValues(): ?array
     {
         return $this->getParent()->getValues();
     }

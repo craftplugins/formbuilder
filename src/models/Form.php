@@ -6,6 +6,7 @@ use Craft;
 use craft\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
+use craftplugins\formbuilder\models\components\Row;
 use craftplugins\formbuilder\models\components\traits\ParentTrait;
 use Twig\Markup;
 use yii\base\BaseObject;
@@ -394,5 +395,21 @@ class Form extends BaseObject implements ParentInterface
         $charset = Craft::$app->getView()->getTwig()->getCharset();
 
         return new Markup($content, $charset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getComponents(): array
+    {
+        $components = $this->components;
+
+        foreach ($components as &$component) {
+            if (!$component instanceof Row) {
+                $component = Row::create([$component]);
+            }
+        }
+
+        return $components;
     }
 }

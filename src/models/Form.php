@@ -3,253 +3,215 @@
 namespace craftplugins\formbuilder\models;
 
 use Craft;
-use craft\base\Model;
 use craft\helpers\ArrayHelper;
-use craft\helpers\Html;
-use craft\helpers\StringHelper;
-use craft\web\View;
-use craftplugins\formbuilder\Plugin;
+use craftplugins\formbuilder\helpers\Html;
+use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
+use craftplugins\formbuilder\models\components\Row;
+use craftplugins\formbuilder\models\components\traits\ParentTrait;
 use Twig\Markup;
-use yii\base\InvalidConfigException;
+use yii\base\BaseObject;
 
 /**
  * Class Form
  *
- * @package craftplugins\formbuilder\models
+ * @package craftplugins\formbuilder\models\components
+ * @property string $componentsHtml
  */
-class Form extends Model
+class Form extends BaseObject implements ParentInterface
 {
+    use ParentTrait;
+
     public const ACTION_NAME = 'formBuilderAction';
 
     public const HANDLE_NAME = 'formBuilderHandle';
 
-    public const RULES_NAME = 'formBuilderConfig';
-
-    public const VALUES_ROUTE_PARAMS_KEY = 'formBuilderValues';
+    public const VALUES_KEY = 'formBuilderValues';
 
     /**
-     * @var string
+     * @var string|null
      */
-    public $action;
+    protected $actionRoute;
 
     /**
-     * @var string
+     * @var bool
      */
-    public $classPrefix;
-
-    /**
-     * @var string
-     */
-    public $columnClass = 'form-column';
+    protected $actionRunWithErrors = false;
 
     /**
      * @var array
      */
-    public $errors;
-
-    /**
-     * @var string
-     */
-    public $fieldClass = 'form-field';
+    protected $columnAttributes = ['class' => 'form-column'];
 
     /**
      * @var array
      */
-    public $fieldDefaults = [];
+    protected $componentsAttributes = ['class' => 'form-components'];
+
+    /**
+     * @var array|null
+     */
+    protected $defaultValues;
+
+    /**
+     * @var array|null
+     */
+    protected $errors;
+
+    /**
+     * @var string
+     */
+    protected $formAction;
 
     /**
      * @var array
      */
-    public $fields = [];
+    protected $formAttributes = ['class' => 'form'];
 
     /**
      * @var string
      */
-    public $fieldsClass = 'form-fields';
+    protected $formMethod = 'post';
 
     /**
-     * @var string
+     * @var string|null
      */
-    public $formAction;
+    protected $handle;
 
     /**
-     * @var string
+     * @var string|null
      */
-    public $formMethod = 'post';
+    protected $redirectUrl;
 
     /**
      * @var array
      */
-    public $formOptions;
+    protected $rowAttributes = ['class' => 'form-row'];
 
     /**
-     * @var string
+     * @var array|null
      */
-    public $handle;
+    protected $rules;
 
     /**
-     * @var string
+     * @var array|null
      */
-    public $redirect;
+    protected $values;
 
     /**
-     * @var string
-     */
-    public $rowClass = 'form-row';
-
-    /**
-     * @var array
-     */
-    public $rules;
-
-    /**
-     * @var array
-     */
-    public $values;
-
-    /**
-     * Form constructor.
-     *
-     * @param string|null $handle
-     * @param array       $config
-     */
-    public function __construct(?string $handle, array $config = [])
-    {
-        parent::__construct($config);
-
-        $this->handle = $handle;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function init()
-    {
-        parent::init();
-
-        $routeParams = Craft::$app->getUrlManager()->getRouteParams();
-
-        /** @var \craftplugins\formbuilder\models\Values $formBuilderValues */
-        $formBuilderValues = ArrayHelper::getValue($routeParams, self::VALUES_ROUTE_PARAMS_KEY);
-
-        if ($formBuilderValues && $this->errors === null) {
-            $this->errors = $formBuilderValues->getErrors();
-        }
-
-        if ($formBuilderValues) {
-            // Override values with submitted values
-            $this->values = $formBuilderValues->getValues();
-        }
-    }
-
-    /**
-     * @param string|null $handle
-     * @param array       $config
+     * @param string $handle
+     * @param array  $config
      *
      * @return static
      */
-    public static function create(?string $handle, array $config = []): self
+    public static function create(string $handle, $config = []): self
     {
-        return new self($handle, $config);
+        $instance = new static($config);
+
+        return $instance->setHandle($handle);
+    }
+
+    /**
+     * @param array|null $errors
+     *
+     * @return $this
+     */
+    public function addErrors(?array $errors): self
+    {
+        if ($errors === null) {
+            return $this;
+        }
+
+        $mergedErrors = array_merge_recursive(
+            $this->getErrors() ?? [],
+            $errors
+        );
+
+        return $this->setErrors($mergedErrors);
+    }
+
+    /**
+     * @param array|null $values
+     *
+     * @return $this
+     */
+    public function addValues(?array $values): self
+    {
+        if ($values === null) {
+            return $this;
+        }
+
+        $mergedValues = array_merge_recursive(
+            $this->getValues() ?? [],
+            $values
+        );
+
+        return $this->setValues($mergedValues);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getActionRoute(): ?string
+    {
+        return $this->actionRoute;
+    }
+
+    /**
+     * @param string|null $actionRoute
+     *
+     * @return $this
+     */
+    public function setActionRoute(?string $actionRoute): self
+    {
+        $this->actionRoute = $actionRoute;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getComponentsAttributes(): array
+    {
+        return $this->componentsAttributes;
+    }
+
+    /**
+     * @param array $componentsAttributes
+     */
+    public function setComponentsAttributes(array $componentsAttributes): void
+    {
+        $this->componentsAttributes = $componentsAttributes;
     }
 
     /**
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
      */
-    public function __toString()
+    public function getComponentsHtml(): string
     {
-        return $this->render()->__toString();
-    }
+        $componentTags = [];
 
-    /**
-     * @return \Twig\Markup
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     * @throws \yii\base\Exception
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function render(): Markup
-    {
-        $tags = [];
-
-        $tags[] = Html::beginForm($this->formAction, $this->formMethod, $this->formOptions);
-
-        if ($this->rules) {
-            $tags[] = Html::actionInput('formbuilder/forms/process');
-            $tags[] = Html::hiddenInput(self::ACTION_NAME, $this->action);
-
-            if ($this->handle) {
-                $tags[] = Html::hiddenInput(self::HANDLE_NAME, $this->handle);
-            } else {
-                $encodedRules = Plugin::getInstance()->getForms()->encodeRules($this->rules);
-                $tags[] = Html::hiddenInput(self::RULES_NAME, $encodedRules);
-            }
-        } elseif ($this->action) {
-            $tags[] = Html::actionInput($this->action);
-        } else {
-            throw new InvalidConfigException('Missing required parameter: action');
+        foreach ($this->getComponents() as $component) {
+            $componentTags[] = $component->render();
         }
 
-        if ($this->redirect) {
-            $tags[] = Html::redirectInput($this->redirect);
-        }
-
-        $tags[] = $this->renderFieldGroups($this->fields);
-
-        return new Markup(
-            implode("\n", $tags),
-            $charset = Craft::$app->getView()->getTwig()->getCharset()
-        );
+        return implode("\n", $componentTags);
     }
 
     /**
-     * @param string $action
-     *
-     * @return $this
+     * @return array|null
      */
-    public function setAction(string $action): self
+    public function getErrors(): ?array
     {
-        $this->action = $action;
-
-        return $this;
+        return $this->errors;
     }
 
     /**
-     * @param string $classPrefix
+     * @param array|null $errors
      *
      * @return $this
      */
-    public function setClassPrefix(string $classPrefix): self
-    {
-        $this->classPrefix = $classPrefix;
-
-        return $this;
-    }
-
-    /**
-     * @param string $columnClass
-     *
-     * @return $this
-     */
-    public function setColumnClass(string $columnClass): self
-    {
-        $this->columnClass = $columnClass;
-
-        return $this;
-    }
-
-    /**
-     * @param array $errors
-     *
-     * @return $this
-     */
-    public function setErrors(array $errors): self
+    public function setErrors(?array $errors): self
     {
         $this->errors = $errors;
 
@@ -257,63 +219,139 @@ class Form extends Model
     }
 
     /**
-     * @param string $fieldClass
+     * @return array
+     */
+    public function getRowAttributes(): array
+    {
+        return $this->rowAttributes;
+    }
+
+    /**
+     * @param array $rowAttributes
+     */
+    public function setRowAttributes(array $rowAttributes): void
+    {
+        $this->rowAttributes = $rowAttributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumnAttributes(): array
+    {
+        return $this->columnAttributes;
+    }
+
+    /**
+     * @param array $columnAttributes
+     */
+    public function setColumnAttributes(array $columnAttributes): void
+    {
+        $this->columnAttributes = $columnAttributes;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getDefaultValues(): ?array
+    {
+        return $this->defaultValues;
+    }
+
+    /**
+     * @param array|null $defaultValues
      *
      * @return $this
      */
-    public function setFieldClass(string $fieldClass): self
+    public function setDefaultValues(?array $defaultValues): self
     {
-        $this->fieldClass = $fieldClass;
+        $this->defaultValues = $defaultValues;
 
         return $this;
     }
 
     /**
-     * @param array $fieldDefaults
+     * @return array|null
+     */
+    public function getValues(): ?array
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param array|null $values
      *
      * @return $this
      */
-    public function setFieldDefaults(array $fieldDefaults): self
+    public function setValues(?array $values): self
     {
-        $this->fieldDefaults = $fieldDefaults;
+        $this->values = $values;
 
         return $this;
     }
 
     /**
-     * @param array $fields
-     *
-     * @return $this
+     * @inheritDoc
      */
-    public function setFields(array $fields): self
+    public function getComponents(): array
     {
-        $this->fields = $fields;
+        $components = $this->components;
 
-        return $this;
+        foreach ($components as &$component) {
+            if (!$component instanceof Row) {
+                $component = Row::create([$component])->setParent($this);
+            }
+        }
+
+        return $components;
     }
 
     /**
-     * @param string $fieldsClass
-     *
-     * @return $this
+     * @return string|null
      */
-    public function setFieldsClass(string $fieldsClass): self
+    public function getFormAction(): ?string
     {
-        $this->fieldsClass = $fieldsClass;
-
-        return $this;
+        return $this->formAction;
     }
 
     /**
-     * @param string $formAction
+     * @param string|null $formAction
      *
      * @return $this
      */
-    public function setFormAction(string $formAction): self
+    public function setFormAction(?string $formAction): self
     {
         $this->formAction = $formAction;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFormAttributes(): array
+    {
+        return $this->formAttributes;
+    }
+
+    /**
+     * @param array $formAttributes
+     *
+     * @return $this
+     */
+    public function setFormAttributes(array $formAttributes): self
+    {
+        $this->formAttributes = $formAttributes;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormMethod(): string
+    {
+        return $this->formMethod;
     }
 
     /**
@@ -329,47 +367,59 @@ class Form extends Model
     }
 
     /**
-     * @param array $formOptions
+     * @return string|null
+     */
+    public function getHandle(): ?string
+    {
+        return $this->handle;
+    }
+
+    /**
+     * @param string|null $handle
      *
      * @return $this
      */
-    public function setFormOptions(array $formOptions): self
+    public function setHandle(?string $handle): self
     {
-        $this->formOptions = $formOptions;
+        $this->handle = $handle;
 
         return $this;
     }
 
     /**
-     * @param string $redirect
+     * @return string|null
+     */
+    public function getRedirectUrl(): ?string
+    {
+        return $this->redirectUrl;
+    }
+
+    /**
+     * @param string|null $redirectUrl
      *
      * @return $this
      */
-    public function setRedirect(string $redirect): self
+    public function setRedirectUrl(?string $redirectUrl): self
     {
-        $this->redirect = $redirect;
+        $this->redirectUrl = $redirectUrl;
 
         return $this;
     }
 
     /**
-     * @param string $rowClass
-     *
-     * @return $this
+     * @return array|null
      */
-    public function setRowClass(string $rowClass): self
+    public function getRules(): ?array
     {
-        $this->rowClass = $rowClass;
-
-        return $this;
+        return $this->rules;
     }
 
     /**
-     * @param array $rules
+     * @param array|null $rules
      *
      * @return $this
      */
-    public function setRules(array $rules): self
+    public function setRules(?array $rules): self
     {
         $this->rules = $rules;
 
@@ -377,190 +427,87 @@ class Form extends Model
     }
 
     /**
-     * @param array $values
+     * @return bool
+     */
+    public function isActionRunWithErrors(): bool
+    {
+        return $this->actionRunWithErrors;
+    }
+
+    /**
+     * @param bool $actionRunWithErrors
      *
      * @return $this
      */
-    public function setValues(array $values): self
+    public function setActionRunWithErrors(bool $actionRunWithErrors): self
     {
-        $this->values = $values;
+        $this->actionRunWithErrors = $actionRunWithErrors;
 
         return $this;
     }
 
     /**
-     * @param array  $tagInfo
-     * @param string $classPrefix
-     * @param array  $exclude
-     *
-     * @return string
+     * @return $this
      */
-    protected function namespaceClasses(array $tagInfo, string $classPrefix, array $exclude = []): string
+    public function populateParams(): self
     {
-        $type = ArrayHelper::getValue($tagInfo, 'type');
+        $routeParams = Craft::$app->getUrlManager()->getRouteParams();
 
-        if (!$type || $type === 'text') {
-            return ArrayHelper::getValue($tagInfo, 'value');
+        /** @var \yii\base\DynamicModel $model */
+        $model = ArrayHelper::getValue($routeParams, self::VALUES_KEY);
+
+        if ($model === null) {
+            return $this;
         }
 
-        $content = '';
-        $attributes = ArrayHelper::getValue($tagInfo, 'attributes', []);
+        $generalConfig = Craft::$app->getConfig()->getGeneral();
 
-        if ($children = ArrayHelper::getValue($tagInfo, 'children')) {
-            foreach ($children as $child) {
-                $content .= $this->namespaceClasses($child, $classPrefix, $exclude);
-            }
-        }
+        $modelValues = $model->getAttributes(null, [
+            $generalConfig->actionTrigger,
+            $generalConfig->csrfTokenName,
+            self::ACTION_NAME,
+            self::HANDLE_NAME,
+        ]);
+        $this->setValues($modelValues);
 
-        if ($classes = ArrayHelper::getValue($tagInfo, 'class')) {
-            $prefixedClasses = [];
+        $this->setErrors($model->getErrors());
 
-            foreach ($classes as $class) {
-                if (!in_array($class, $exclude, false)) {
-                    $class = StringHelper::ensureLeft($class, $classPrefix);
-                }
-
-                $prefixedClasses[] = $class;
-            }
-
-            $attributes['class'] = $prefixedClasses;
-        }
-
-        return Html::tag($type, $content, $attributes);
+        return $this;
     }
 
     /**
-     * @param array $config
-     *
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @return \Twig\Markup
      * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
-    protected function renderField(array $config): string
+    public function render(): Markup
     {
-        $config = array_replace_recursive($this->fieldDefaults, $config);
+        $pieces = [];
 
-        $fieldType = ArrayHelper::getValue($config, 'fieldType', 'textField');
-        $label = ArrayHelper::getValue($config, 'label');
-        $name = ArrayHelper::getValue($config, 'name');
-        $value = ArrayHelper::getValue($config, 'value');
+        $pieces[] = Html::beginForm(
+            $this->getFormAction(),
+            $this->getFormMethod(),
+            $this->getFormAttributes()
+        );
 
-        if ($name) {
-            $config['errors'] = ArrayHelper::getValue($this->errors, $name);
-            $config['value'] = ArrayHelper::getValue($this->values, $name);
+        $pieces[] = Html::actionInput('formbuilder/forms/process');
+        $pieces[] = Html::hiddenInput(self::ACTION_NAME, $this->getActionRoute());
+        $pieces[] = Html::hiddenInput(self::HANDLE_NAME, $this->getHandle());
+
+        if ($redirectUrl = $this->getRedirectUrl()) {
+            $pieces[] = Html::redirectInput($redirectUrl);
         }
 
-        switch ($fieldType) {
-            case 'button' :
-                $content = Html::button($label, $config);
-                break;
-            case 'reset' :
-                $content = Html::resetButton($label, $config);
-                break;
-            case 'submit' :
-                $content = Html::submitButton($label, $config);
-                break;
-            case 'hidden' :
-                $content = Html::hiddenInput($name, $value);
-                break;
-            default :
-                $content = $this->renderFormMacro($fieldType, $config);
-        }
+        $pieces[] = Html::div(
+            $this->getComponentsHtml(),
+            $this->getComponentsAttributes()
+        );
 
-        if ($this->classPrefix) {
-            $excludeClasses = [
-                ArrayHelper::getValue($config, 'class'),
-                ArrayHelper::getValue($config, 'fieldClass'),
-            ];
+        $pieces[] = Html::endForm();
 
-            // TODO: Classes aren’t being prefixed (needs fixing)
-            $content = $this->namespaceClasses(
-                Html::parseTag($content),
-                $this->classPrefix,
-                $excludeClasses
-            );
-        }
+        $content = implode("\n", $pieces);
+        $charset = Craft::$app->getView()->getTwig()->getCharset();
 
-        $fieldHtml = Html::tag('div', $content, [
-            'class' => $this->fieldClass,
-        ]);
-
-        return Html::tag('div', $fieldHtml, [
-            'class' => $this->columnClass,
-        ]);
-    }
-
-    /**
-     * @param array $fields
-     *
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     * @throws \yii\base\Exception
-     */
-    protected function renderFieldGroup(array $fields): string
-    {
-        if (ArrayHelper::isAssociative($fields)) {
-            $fields = [$fields];
-        }
-
-        $tags = [];
-
-        foreach ($fields as $field) {
-            $tags[] = $this->renderField($field);
-        }
-
-        return Html::tag('div', implode("\n", $tags), [
-            'class' => $this->rowClass,
-        ]);
-    }
-
-    /**
-     * @param array $fields
-     *
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     * @throws \yii\base\Exception
-     */
-    protected function renderFieldGroups(array $fields): string
-    {
-        $tags = [];
-
-        foreach ($fields as $field) {
-            $tags[] = $this->renderFieldGroup($field);
-        }
-
-        return Html::tag('div', implode("\n", $tags), [
-            'class' => $this->fieldsClass,
-        ]);
-    }
-
-    /**
-     * @param string $macro
-     * @param array  $config
-     *
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     * @throws \yii\base\Exception
-     */
-    protected function renderFormMacro(string $macro, array $config): string
-    {
-        $view = Craft::$app->getView();
-        $templateMode = $view->getTemplateMode();
-
-        $view->setTemplateMode(View::TEMPLATE_MODE_CP);
-
-        $html = $view->renderTemplateMacro('_includes/forms', $macro, [$config]);
-
-        $view->setTemplateMode($templateMode);
-
-        return $html;
+        return new Markup($content, $charset);
     }
 }

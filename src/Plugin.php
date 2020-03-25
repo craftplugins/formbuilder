@@ -7,7 +7,8 @@ use craft\base\Plugin as BasePlugin;
 use craft\web\twig\variables\CraftVariable;
 use craftplugins\formbuilder\controllers\FormsController;
 use craftplugins\formbuilder\models\Config;
-use craftplugins\formbuilder\services\FormsService;
+use craftplugins\formbuilder\services\Forms;
+use craftplugins\formbuilder\services\View;
 use craftplugins\formbuilder\variables\FormBuilderVariable;
 use yii\base\Event;
 
@@ -15,7 +16,8 @@ use yii\base\Event;
  * Class Plugin
  *
  * @package craftplugins\formbuilder
- * @property \craftplugins\formbuilder\services\FormsService $forms
+ * @property \craftplugins\formbuilder\services\Forms $forms
+ * @property \craftplugins\formbuilder\services\View  $view
  */
 class Plugin extends BasePlugin
 {
@@ -39,7 +41,8 @@ class Plugin extends BasePlugin
         parent::init();
 
         $this->setComponents([
-            'forms' => FormsService::class,
+            'forms' => Forms::class,
+            'view' => View::class,
         ]);
 
         // Register variables
@@ -80,13 +83,25 @@ class Plugin extends BasePlugin
     }
 
     /**
-     * @return \craftplugins\formbuilder\services\FormsService
+     * @return \craftplugins\formbuilder\services\Forms
      * @throws \yii\base\InvalidConfigException
      */
-    public function getForms(): FormsService
+    public function getForms(): Forms
     {
-        /** @var FormsService $service */
+        /** @var Forms $service */
         $service = $this->get('forms');
+
+        return $service;
+    }
+
+    /**
+     * @return \craftplugins\formbuilder\services\View
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getView(): View
+    {
+        /** @var View $service */
+        $service = $this->get('view');
 
         return $service;
     }

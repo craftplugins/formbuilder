@@ -13,21 +13,11 @@ use craftplugins\formbuilder\Plugin;
 class FormBuilderVariable
 {
     /**
-     * @param array $config
-     *
-     * @return \craftplugins\formbuilder\models\Form
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function createForm(array $config): Form
-    {
-        return Plugin::getInstance()->getForms()->createForm($config);
-    }
-
-    /**
      * @param string $handle
      *
      * @return \craftplugins\formbuilder\models\Form
      * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public function getFormByHandle(string $handle): Form
     {

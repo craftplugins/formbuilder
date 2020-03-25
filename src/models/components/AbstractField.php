@@ -24,11 +24,6 @@ abstract class AbstractField extends AbstractComponent
     protected $controlAttributes = ['class' => 'field-control'];
 
     /**
-     * @var array|null
-     */
-    protected $errors;
-
-    /**
      * @var array
      */
     protected $errorsAttributes = ['class' => 'field-errors'];
@@ -74,11 +69,6 @@ abstract class AbstractField extends AbstractComponent
     protected $name;
 
     /**
-     * @var mixed|null
-     */
-    protected $value;
-
-    /**
      * @param array $config
      *
      * @return static
@@ -118,19 +108,10 @@ abstract class AbstractField extends AbstractComponent
      */
     public function getErrors(): ?array
     {
-        return $this->errors;
-    }
-
-    /**
-     * @param array|null $errors
-     *
-     * @return $this
-     */
-    public function setErrors(?array $errors): self
-    {
-        $this->errors = $errors;
-
-        return $this;
+        return ArrayHelper::getValue(
+            $this->getParent()->getErrors(),
+            $this->getName()
+        );
     }
 
     /**
@@ -320,23 +301,10 @@ abstract class AbstractField extends AbstractComponent
      */
     public function getValue()
     {
-        if ($values = $this->getParent()->getValues()) {
-            return ArrayHelper::getValue($values, $this->name);
-        }
-
-        return $this->value;
-    }
-
-    /**
-     * @param mixed|null $value
-     *
-     * @return $this
-     */
-    public function setValue($value): self
-    {
-        $this->value = $value;
-
-        return $this;
+        return ArrayHelper::getValue(
+            $this->getParent()->getValues(),
+            $this->getName()
+        );
     }
 
     /**

@@ -236,6 +236,33 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
+     * @var array|null
+     */
+    protected $defaultValues;
+
+    /**
+     * @return array|null
+     */
+    public function getDefaultValues(): ?array
+    {
+        return $this->defaultValues;
+    }
+
+    /**
+     * @param array|null $defaultValues
+     *
+     * @return $this
+     */
+    public function setDefaultValues(?array $defaultValues): self
+    {
+        $this->defaultValues = $defaultValues;
+
+        return $this;
+    }
+
+
+
+    /**
      * @return array|null
      */
     public function getValues(): ?array

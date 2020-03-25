@@ -22,6 +22,11 @@ interface ParentInterface
     /**
      * @return array|null
      */
+    public function getDefaultValues(): ?array;
+
+    /**
+     * @return array|null
+     */
     public function getErrors(): ?array;
 
     /**

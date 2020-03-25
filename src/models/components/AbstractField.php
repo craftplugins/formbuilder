@@ -11,10 +11,12 @@ use Twig\Markup;
  * Class AbstractField
  *
  * @package craftplugins\formbuilder\models\components
- * @property string $errorsHtml
- * @property string $headingHtml
- * @property string $inputId
- * @property string $controlHtml
+ * @property null|string $inputId
+ * @property string      $controlHtml
+ * @property string      $headingHtml
+ * @property string      $errorsHtml
+ * @property null|mixed  $value
+ * @property null|array  $errors
  */
 abstract class AbstractField extends AbstractComponent
 {
@@ -302,7 +304,7 @@ abstract class AbstractField extends AbstractComponent
     public function getValue()
     {
         return ArrayHelper::getValue(
-            $this->getParent()->getValues(),
+            $this->getParent()->getValues() ?? $this->getParent()->getDefaultValues(),
             $this->getName()
         );
     }

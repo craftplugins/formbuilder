@@ -12,10 +12,12 @@ use Twig\Markup;
  * Class Row
  *
  * @package craftplugins\formbuilder\models\components
- * @property array $values
- * @property array $columnAttributes
- * @property array $errors
- * @property array $rowAttributes
+ * @property string     $componentsHtml
+ * @property null|array $values
+ * @property null|array $defaultValues
+ * @property array      $columnAttributes
+ * @property null|array $errors
+ * @property array      $rowAttributes
  */
 class Row extends AbstractComponent implements ParentInterface
 {
@@ -65,6 +67,14 @@ class Row extends AbstractComponent implements ParentInterface
     public function getValues(): ?array
     {
         return $this->getParent()->getValues();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDefaultValues(): ?array
+    {
+        return $this->getParent()->getDefaultValues();
     }
 
     /**

@@ -68,7 +68,7 @@ class Form extends BaseObject implements ParentInterface
     protected $handle;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $redirectUrl;
 
@@ -78,12 +78,12 @@ class Form extends BaseObject implements ParentInterface
     protected $rowAttributes = ['class' => 'form-row'];
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $rules;
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $values;
 
@@ -221,19 +221,19 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getValues(): array
+    public function getValues(): ?array
     {
         return $this->values;
     }
 
     /**
-     * @param array $values
+     * @param array|null $values
      *
      * @return $this
      */
-    public function setValues(array $values): self
+    public function setValues(?array $values): self
     {
         $this->values = $values;
 

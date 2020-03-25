@@ -68,6 +68,23 @@ class Row extends AbstractComponent implements ParentInterface
     }
 
     /**
+     * @return string
+     */
+    public function getComponentsHtml(): string
+    {
+        $columnTags = [];
+
+        foreach ($this->getComponents() as $component) {
+            $columnTags[] = Html::div(
+                $component->render(),
+                $this->getColumnAttributes()
+            );
+        }
+
+        return implode("\n", $columnTags);
+    }
+
+    /**
      * @return \Twig\Markup
      * @throws \yii\base\InvalidConfigException
      */

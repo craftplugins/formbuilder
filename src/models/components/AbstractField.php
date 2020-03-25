@@ -384,7 +384,7 @@ abstract class AbstractField extends AbstractComponent
         }
 
         $content = Html::div(
-            implode(PHP_EOL, $fieldTags),
+            implode("\n", $fieldTags),
             $this->getFieldAttributes()
         );
 
@@ -433,7 +433,7 @@ abstract class AbstractField extends AbstractComponent
         }
 
         return Html::div(
-            implode(PHP_EOL, $headingTags),
+            implode("\n", $headingTags),
             $this->getHeadingAttributes()
         );
     }

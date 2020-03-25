@@ -5,7 +5,6 @@ namespace craftplugins\formbuilder\models\components\traits;
 use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
-use craftplugins\formbuilder\models\components\Row;
 
 /**
  * Trait ParentTrait
@@ -67,22 +66,5 @@ trait ParentTrait
         $this->addComponents($components);
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComponentsHtml(): string
-    {
-        $columns = [];
-
-        foreach ($this->getComponents() as $component) {
-            $columns[] = Html::div(
-                $component->render(),
-                $this->getColumnAttributes()
-            );
-        }
-
-        return implode(PHP_EOL, $columns);
     }
 }

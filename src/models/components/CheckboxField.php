@@ -57,7 +57,7 @@ class CheckboxField extends InputField
 
         $content = Html::div(
             Html::div(
-                implode(PHP_EOL, $fieldTags),
+                implode("\n", $fieldTags),
                 $this->getFieldAttributes()
             ),
             $this->getParent()->getColumnAttributes()

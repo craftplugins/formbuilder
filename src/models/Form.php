@@ -170,6 +170,20 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
+     * @return string
+     */
+    public function getComponentsHtml(): string
+    {
+        $componentTags = [];
+
+        foreach ($this->getComponents() as $component) {
+            $componentTags[] = $component->render();
+        }
+
+        return implode("\n", $componentTags);
+    }
+
+    /**
      * @return array|null
      */
     public function getErrors(): ?array
@@ -239,6 +253,22 @@ class Form extends BaseObject implements ParentInterface
         $this->values = $values;
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getComponents(): array
+    {
+        $components = $this->components;
+
+        foreach ($components as &$component) {
+            if (!$component instanceof Row) {
+                $component = Row::create([$component])->setParent($this);
+            }
+        }
+
+        return $components;
     }
 
     /**
@@ -391,25 +421,9 @@ class Form extends BaseObject implements ParentInterface
 
         $pieces[] = Html::endForm();
 
-        $content = implode(PHP_EOL, $pieces);
+        $content = implode("\n", $pieces);
         $charset = Craft::$app->getView()->getTwig()->getCharset();
 
         return new Markup($content, $charset);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getComponents(): array
-    {
-        $components = $this->components;
-
-        foreach ($components as &$component) {
-            if (!$component instanceof Row) {
-                $component = Row::create([$component])->setParent($this);
-            }
-        }
-
-        return $components;
     }
 }

@@ -45,11 +45,8 @@ class ButtonField extends AbstractField
     public function render(): Markup
     {
         $content = Html::div(
-            Html::div(
-                $this->getControlHtml(),
-                $this->getFieldAttributes()
-            ),
-            $this->getParent()->getColumnAttributes()
+            $this->getControlHtml(),
+            $this->getFieldAttributes()
         );
 
         return Plugin::getInstance()->getView()->createMarkup($content);

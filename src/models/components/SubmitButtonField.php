@@ -2,7 +2,6 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-
 use craftplugins\formbuilder\helpers\Html;
 
 /**

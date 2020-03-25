@@ -2,7 +2,6 @@
 
 namespace craftplugins\formbuilder\models\components\traits;
 
-use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
 

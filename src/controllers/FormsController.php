@@ -41,7 +41,7 @@ class FormsController extends Controller
         $model = DynamicModel::validateData($request->getBodyParams(), $form->getRules());
 
         Craft::$app->getUrlManager()->setRouteParams([
-            Form::VALUES_KEY => $model
+            Form::VALUES_KEY => $model,
         ]);
 
         if ($model->hasErrors() && !$form->isActionRunWithErrors()) {

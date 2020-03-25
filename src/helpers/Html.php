@@ -27,7 +27,7 @@ class Html extends \craft\helpers\Html
      *
      * @return string
      */
-    public static function fieldColumn(AbstractField $field):string
+    public static function fieldColumn(AbstractField $field): string
     {
         return self::div(
             self::div(

@@ -2,7 +2,9 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use craft\helpers\Html;
+use craftplugins\formbuilder\helpers\Html;
+use craftplugins\formbuilder\Plugin;
+use Twig\Markup;
 
 /**
  * Class ButtonField
@@ -34,6 +36,23 @@ class ButtonField extends AbstractField
         $this->buttonText = $buttonText;
 
         return $this;
+    }
+
+    /**
+     * @return \Twig\Markup
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function render(): Markup
+    {
+        $content = Html::div(
+            Html::div(
+                $this->getControlHtml(),
+                $this->getFieldAttributes()
+            ),
+            $this->getParent()->getColumnAttributes()
+        );
+
+        return Plugin::getInstance()->getView()->createMarkup($content);
     }
 
     /**

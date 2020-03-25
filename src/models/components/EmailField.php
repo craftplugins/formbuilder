@@ -2,17 +2,15 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use Twig\Markup;
-
 /**
- * Interface ComponentInterface
+ * Class EmailField
  *
  * @package craftplugins\formbuilder\models\components
  */
-interface ComponentInterface
+class EmailField extends InputField
 {
     /**
-     * @return \Twig\Markup
+     * @var string
      */
-    public function render(): Markup;
+    protected $type = 'email';
 }

@@ -5,16 +5,16 @@ namespace craftplugins\formbuilder\models\components;
 use craft\helpers\Html;
 
 /**
- * Class InputElement
+ * Class PasswordField
  *
  * @package craftplugins\formbuilder\models\components
  */
-class InputField extends AbstractField
+class PasswordField extends InputField
 {
     /**
      * @var string
      */
-    protected $type = 'text';
+    protected $type = 'password';
 
     /**
      * @return string
@@ -24,7 +24,7 @@ class InputField extends AbstractField
         return Html::input(
             $this->getType(),
             $this->getName(),
-            $this->getValue(),
+            null,
             $this->getInputAttributes()
         );
     }

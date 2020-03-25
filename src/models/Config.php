@@ -12,7 +12,7 @@ use craft\base\Model;
 class Config extends Model
 {
     /**
-     * @var \craftplugins\formbuilder\models\components\Form[]|array
+     * @var \craftplugins\formbuilder\models\Form[]
      */
     public $forms = [];
 }

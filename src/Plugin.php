@@ -4,16 +4,11 @@ namespace craftplugins\formbuilder;
 
 use Craft;
 use craft\base\Plugin as BasePlugin;
-use craft\events\RegisterComponentTypesEvent;
 use craft\web\twig\variables\CraftVariable;
 use craftplugins\formbuilder\controllers\FormsController;
-use craftplugins\formbuilder\models\components\ButtonField;
-use craftplugins\formbuilder\models\components\InputField;
-use craftplugins\formbuilder\models\components\Row;
-use craftplugins\formbuilder\models\components\SelectField;
-use craftplugins\formbuilder\models\components\TextareaField;
 use craftplugins\formbuilder\models\Config;
 use craftplugins\formbuilder\services\Forms;
+use craftplugins\formbuilder\services\View;
 use craftplugins\formbuilder\variables\FormBuilderVariable;
 use yii\base\Event;
 
@@ -22,22 +17,16 @@ use yii\base\Event;
  *
  * @package craftplugins\formbuilder
  * @property \craftplugins\formbuilder\services\Forms $forms
+ * @property \craftplugins\formbuilder\services\View  $view
  */
 class Plugin extends BasePlugin
 {
-    public const EVENT_REGISTER_COMPONENT_TYPES = 'registerFormComponentTypes';
-
     /**
      * @var array
      */
     public $controllerMap = [
         'forms' => FormsController::class,
     ];
-
-    /**
-     * @var array
-     */
-    protected $componentTypes;
 
     /**
      * @var array
@@ -53,6 +42,7 @@ class Plugin extends BasePlugin
 
         $this->setComponents([
             'forms' => Forms::class,
+            'view' => View::class,
         ]);
 
         // Register variables
@@ -65,9 +55,6 @@ class Plugin extends BasePlugin
                 $variable->set('formBuilder', FormBuilderVariable::class);
             }
         );
-
-        // Register our own form component types
-        $this->registerComponentTypes();
     }
 
     /**
@@ -79,14 +66,6 @@ class Plugin extends BasePlugin
         $instance = parent::getInstance();
 
         return $instance;
-    }
-
-    /**
-     * @return array
-     */
-    public function getComponentTypes(): array
-    {
-        return $this->componentTypes;
     }
 
     /**
@@ -116,44 +95,14 @@ class Plugin extends BasePlugin
     }
 
     /**
-     * @return void
+     * @return \craftplugins\formbuilder\services\View
+     * @throws \yii\base\InvalidConfigException
      */
-    protected function registerComponentTypes(): void
+    public function getView(): View
     {
-        $event = new RegisterComponentTypesEvent();
+        /** @var View $service */
+        $service = $this->get('view');
 
-        // Set our default types
-        $event->types = [
-            'button' => ButtonField::class,
-            'checkbox' => InputField::class,
-            'color' => InputField::class,
-            'date' => InputField::class,
-            'datetime-local' => InputField::class,
-            'email' => InputField::class,
-            'file' => InputField::class,
-            'hidden' => InputField::class,
-            'image' => InputField::class,
-            'input' => InputField::class,
-            'month' => InputField::class,
-            'number' => InputField::class,
-            'password' => InputField::class,
-            'radio' => InputField::class,
-            'range' => InputField::class,
-            'reset' => InputField::class,
-            'row' => Row::class,
-            'search' => InputField::class,
-            'select' => SelectField::class,
-            'submit' => InputField::class,
-            'tel' => InputField::class,
-            'text' => InputField::class,
-            'textarea' => TextareaField::class,
-            'time' => InputField::class,
-            'url' => InputField::class,
-            'week' => InputField::class,
-        ];
-
-        $this->trigger(self::EVENT_REGISTER_COMPONENT_TYPES, $event);
-
-        $this->componentTypes = $event->types;
+        return $service;
     }
 }

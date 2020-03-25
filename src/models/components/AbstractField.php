@@ -2,9 +2,9 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use Craft;
 use craft\helpers\ArrayHelper;
-use craft\helpers\Html;
+use craftplugins\formbuilder\helpers\Html;
+use craftplugins\formbuilder\Plugin;
 use Twig\Markup;
 
 /**
@@ -345,6 +345,10 @@ abstract class AbstractField extends AbstractComponent
      */
     public function getValue()
     {
+        if ($values = $this->getParent()->getValues()) {
+            return ArrayHelper::getValue($values, $this->name);
+        }
+
         return $this->value;
     }
 
@@ -362,40 +366,32 @@ abstract class AbstractField extends AbstractComponent
 
     /**
      * @return \Twig\Markup
+     * @throws \yii\base\InvalidConfigException
      */
     public function render(): Markup
     {
-        $pieces = [];
+        $fieldTags = [];
 
-        $headingHtml = $this->getHeadingHtml();
+        $fieldTags[] = $this->getHeadingHtml();
 
-        $controlHtml = Html::tag(
-            'div',
+        $fieldTags[] = Html::div(
             $this->getControlHtml(),
             $this->getControlAttributes()
         );
 
-        if (in_array($this->getType(), ['checkbox', 'radio'])) {
-            $pieces[] = $controlHtml;
-            $pieces[] = $headingHtml;
-        } else {
-            $pieces[] = $headingHtml;
-            $pieces[] = $controlHtml;
-        }
-
         if ($this->getErrors()) {
-            $pieces[] = $this->getErrorsHtml();
+            $fieldTags[] = $this->getErrorsHtml();
         }
 
-        $content = Html::tag(
-            'div',
-            implode(PHP_EOL, $pieces),
-            $this->getFieldAttributes()
+        $content = Html::div(
+            Html::div(
+                implode(PHP_EOL, $fieldTags),
+                $this->getFieldAttributes()
+            ),
+            $this->getParent()->getColumnAttributes()
         );
 
-        $charset = Craft::$app->getView()->getTwig()->getCharset();
-
-        return new Markup($content, $charset);
+        return Plugin::getInstance()->getView()->createMarkup($content);
     }
 
     /**
@@ -403,21 +399,12 @@ abstract class AbstractField extends AbstractComponent
      */
     protected function getErrorsHtml(): string
     {
-        $items = [];
-
-        foreach ($this->getErrors() as $error) {
-            $items[] = Html::tag('li', $error);
-        }
-
-        if (empty($items)) {
+        if (empty($errors = $this->getErrors())) {
             return '';
         }
 
-        $listHtml = Html::tag('ul', implode(PHP_EOL, $items));
-
-        return Html::tag(
-            'div',
-            $listHtml,
+        return Html::div(
+            Html::ul($errors),
             $this->getErrorsAttributes()
         );
     }
@@ -427,34 +414,29 @@ abstract class AbstractField extends AbstractComponent
      */
     protected function getHeadingHtml(): string
     {
-        $instructionsText = $this->getInstructionsText();
-        $labelText = $this->getLabelText();
+        $headingTags = [];
 
-        $pieces = [];
-
-        if ($labelText) {
-            $pieces[] = Html::label(
+        if ($labelText = $this->getLabelText()) {
+            $headingTags[] = Html::label(
                 $labelText,
                 $this->getInputId(),
                 $this->getLabelAttributes()
             );
         }
 
-        if ($instructionsText) {
-            $pieces[] = Html::tag(
-                'div',
+        if ($instructionsText = $this->getInstructionsText()) {
+            $headingTags[] = Html::div(
                 $instructionsText,
                 $this->getInstructionsAttributes()
             );
         }
 
-        if (empty($pieces)) {
+        if (empty($headingTags)) {
             return '';
         }
 
-        return Html::tag(
-            'div',
-            implode(PHP_EOL, $pieces),
+        return Html::div(
+            implode(PHP_EOL, $headingTags),
             $this->getHeadingAttributes()
         );
     }

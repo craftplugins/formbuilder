@@ -1,22 +1,23 @@
 <?php
 
-namespace craftplugins\formbuilder\models\components;
+namespace craftplugins\formbuilder\models;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use craft\helpers\Html;
-use craftplugins\formbuilder\models\components\traits\HasComponentsTrait;
-use craftplugins\formbuilder\Plugin;
+use craftplugins\formbuilder\helpers\Html;
+use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
+use craftplugins\formbuilder\models\components\traits\ParentTrait;
 use Twig\Markup;
+use yii\base\BaseObject;
 
 /**
  * Class Form
  *
  * @package craftplugins\formbuilder\models\components
  */
-class Form extends AbstractComponent
+class Form extends BaseObject implements ParentInterface
 {
-    use HasComponentsTrait;
+    use ParentTrait;
 
     public const ACTION_NAME = 'formBuilderAction';
 
@@ -30,6 +31,16 @@ class Form extends AbstractComponent
      * @var string|null
      */
     protected $actionRoute;
+
+    /**
+     * @var array
+     */
+    protected $columnAttributes = ['class' => 'form-column'];
+
+    /**
+     * @var array
+     */
+    protected $componentsAttributes = ['class' => 'form-components'];
 
     /**
      * @var array|null
@@ -52,27 +63,6 @@ class Form extends AbstractComponent
     protected $formMethod = 'post';
 
     /**
-     * @var array
-     */
-    protected $componentsAttributes = ['class' => 'form-components'];
-
-    /**
-     * @return array
-     */
-    public function getComponentsAttributes(): array
-    {
-        return $this->componentsAttributes;
-    }
-
-    /**
-     * @param array $componentsAttributes
-     */
-    public function setComponentsAttributes(array $componentsAttributes): void
-    {
-        $this->componentsAttributes = $componentsAttributes;
-    }
-
-    /**
      * @var string|null
      */
     protected $handle;
@@ -81,6 +71,11 @@ class Form extends AbstractComponent
      * @var string
      */
     protected $redirectUrl;
+
+    /**
+     * @var array
+     */
+    protected $rowAttributes = ['class' => 'form-row'];
 
     /**
      * @var array
@@ -106,12 +101,11 @@ class Form extends AbstractComponent
 
         /** @var \yii\base\DynamicModel $dynamicModel */
         $dynamicModel = ArrayHelper::getValue($routeParams, self::VALUES_KEY);
+        $modelErrors = $dynamicModel->getErrors();
 
-        if ($dynamicModel && $this->getErrors() === null) {
+        if ($modelErrors && $this->getErrors() === null) {
             // Set errors from
-            $this->setErrors(
-                $dynamicModel->getErrors()
-            );
+            $this->setErrors($modelErrors);
         }
 
         if ($dynamicModel) {
@@ -160,6 +154,22 @@ class Form extends AbstractComponent
     }
 
     /**
+     * @return array
+     */
+    public function getComponentsAttributes(): array
+    {
+        return $this->componentsAttributes;
+    }
+
+    /**
+     * @param array $componentsAttributes
+     */
+    public function setComponentsAttributes(array $componentsAttributes): void
+    {
+        $this->componentsAttributes = $componentsAttributes;
+    }
+
+    /**
      * @return array|null
      */
     public function getErrors(): ?array
@@ -175,6 +185,58 @@ class Form extends AbstractComponent
     public function setErrors(?array $errors): self
     {
         $this->errors = $errors;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRowAttributes(): array
+    {
+        return $this->rowAttributes;
+    }
+
+    /**
+     * @param array $rowAttributes
+     */
+    public function setRowAttributes(array $rowAttributes): void
+    {
+        $this->rowAttributes = $rowAttributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumnAttributes(): array
+    {
+        return $this->columnAttributes;
+    }
+
+    /**
+     * @param array $columnAttributes
+     */
+    public function setColumnAttributes(array $columnAttributes): void
+    {
+        $this->columnAttributes = $columnAttributes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function setValues(array $values): self
+    {
+        $this->values = $values;
 
         return $this;
     }
@@ -300,26 +362,6 @@ class Form extends AbstractComponent
     }
 
     /**
-     * @return array|null
-     */
-    public function getValues(): ?array
-    {
-        return $this->values;
-    }
-
-    /**
-     * @param array|null $values
-     *
-     * @return $this
-     */
-    public function setValues(?array $values): self
-    {
-        $this->values = $values;
-
-        return $this;
-    }
-
-    /**
      * @return \Twig\Markup
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
@@ -334,30 +376,15 @@ class Form extends AbstractComponent
             $this->getFormAttributes()
         );
 
-        $actionRoute = $this->getActionRoute();
-        $handle = $this->getHandle();
-        $rules = $this->getRules();
-
-        if ($rules) {
-            $pieces[] = Html::actionInput('formbuilder/forms/process');
-            $pieces[] = Html::hiddenInput(self::ACTION_NAME, $actionRoute);
-
-            if ($handle) {
-                $pieces[] = Html::hiddenInput(self::HANDLE_NAME, $handle);
-            } else {
-                $encodedRules = Plugin::getInstance()->getForms()->encodeRules($rules);
-                $pieces[] = Html::hiddenInput(self::RULES_NAME, $encodedRules);
-            }
-        } elseif ($actionRoute) {
-            $pieces[] = Html::actionInput($actionRoute);
-        }
+        $pieces[] = Html::actionInput('formbuilder/forms/process');
+        $pieces[] = Html::hiddenInput(self::ACTION_NAME, $this->getActionRoute());
+        $pieces[] = Html::hiddenInput(self::HANDLE_NAME, $this->getHandle());
 
         if ($redirectUrl = $this->getRedirectUrl()) {
             $pieces[] = Html::redirectInput($redirectUrl);
         }
 
-        $pieces[] = Html::tag(
-            'div',
+        $pieces[] = Html::div(
             $this->getComponentsHtml(),
             $this->getComponentsAttributes()
         );

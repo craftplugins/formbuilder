@@ -5,7 +5,7 @@ namespace craftplugins\formbuilder\controllers;
 use Craft;
 use craft\web\Controller;
 use craft\web\Response;
-use craftplugins\formbuilder\models\components\Form;
+use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\Plugin;
 use yii\base\DynamicModel;
 
@@ -37,26 +37,19 @@ class FormsController extends Controller
         $action = $request->getRequiredBodyParam(Form::ACTION_NAME);
         $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);
 
-        if ($handle) {
-            // If a handle is set we’ll use the configured rules
-            $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
-            $rules = $form->getRules();
-        } else {
-            // If no handle is set we’ll try and load any encoded rules
-            $encodedRules = $request->getRequiredBodyParam(Form::RULES_NAME);
-            $rules = Plugin::getInstance()->getForms()->decodeRules($encodedRules);
-        }
+        $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
 
-        // Validate the posted data with our rules
-        // We’re using Yii’s DynamicModel here to conduct ad hoc validation
-        $model = DynamicModel::validateData($request->getBodyParams(), $rules);
+        if ($rules = $form->getRules()) {
+            // Validate the posted data with our rules
+            $model = DynamicModel::validateData($request->getBodyParams(), $rules);
 
-        if ($model->hasErrors()) {
-            Craft::$app->getUrlManager()->setRouteParams([
-                Form::VALUES_KEY => $model,
-            ]);
+            if ($model->hasErrors()) {
+                Craft::$app->getUrlManager()->setRouteParams([
+                    Form::VALUES_KEY => $model,
+                ]);
 
-            return null;
+                return null;
+            }
         }
 
         /** @var \craft\web\Response $response */

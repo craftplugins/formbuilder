@@ -211,7 +211,7 @@ abstract class AbstractField extends AbstractComponent
                 'id' => $this->getInputId(),
                 'class' => $this->getInputClass(),
             ],
-            $this->getInputAttributes()
+            $this->inputAttributes
         );
     }
 

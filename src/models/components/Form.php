@@ -198,7 +198,7 @@ class Form extends AbstractComponent
                 'id' => $this->getFormId(),
                 'class' => $this->getFormClass(),
             ],
-            $this->getFormAttributes()
+            $this->formAttributes
         );
     }
 

@@ -386,7 +386,12 @@ abstract class AbstractField extends AbstractComponent
             $pieces[] = $this->getErrorsHtml();
         }
 
-        $content = implode(PHP_EOL, $pieces);
+        $content = Html::tag(
+            'div',
+            implode(PHP_EOL, $pieces),
+            $this->getFieldAttributes()
+        );
+
         $charset = Craft::$app->getView()->getTwig()->getCharset();
 
         return new Markup($content, $charset);

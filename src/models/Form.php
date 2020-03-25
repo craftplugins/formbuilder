@@ -15,6 +15,7 @@ use yii\base\BaseObject;
  * Class Form
  *
  * @package craftplugins\formbuilder\models\components
+ * @property string $componentsHtml
  */
 class Form extends BaseObject implements ParentInterface
 {
@@ -24,9 +25,7 @@ class Form extends BaseObject implements ParentInterface
 
     public const HANDLE_NAME = 'formBuilderHandle';
 
-    public const RULES_NAME = 'formBuilderRules';
-
-    public const VALUES_KEY = 'formBuilderValues';
+    public const ERRORS_KEY = 'formBuilderValues';
 
     /**
      * @var string|null
@@ -92,31 +91,32 @@ class Form extends BaseObject implements ParentInterface
      * Form constructor.
      *
      * @param array $config
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function __construct($config = [])
     {
         parent::__construct($config);
 
-        // Get any route params set by the controller
         $routeParams = Craft::$app->getUrlManager()->getRouteParams();
+        $errors = ArrayHelper::getValue($routeParams, self::ERRORS_KEY);
 
-        /** @var \yii\base\DynamicModel $dynamicModel */
-        $dynamicModel = ArrayHelper::getValue($routeParams, self::VALUES_KEY);
-
-        if ($dynamicModel && $this->getErrors() === null) {
-            // Set errors from
-            $this->setErrors($dynamicModel->getErrors());
+        if ($errors && $this->getErrors() === null) {
+            $this->setErrors($errors);
         }
 
-        if ($dynamicModel) {
-            // Override values with submitted values
-            $this->setValues(
-                $dynamicModel->getAttributes(null, [
-                    Craft::$app->getConfig()->getGeneral()->csrfTokenName,
-                    self::ACTION_NAME,
-                    self::RULES_NAME,
-                ])
-            );
+        $request = Craft::$app->getRequest();
+
+        if ($request->getIsPost()) {
+            $generalConfig = Craft::$app->getConfig()->getGeneral();
+
+            $values = $request->getBodyParams();
+            ArrayHelper::remove($values, $generalConfig->actionTrigger);
+            ArrayHelper::remove($values, $generalConfig->csrfTokenName);
+            ArrayHelper::remove($values, self::ACTION_NAME);
+            ArrayHelper::remove($values, self::HANDLE_NAME);
+
+            $this->setValues($values);
         }
     }
 
@@ -125,6 +125,7 @@ class Form extends BaseObject implements ParentInterface
      * @param array  $config
      *
      * @return static
+     * @throws \yii\base\InvalidConfigException
      */
     public static function create(string $handle, $config = []): self
     {

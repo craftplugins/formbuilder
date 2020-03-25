@@ -101,11 +101,10 @@ class Form extends BaseObject implements ParentInterface
 
         /** @var \yii\base\DynamicModel $dynamicModel */
         $dynamicModel = ArrayHelper::getValue($routeParams, self::VALUES_KEY);
-        $modelErrors = $dynamicModel->getErrors();
 
-        if ($modelErrors && $this->getErrors() === null) {
+        if ($dynamicModel && $this->getErrors() === null) {
             // Set errors from
-            $this->setErrors($modelErrors);
+            $this->setErrors($dynamicModel->getErrors());
         }
 
         if ($dynamicModel) {

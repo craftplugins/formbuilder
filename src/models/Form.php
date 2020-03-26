@@ -98,6 +98,27 @@ class Form extends BaseObject implements ParentInterface
     protected $values;
 
     /**
+     * @return array|null
+     */
+    public function getFormErrors(): ?array
+    {
+        return $this->formErrors;
+    }
+
+    /**
+     * @param array|null $formErrors
+     */
+    public function setFormErrors(?array $formErrors): void
+    {
+        $this->formErrors = $formErrors;
+    }
+
+    /**
+     * @var array|null
+     */
+    protected $formErrors;
+
+    /**
      * @param string $handle
      * @param array  $config
      *

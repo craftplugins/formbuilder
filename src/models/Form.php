@@ -107,10 +107,14 @@ class Form extends BaseObject implements ParentInterface
 
     /**
      * @param array|null $formErrors
+     *
+     * @return $this
      */
-    public function setFormErrors(?array $formErrors): void
+    public function setFormErrors(?array $formErrors): self
     {
         $this->formErrors = $formErrors;
+
+        return $this;
     }
 
     /**

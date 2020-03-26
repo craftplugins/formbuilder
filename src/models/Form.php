@@ -464,7 +464,7 @@ class Form extends BaseObject implements ParentInterface
      *
      * @return $this
      */
-    public function setActionRunWithErrors(bool $actionRunWithErrors): self
+    public function setActionRunWithErrors(bool $actionRunWithErrors = true): self
     {
         $this->actionRunWithErrors = $actionRunWithErrors;
 

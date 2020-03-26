@@ -68,6 +68,11 @@ class Form extends BaseObject implements ParentInterface
     protected $formAttributes = ['class' => 'form'];
 
     /**
+     * @var array|null
+     */
+    protected $formErrors;
+
+    /**
      * @var string
      */
     protected $formMethod = 'post';
@@ -96,31 +101,6 @@ class Form extends BaseObject implements ParentInterface
      * @var array|null
      */
     protected $values;
-
-    /**
-     * @return array|null
-     */
-    public function getFormErrors(): ?array
-    {
-        return $this->formErrors;
-    }
-
-    /**
-     * @param array|null $formErrors
-     *
-     * @return $this
-     */
-    public function setFormErrors(?array $formErrors): self
-    {
-        $this->formErrors = $formErrors;
-
-        return $this;
-    }
-
-    /**
-     * @var array|null
-     */
-    protected $formErrors;
 
     /**
      * @param string $handle
@@ -367,6 +347,26 @@ class Form extends BaseObject implements ParentInterface
     public function setFormAttributes(array $formAttributes): self
     {
         $this->formAttributes = $formAttributes;
+
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getFormErrors(): ?array
+    {
+        return $this->formErrors;
+    }
+
+    /**
+     * @param array|null $formErrors
+     *
+     * @return $this
+     */
+    public function setFormErrors(?array $formErrors): self
+    {
+        $this->formErrors = $formErrors;
 
         return $this;
     }

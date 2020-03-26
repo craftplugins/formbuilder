@@ -15,11 +15,6 @@ use Twig\Markup;
 class CheckboxField extends InputField
 {
     /**
-     * @var bool
-     */
-    protected $checked;
-
-    /**
      * @var string
      */
     protected $inputType = 'checkbox';
@@ -68,20 +63,9 @@ class CheckboxField extends InputField
      */
     public function isChecked(): bool
     {
-        $values = $this->getParent()->getValues();
-
-        if ($values) {
-            return ArrayHelper::keyExists($this->getName(), $values);
-        }
-
-        return $this->checked;
-    }
-
-    /**
-     * @param bool $checked
-     */
-    public function setChecked(bool $checked): void
-    {
-        $this->checked = $checked;
+        return ArrayHelper::keyExists(
+            $this->getName(),
+            $this->getParent()->getValues() ?? $this->getParent()->getDefaultValues()
+        );
     }
 }

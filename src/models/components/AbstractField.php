@@ -341,12 +341,8 @@ abstract class AbstractField extends AbstractComponent
      */
     protected function getErrorsHtml(): string
     {
-        if (empty($errors = $this->getErrors())) {
-            return '';
-        }
-
-        return Html::div(
-            Html::ul($errors),
+        return Html::errors(
+            $this->getErrors(),
             $this->getErrorsAttributes()
         );
     }

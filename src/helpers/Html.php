@@ -2,8 +2,6 @@
 
 namespace craftplugins\formbuilder\helpers;
 
-use craftplugins\formbuilder\models\components\AbstractField;
-
 /**
  * Class Html
  *
@@ -23,18 +21,17 @@ class Html extends \craft\helpers\Html
     }
 
     /**
-     * @param \craftplugins\formbuilder\models\components\AbstractField $field
+     * @param array|null $errors
+     * @param array      $options
      *
      * @return string
      */
-    public static function fieldColumn(AbstractField $field): string
+    public static function errors(?array $errors, $options = []): string
     {
-        return self::div(
-            self::div(
-                $field->getControlHtml(),
-                $field->getFieldAttributes()
-            ),
-            $field->getParent()->getColumnAttributes()
-        );
+        if (empty($errors)) {
+            return '';
+        }
+
+        return self::div(self::ul($errors), $options);
     }
 }

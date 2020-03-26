@@ -519,6 +519,10 @@ class Form extends BaseObject implements ParentInterface
             $pieces[] = Html::redirectInput($redirectUrl);
         }
 
+        if ($formErrors = $this->getFormErrors()) {
+            $pieces[] = Html::errors($formErrors);
+        }
+
         $pieces[] = Html::div(
             $this->getComponentsHtml(),
             $this->getComponentsAttributes()

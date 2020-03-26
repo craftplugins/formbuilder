@@ -55,15 +55,12 @@ class CheckboxField extends InputField
             $fieldTags[] = $this->getErrorsHtml();
         }
 
-        $content = Html::div(
-            Html::div(
-                implode("\n", $fieldTags),
-                $this->getFieldAttributes()
-            ),
-            $this->getParent()->getColumnAttributes()
+        $fieldHtml = Html::div(
+            implode("\n", $fieldTags),
+            $this->getFieldAttributes()
         );
 
-        return Plugin::getInstance()->getView()->createMarkup($content);
+        return Plugin::getInstance()->getView()->createMarkup($fieldHtml);
     }
 
     /**

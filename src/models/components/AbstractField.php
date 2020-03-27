@@ -68,7 +68,7 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @var array|null
      */
-    protected $inputOptions = [];
+    protected $inputOptions = ['class' => 'input'];
 
     /**
      * @param array $config

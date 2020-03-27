@@ -15,7 +15,7 @@ class CheckboxField extends InputField
     /**
      * @var array|null
      */
-    protected $inputLabelOptions;
+    protected $inputLabelOptions = ['class' => 'input-label'];
 
     /**
      * @var string|null

@@ -12,7 +12,7 @@ trait InputItemsTrait
     /**
      * @var array|null
      */
-    protected $inputItemOptions;
+    protected $inputItemOptions = ['class' => 'input-item'];
 
     /**
      * @var array

@@ -22,7 +22,15 @@ trait ParentTrait
      *
      * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface|\craftplugins\formbuilder\models\components\traits\ParentTrait
      */
-    abstract public function addComponent(ComponentInterface $component): ParentInterface;
+    public function addComponent(ComponentInterface $component): ParentInterface
+    {
+        /** @var ParentInterface $parent */
+        $parent = $this;
+
+        $this->components[] = $component->setParent($parent);
+
+        return $this;
+    }
 
     /**
      * @param \craftplugins\formbuilder\models\components\interfaces\ComponentInterface[] $components

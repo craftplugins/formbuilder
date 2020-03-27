@@ -15,10 +15,7 @@ use yii\base\BaseObject;
 /**
  * Class Form
  *
- * @package craftplugins\formbuilder\models\components
- * @property array  $rowOptions
- * @property array  $columnOptions
- * @property string $componentsHtml
+ * @package craftplugins\formbuilder\models
  */
 class Form extends BaseObject implements ParentInterface
 {
@@ -43,12 +40,12 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @var array
      */
-    protected $columnAttributes = ['class' => 'form-column'];
+    protected $columnOptions = ['class' => 'form-column'];
 
     /**
      * @var array
      */
-    protected $componentsAttributes = ['class' => 'form-components'];
+    protected $componentsOptions = ['class' => 'form-components'];
 
     /**
      * @var array|null
@@ -68,7 +65,7 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @var array
      */
-    protected $formAttributes = ['class' => 'form'];
+    protected $formOptions = ['class' => 'form'];
 
     /**
      * @var array|null
@@ -93,7 +90,7 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @var array
      */
-    protected $rowAttributes = ['class' => 'form-row'];
+    protected $rowOptions = ['class' => 'form-row'];
 
     /**
      * @var array|null
@@ -191,39 +188,23 @@ class Form extends BaseObject implements ParentInterface
      */
     public function getColumnOptions(): array
     {
-        return $this->columnAttributes;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getComponents(): array
-    {
-        $components = $this->components;
-
-        foreach ($components as &$component) {
-            if (!$component instanceof Row) {
-                $component = Row::create([$component])->setForm($this);
-            }
-        }
-
-        return $components;
+        return $this->columnOptions;
     }
 
     /**
      * @return array
      */
-    public function getComponentsAttributes(): array
+    public function getComponentsOptions(): array
     {
-        return $this->componentsAttributes;
+        return $this->componentsOptions;
     }
 
     /**
-     * @param array $componentsAttributes
+     * @param array $componentsOptions
      */
-    public function setComponentsAttributes(array $componentsAttributes): void
+    public function setComponentsOptions(array $componentsOptions): void
     {
-        $this->componentsAttributes = $componentsAttributes;
+        $this->componentsOptions = $componentsOptions;
     }
 
     /**
@@ -234,7 +215,11 @@ class Form extends BaseObject implements ParentInterface
         $componentTags = [];
 
         foreach ($this->getComponents() as $component) {
-            $componentTags[] = $component->render();
+            if ($component instanceof Row === false) {
+                $component = Row::create([$component])->setForm($this);
+            }
+
+            $componentTags[] = $component->setForm($this)->render();
         }
 
         return implode("\n", $componentTags);
@@ -303,19 +288,19 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @return array
      */
-    public function getFormAttributes(): array
+    public function getFormOptions(): array
     {
-        return $this->formAttributes;
+        return $this->formOptions;
     }
 
     /**
-     * @param array $formAttributes
+     * @param array $formOptions
      *
      * @return $this
      */
-    public function setFormAttributes(array $formAttributes): self
+    public function setFormOptions(array $formOptions): self
     {
-        $this->formAttributes = $formAttributes;
+        $this->formOptions = $formOptions;
 
         return $this;
     }
@@ -405,7 +390,7 @@ class Form extends BaseObject implements ParentInterface
      */
     public function getRowOptions(): array
     {
-        return $this->rowAttributes;
+        return $this->rowOptions;
     }
 
     /**
@@ -509,7 +494,7 @@ class Form extends BaseObject implements ParentInterface
         $pieces[] = Html::beginForm(
             $this->getFormAction(),
             $this->getFormMethod(),
-            $this->getFormAttributes()
+            $this->getFormOptions()
         );
 
         $pieces[] = Html::actionInput('formbuilder/forms/process');
@@ -526,7 +511,7 @@ class Form extends BaseObject implements ParentInterface
 
         $pieces[] = Html::div(
             $this->getComponentsHtml(),
-            $this->getComponentsAttributes()
+            $this->getComponentsOptions()
         );
 
         $pieces[] = Html::endForm();
@@ -538,18 +523,18 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
-     * @param array $columnAttributes
+     * @param array $columnOptions
      */
-    public function setColumnAttributes(array $columnAttributes): void
+    public function setColumnOptions(array $columnOptions): void
     {
-        $this->columnAttributes = $columnAttributes;
+        $this->columnOptions = $columnOptions;
     }
 
     /**
-     * @param array $rowAttributes
+     * @param array $rowOptions
      */
-    public function setRowAttributes(array $rowAttributes): void
+    public function setRowOptions(array $rowOptions): void
     {
-        $this->rowAttributes = $rowAttributes;
+        $this->rowOptions = $rowOptions;
     }
 }

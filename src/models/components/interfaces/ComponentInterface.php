@@ -18,14 +18,12 @@ interface ComponentInterface
     public function getForm(): Form;
 
     /**
+     * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface
+     */
+    public function getParent(): ParentInterface;
+
+    /**
      * @return \Twig\Markup
      */
     public function render(): Markup;
-
-    /**
-     * @param \craftplugins\formbuilder\models\Form $form
-     *
-     * @return $this
-     */
-    public function setForm(Form $form): self;
 }

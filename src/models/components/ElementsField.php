@@ -4,6 +4,7 @@ namespace craftplugins\formbuilder\models\components;
 
 use craft\base\Element;
 use craftplugins\formbuilder\helpers\ArrayHelper;
+use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 
 /**
  * Class ElementsField
@@ -94,7 +95,13 @@ class ElementsField extends InputField
             return '';
         }
 
-        return $renderer($elements, $this);
+        $return = $renderer($elements, $this);
+
+        if ($return instanceof ComponentInterface && $return->getParent() === null) {
+            $return->setParent($this->getParent());
+        }
+
+        return $return;
     }
 
     /**

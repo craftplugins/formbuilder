@@ -95,13 +95,7 @@ class ElementsField extends InputField
             return '';
         }
 
-        $return = $renderer($elements, $this);
-
-        if ($return instanceof ComponentInterface && $return->getParent() === null) {
-            $return->setParent($this->getParent());
-        }
-
-        return $return;
+        return $renderer($elements, $this);
     }
 
     /**
@@ -113,7 +107,9 @@ class ElementsField extends InputField
             return CheckboxGroupField::create()
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
-                ->setInputOptions($elementsField->getInputOptions());
+                ->setInputOptions($elementsField->getInputOptions())
+                ->setParent($elementsField->getParent())
+                ->getFieldControlHtml();
         });
     }
 
@@ -126,7 +122,9 @@ class ElementsField extends InputField
             return RadioGroupField::create()
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
-                ->setInputOptions($elementsField->getInputOptions());
+                ->setInputOptions($elementsField->getInputOptions())
+                ->setParent($elementsField->getParent())
+                ->getFieldControlHtml();
         });
     }
 
@@ -139,7 +137,9 @@ class ElementsField extends InputField
             return SelectField::create()
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
-                ->setInputOptions($elementsField->getInputOptions());
+                ->setInputOptions($elementsField->getInputOptions())
+                ->setParent($elementsField->getParent())
+                ->getFieldControlHtml();
         });
     }
 

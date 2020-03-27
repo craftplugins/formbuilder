@@ -19,16 +19,6 @@ abstract class AbstractComponent extends BaseObject implements ComponentInterfac
     protected $form;
 
     /**
-     * @param array $config
-     *
-     * @return static
-     */
-    public static function create($config = []): self
-    {
-        return new static($config);
-    }
-
-    /**
      * @return string
      */
     public function __toString(): string

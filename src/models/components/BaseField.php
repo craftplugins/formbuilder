@@ -407,7 +407,7 @@ class BaseField extends AbstractComponent
         $default = null;
 
         if ($name = $this->getInputName()) {
-            $default = 'field-' . StringHelper::slugify($name);
+            $default = 'input-' . StringHelper::slugify($name);
         }
 
         return ArrayHelper::getValue($this->inputOptions, 'id', $default);

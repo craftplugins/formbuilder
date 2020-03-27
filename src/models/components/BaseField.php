@@ -86,6 +86,17 @@ class BaseField extends AbstractComponent
     }
 
     /**
+     * @return array|null
+     */
+    public function getErrors(): ?array
+    {
+        return ArrayHelper::getValue(
+            $this->getParent()->getErrors(),
+            $this->getInputName()
+        );
+    }
+
+    /**
      * @return string
      */
     public function getFieldControlHtml(): string
@@ -103,17 +114,6 @@ class BaseField extends AbstractComponent
         $this->fieldControlHtml = $fieldControlHtml;
 
         return $this;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getErrors(): ?array
-    {
-        return ArrayHelper::getValue(
-            $this->getParent()->getErrors(),
-            $this->getInputName()
-        );
     }
 
     /**

@@ -54,10 +54,14 @@ class CheckboxField extends InputField
 
     /**
      * @param string|null $inputLabelText
+     *
+     * @return $this
      */
-    public function setInputLabelText(?string $inputLabelText): void
+    public function setInputLabelText(?string $inputLabelText): self
     {
         $this->inputLabelText = $inputLabelText;
+
+        return $this;
     }
 
     /**

@@ -261,7 +261,9 @@ class BaseField extends AbstractComponent
      */
     public function getFieldOptions(): array
     {
-        return $this->fieldOptions;
+        return ArrayHelper::filterAndMerge([
+            'id' => $this->getFieldId(),
+        ], $this->fieldOptions);
     }
 
     /**
@@ -365,6 +367,18 @@ class BaseField extends AbstractComponent
             $this->getErrors(),
             $this->getFieldErrorsOptions()
         );
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function getFieldId(): ?string
+    {
+        if ($name = $this->getInputName()) {
+            return 'field-' . StringHelper::slugify($name);
+        }
+
+        return null;
     }
 
     /**

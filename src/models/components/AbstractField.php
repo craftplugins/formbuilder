@@ -81,6 +81,11 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
+     * @return string
+     */
+    abstract public function getControlHtml(): string;
+
+    /**
      * @return array
      */
     public function getControlOptions(): array
@@ -99,11 +104,6 @@ abstract class AbstractField extends AbstractComponent
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    abstract public function getControlHtml(): string;
 
     /**
      * @return array|null

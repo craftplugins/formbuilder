@@ -1,0 +1,29 @@
+<?php
+
+namespace craftplugins\formbuilder\models\components;
+
+use craftplugins\formbuilder\helpers\Html;
+use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
+
+/**
+ * Class CheckboxGroupField
+ *
+ * @package craftplugins\formbuilder\models\components
+ */
+class CheckboxGroupField extends AbstractField
+{
+    use InputItemsTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function getControlHtml(): string
+    {
+        return Html::checkboxList(
+            $this->getInputName(),
+            $this->getValue(),
+            $this->getInputItems(),
+            $this->getInputOptions()
+        );
+    }
+}

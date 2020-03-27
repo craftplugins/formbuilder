@@ -2,7 +2,7 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use craft\helpers\ArrayHelper;
+use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\Plugin;
 use Twig\Markup;
@@ -201,9 +201,9 @@ abstract class AbstractField extends AbstractComponent
      */
     public function getInputOptions(): array
     {
-        return array_merge($this->inputOptions, [
+        return ArrayHelper::filterAndMerge([
             'id' => $this->getInputId(),
-        ]);
+        ], $this->inputOptions);
     }
 
     /**

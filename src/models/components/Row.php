@@ -14,10 +14,10 @@ use Twig\Markup;
  * @package craftplugins\formbuilder\models\components
  * @property string     $componentsHtml
  * @property null|array $values
+ * @property array      $columnOptions
  * @property null|array $defaultValues
- * @property array      $columnAttributes
  * @property null|array $errors
- * @property array      $rowAttributes
+ * @property array      $rowOptions
  */
 class Row extends AbstractComponent implements ParentInterface
 {

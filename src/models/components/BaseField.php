@@ -17,6 +17,7 @@ use Twig\Markup;
  * @property string      $errorsHtml
  * @property null|mixed  $value
  * @property null|array  $errors
+ * @property null|string $fieldId
  */
 class BaseField extends AbstractComponent
 {

@@ -10,7 +10,7 @@ use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
  *
  * @package craftplugins\formbuilder\models\components
  */
-class SelectField extends AbstractField
+class SelectField extends BaseField
 {
     use InputItemsTrait;
 

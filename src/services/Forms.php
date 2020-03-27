@@ -4,6 +4,8 @@ namespace craftplugins\formbuilder\services;
 
 use craft\base\Component;
 use craft\helpers\ArrayHelper;
+use craftplugins\formbuilder\models\components\BaseField;
+use craftplugins\formbuilder\models\components\Row;
 use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\Plugin;
 use yii\base\Exception;

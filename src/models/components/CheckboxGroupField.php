@@ -11,7 +11,7 @@ use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
  *
  * @package craftplugins\formbuilder\models\components
  */
-class CheckboxGroupField extends AbstractField
+class CheckboxGroupField extends BaseField
 {
     use InputItemsTrait;
 

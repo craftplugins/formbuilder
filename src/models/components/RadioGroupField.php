@@ -10,7 +10,7 @@ use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
  *
  * @package craftplugins\formbuilder\models\components
  */
-class RadioGroupField extends AbstractField
+class RadioGroupField extends BaseField
 {
     use InputItemsTrait;
 

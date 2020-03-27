@@ -9,7 +9,7 @@ use craft\helpers\Html;
  *
  * @package craftplugins\formbuilder\models\components
  */
-class TextareaField extends AbstractField
+class TextareaField extends BaseField
 {
     /**
      * @var string

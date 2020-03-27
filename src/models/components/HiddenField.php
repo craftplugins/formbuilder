@@ -11,7 +11,7 @@ use Twig\Markup;
  *
  * @package craftplugins\formbuilder\models\components
  */
-class HiddenField extends AbstractField
+class HiddenField extends BaseField
 {
     /**
      * @var string

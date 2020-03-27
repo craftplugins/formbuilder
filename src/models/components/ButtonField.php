@@ -11,7 +11,7 @@ use Twig\Markup;
  *
  * @package craftplugins\formbuilder\models\components
  */
-class ButtonField extends AbstractField
+class ButtonField extends BaseField
 {
     /**
      * @var string

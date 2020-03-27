@@ -9,18 +9,22 @@ use craftplugins\formbuilder\Plugin;
 use Twig\Markup;
 
 /**
- * Class AbstractField
+ * Class BaseField
  *
  * @package craftplugins\formbuilder\models\components
  * @property null|string $inputId
- * @property string      $controlHtml
  * @property string      $headingHtml
  * @property string      $errorsHtml
  * @property null|mixed  $value
  * @property null|array  $errors
  */
-abstract class AbstractField extends AbstractComponent
+class BaseField extends AbstractComponent
 {
+    /**
+     * @var string|null
+     */
+    protected $controlHtml;
+
     /**
      * @var array
      */
@@ -84,7 +88,18 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @return string
      */
-    abstract public function getControlHtml(): string;
+    public function getControlHtml(): string
+    {
+        return $this->controlHtml;
+    }
+
+    /**
+     * @param string $controlHtml
+     */
+    public function setControlHtml(string $controlHtml): void
+    {
+        $this->controlHtml = $controlHtml;
+    }
 
     /**
      * @return array|null

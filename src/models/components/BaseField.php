@@ -95,10 +95,14 @@ class BaseField extends AbstractComponent
 
     /**
      * @param string $controlHtml
+     *
+     * @return $this
      */
-    public function setControlHtml(string $controlHtml): void
+    public function setControlHtml(string $controlHtml): self
     {
         $this->controlHtml = $controlHtml;
+
+        return $this;
     }
 
     /**

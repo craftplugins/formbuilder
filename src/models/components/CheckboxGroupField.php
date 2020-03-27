@@ -2,6 +2,7 @@
 
 namespace craftplugins\formbuilder\models\components;
 
+use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
 
@@ -25,5 +26,15 @@ class CheckboxGroupField extends AbstractField
             $this->getInputItems(),
             $this->getInputOptions()
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputOptions(): array
+    {
+        return ArrayHelper::filterAndMerge([
+            'itemOptions' => $this->getInputItemOptions(),
+        ], parent::getInputOptions());
     }
 }

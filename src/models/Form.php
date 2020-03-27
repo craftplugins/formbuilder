@@ -116,16 +116,6 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public function addComponent(ComponentInterface $component): ParentInterface
-    {
-        $this->components[] = $component->setForm($this);
-
-        return $this;
-    }
-
-    /**
      * @param array|null $errors
      *
      * @return $this

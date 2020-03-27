@@ -107,7 +107,7 @@ class ElementsField extends InputField
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
                 ->setInputOptions($elementsField->getInputOptions())
-                ->setForm($elementsField->getForm())
+                ->setParent($elementsField->getParent())
                 ->getFieldControlHtml();
         });
     }
@@ -122,7 +122,7 @@ class ElementsField extends InputField
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
                 ->setInputOptions($elementsField->getInputOptions())
-                ->setForm($elementsField->getForm())
+                ->setParent($elementsField->getParent())
                 ->getFieldControlHtml();
         });
     }
@@ -137,7 +137,7 @@ class ElementsField extends InputField
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
                 ->setInputOptions($elementsField->getInputOptions())
-                ->setForm($elementsField->getForm())
+                ->setParent($elementsField->getParent())
                 ->getFieldControlHtml();
         });
     }

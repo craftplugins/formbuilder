@@ -37,16 +37,6 @@ class BaseFieldGroup extends AbstractComponent implements ParentInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public function addComponent(ComponentInterface $component): ParentInterface
-    {
-        $this->components[] = $component->setForm($this->getForm());
-
-        return $this;
-    }
-
-    /**
      * @return \Twig\Markup
      * @throws \yii\base\InvalidConfigException
      */

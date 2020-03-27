@@ -30,7 +30,7 @@ class BaseFieldGroup extends AbstractComponent implements ParentInterface
      */
     public static function create(array $components = [], $config = []): AbstractComponent
     {
-        $instance = new self($config);
+        $instance = new static($config);
         $instance->setComponents($components);
 
         return $instance;

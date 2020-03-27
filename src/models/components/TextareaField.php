@@ -22,9 +22,9 @@ class TextareaField extends AbstractField
     public function getControlHtml(): string
     {
         return Html::textarea(
-            $this->getName(),
+            $this->getInputName(),
             $this->getValue(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 }

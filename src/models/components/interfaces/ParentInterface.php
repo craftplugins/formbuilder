@@ -12,7 +12,7 @@ interface ParentInterface
     /**
      * @return array
      */
-    public function getColumnAttributes(): array;
+    public function getColumnOptions(): array;
 
     /**
      * @return \craftplugins\formbuilder\models\components\interfaces\ComponentInterface[]
@@ -32,7 +32,7 @@ interface ParentInterface
     /**
      * @return array
      */
-    public function getRowAttributes(): array;
+    public function getRowOptions(): array;
 
     /**
      * @return array|null

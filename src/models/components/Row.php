@@ -40,17 +40,17 @@ class Row extends AbstractComponent implements ParentInterface
     /**
      * @inheritDoc
      */
-    public function getColumnAttributes(): array
+    public function getColumnOptions(): array
     {
-        return $this->getParent()->getColumnAttributes();
+        return $this->getParent()->getColumnOptions();
     }
 
     /**
      * @inheritDoc
      */
-    public function getRowAttributes(): array
+    public function getRowOptions(): array
     {
-        return $this->getParent()->getRowAttributes();
+        return $this->getParent()->getRowOptions();
     }
 
     /**
@@ -87,7 +87,7 @@ class Row extends AbstractComponent implements ParentInterface
         foreach ($this->getComponents() as $component) {
             $columnTags[] = Html::div(
                 $component->render(),
-                $this->getColumnAttributes()
+                $this->getColumnOptions()
             );
         }
 
@@ -102,7 +102,7 @@ class Row extends AbstractComponent implements ParentInterface
     {
         $content = Html::div(
             $this->getComponentsHtml(),
-            $this->getRowAttributes()
+            $this->getRowOptions()
         );
 
         return Plugin::getInstance()->getView()->createMarkup($content);

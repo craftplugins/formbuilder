@@ -2,24 +2,24 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use craft\helpers\Html;
+use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
 
 /**
- * Class SelectField
+ * Class RadioGroupField
  *
  * @package craftplugins\formbuilder\models\components
  */
-class SelectField extends AbstractField
+class RadioGroupField extends AbstractField
 {
     use InputItemsTrait;
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getControlHtml(): string
     {
-        return Html::dropDownList(
+        return Html::radioList(
             $this->getInputName(),
             $this->getValue(),
             $this->getInputItems(),

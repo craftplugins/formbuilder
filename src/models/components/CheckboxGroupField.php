@@ -2,24 +2,24 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use craft\helpers\Html;
+use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
 
 /**
- * Class SelectField
+ * Class CheckboxGroupField
  *
  * @package craftplugins\formbuilder\models\components
  */
-class SelectField extends AbstractField
+class CheckboxGroupField extends AbstractField
 {
     use InputItemsTrait;
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getControlHtml(): string
     {
-        return Html::dropDownList(
+        return Html::checkboxList(
             $this->getInputName(),
             $this->getValue(),
             $this->getInputItems(),

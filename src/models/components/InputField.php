@@ -23,9 +23,9 @@ class InputField extends AbstractField
     {
         return Html::input(
             $this->getInputType(),
-            $this->getName(),
+            $this->getInputName(),
             $this->getValue(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 

@@ -2,7 +2,7 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use craft\helpers\ArrayHelper;
+use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\Plugin;
 use Twig\Markup;
@@ -23,32 +23,37 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @var array
      */
-    protected $controlAttributes = ['class' => 'field-control'];
+    protected $controlOptions = ['class' => 'field-control'];
 
     /**
      * @var array
      */
-    protected $errorsAttributes = ['class' => 'field-errors'];
+    protected $errorsOptions = ['class' => 'field-errors'];
 
     /**
      * @var array
      */
-    protected $fieldAttributes = ['class' => 'field'];
+    protected $fieldOptions = ['class' => 'field'];
 
     /**
      * @var array
      */
-    protected $headingAttributes = ['class' => 'field-heading'];
+    protected $headingOptions = ['class' => 'field-heading'];
+
+    /**
+     * @var string|null
+     */
+    protected $inputName;
 
     /**
      * @var array|null
      */
-    protected $inputAttributes = [];
+    protected $inputOptions = [];
 
     /**
      * @var array
      */
-    protected $instructionsAttributes = ['class' => 'field-instructions'];
+    protected $instructionsOptions = ['class' => 'field-instructions'];
 
     /**
      * @var string|null
@@ -58,17 +63,12 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @var array
      */
-    protected $labelAttributes = ['class' => 'field-label'];
+    protected $labelOptions = ['class' => 'field-label'];
 
     /**
      * @var string|null
      */
     protected $labelText;
-
-    /**
-     * @var string|null
-     */
-    protected $name;
 
     /**
      * @param array $config
@@ -81,29 +81,29 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return array
-     */
-    public function getControlAttributes(): array
-    {
-        return $this->controlAttributes;
-    }
-
-    /**
-     * @param array $controlAttributes
-     *
-     * @return $this
-     */
-    public function setControlAttributes(array $controlAttributes): self
-    {
-        $this->controlAttributes = $controlAttributes;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     abstract public function getControlHtml(): string;
+
+    /**
+     * @return array
+     */
+    public function getControlOptions(): array
+    {
+        return $this->controlOptions;
+    }
+
+    /**
+     * @param array $controlOptions
+     *
+     * @return $this
+     */
+    public function setControlOptions(array $controlOptions): self
+    {
+        $this->controlOptions = $controlOptions;
+
+        return $this;
+    }
 
     /**
      * @return array|null
@@ -112,26 +112,26 @@ abstract class AbstractField extends AbstractComponent
     {
         return ArrayHelper::getValue(
             $this->getParent()->getErrors(),
-            $this->getName()
+            $this->getInputName()
         );
     }
 
     /**
      * @return array
      */
-    public function getErrorsAttributes(): array
+    public function getErrorsOptions(): array
     {
-        return $this->errorsAttributes;
+        return $this->errorsOptions;
     }
 
     /**
-     * @param array $errorsAttributes
+     * @param array $errorsOptions
      *
      * @return $this
      */
-    public function setErrorsAttributes(array $errorsAttributes): self
+    public function setErrorsOptions(array $errorsOptions): self
     {
-        $this->errorsAttributes = $errorsAttributes;
+        $this->errorsOptions = $errorsOptions;
 
         return $this;
     }
@@ -139,19 +139,19 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @return array
      */
-    public function getFieldAttributes(): array
+    public function getFieldOptions(): array
     {
-        return $this->fieldAttributes;
+        return $this->fieldOptions;
     }
 
     /**
-     * @param array $fieldAttributes
+     * @param array $fieldOptions
      *
      * @return $this
      */
-    public function setFieldAttributes(array $fieldAttributes): self
+    public function setFieldOptions(array $fieldOptions): self
     {
-        $this->fieldAttributes = $fieldAttributes;
+        $this->fieldOptions = $fieldOptions;
 
         return $this;
     }
@@ -159,19 +159,39 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @return array
      */
-    public function getHeadingAttributes(): array
+    public function getHeadingOptions(): array
     {
-        return $this->headingAttributes;
+        return $this->headingOptions;
     }
 
     /**
-     * @param array $headingAttributes
+     * @param array $headingOptions
      *
      * @return $this
      */
-    public function setHeadingAttributes(array $headingAttributes): self
+    public function setHeadingOptions(array $headingOptions): self
     {
-        $this->headingAttributes = $headingAttributes;
+        $this->headingOptions = $headingOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getInputName(): ?string
+    {
+        return $this->inputName;
+    }
+
+    /**
+     * @param string|null $inputName
+     *
+     * @return $this
+     */
+    public function setInputName(?string $inputName): self
+    {
+        $this->inputName = $inputName;
 
         return $this;
     }
@@ -179,21 +199,21 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @return array
      */
-    public function getInputAttributes(): array
+    public function getInputOptions(): array
     {
-        return array_merge($this->inputAttributes, [
+        return ArrayHelper::filterAndMerge([
             'id' => $this->getInputId(),
-        ]);
+        ], $this->inputOptions);
     }
 
     /**
-     * @param array $inputAttributes
+     * @param array $inputOptions
      *
      * @return $this
      */
-    public function setInputAttributes(array $inputAttributes): self
+    public function setInputOptions(array $inputOptions): self
     {
-        $this->inputAttributes = $inputAttributes;
+        $this->inputOptions = $inputOptions;
 
         return $this;
     }
@@ -201,19 +221,19 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @return array
      */
-    public function getInstructionsAttributes(): array
+    public function getInstructionsOptions(): array
     {
-        return $this->instructionsAttributes;
+        return $this->instructionsOptions;
     }
 
     /**
-     * @param array $instructionsAttributes
+     * @param array $instructionsOptions
      *
      * @return $this
      */
-    public function setInstructionsAttributes(array $instructionsAttributes): self
+    public function setInstructionsOptions(array $instructionsOptions): self
     {
-        $this->instructionsAttributes = $instructionsAttributes;
+        $this->instructionsOptions = $instructionsOptions;
 
         return $this;
     }
@@ -241,19 +261,19 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @return array
      */
-    public function getLabelAttributes(): array
+    public function getLabelOptions(): array
     {
-        return $this->labelAttributes;
+        return $this->labelOptions;
     }
 
     /**
-     * @param array $labelAttributes
+     * @param array $labelOptions
      *
      * @return $this
      */
-    public function setLabelAttributes(array $labelAttributes): self
+    public function setLabelOptions(array $labelOptions): self
     {
-        $this->labelAttributes = $labelAttributes;
+        $this->labelOptions = $labelOptions;
 
         return $this;
     }
@@ -279,33 +299,13 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     *
-     * @return $this
-     */
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * @return mixed|null
      */
     public function getValue()
     {
         return ArrayHelper::getValue(
             $this->getParent()->getValues() ?? $this->getParent()->getDefaultValues(),
-            $this->getName()
+            $this->getInputName()
         );
     }
 
@@ -321,7 +321,7 @@ abstract class AbstractField extends AbstractComponent
 
         $fieldTags[] = Html::div(
             $this->getControlHtml(),
-            $this->getControlAttributes()
+            $this->getControlOptions()
         );
 
         if ($this->getErrors()) {
@@ -330,7 +330,7 @@ abstract class AbstractField extends AbstractComponent
 
         $content = Html::div(
             implode("\n", $fieldTags),
-            $this->getFieldAttributes()
+            $this->getFieldOptions()
         );
 
         return Plugin::getInstance()->getView()->createMarkup($content);
@@ -343,7 +343,7 @@ abstract class AbstractField extends AbstractComponent
     {
         return Html::errors(
             $this->getErrors(),
-            $this->getErrorsAttributes()
+            $this->getErrorsOptions()
         );
     }
 
@@ -358,14 +358,14 @@ abstract class AbstractField extends AbstractComponent
             $headingTags[] = Html::label(
                 $labelText,
                 $this->getInputId(),
-                $this->getLabelAttributes()
+                $this->getLabelOptions()
             );
         }
 
         if ($instructionsText = $this->getInstructionsText()) {
             $headingTags[] = Html::div(
                 $instructionsText,
-                $this->getInstructionsAttributes()
+                $this->getInstructionsOptions()
             );
         }
 
@@ -375,7 +375,7 @@ abstract class AbstractField extends AbstractComponent
 
         return Html::div(
             implode("\n", $headingTags),
-            $this->getHeadingAttributes()
+            $this->getHeadingOptions()
         );
     }
 
@@ -386,10 +386,10 @@ abstract class AbstractField extends AbstractComponent
     {
         $default = null;
 
-        if ($name = $this->getName()) {
+        if ($name = $this->getInputName()) {
             $default = 'field-' . $name;
         }
 
-        return ArrayHelper::getValue($this->inputAttributes, 'id', $default);
+        return ArrayHelper::getValue($this->inputOptions, 'id', $default);
     }
 }

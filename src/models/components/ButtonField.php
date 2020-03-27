@@ -46,7 +46,7 @@ class ButtonField extends AbstractField
     {
         $content = Html::div(
             $this->getControlHtml(),
-            $this->getFieldAttributes()
+            $this->getFieldOptions()
         );
 
         return Plugin::getInstance()->getView()->createMarkup($content);
@@ -59,7 +59,7 @@ class ButtonField extends AbstractField
     {
         return Html::button(
             $this->getButtonText(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 }

@@ -226,7 +226,7 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @return array
      */
-    public function getRowAttributes(): array
+    public function getRowOptions(): array
     {
         return $this->rowAttributes;
     }
@@ -242,7 +242,7 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @return array
      */
-    public function getColumnAttributes(): array
+    public function getColumnOptions(): array
     {
         return $this->columnAttributes;
     }

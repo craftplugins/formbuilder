@@ -22,7 +22,7 @@ class SelectField extends AbstractField
     public function getControlHtml(): string
     {
         return Html::dropDownList(
-            $this->getName(),
+            $this->getInputName(),
             $this->getValue(),
             $this->getOptions(),
             $this->getInputOptions()

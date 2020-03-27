@@ -41,6 +41,11 @@ abstract class AbstractField extends AbstractComponent
     protected $headingOptions = ['class' => 'field-heading'];
 
     /**
+     * @var string|null
+     */
+    protected $inputName;
+
+    /**
      * @var array|null
      */
     protected $inputOptions = [];
@@ -64,11 +69,6 @@ abstract class AbstractField extends AbstractComponent
      * @var string|null
      */
     protected $labelText;
-
-    /**
-     * @var string|null
-     */
-    protected $name;
 
     /**
      * @param array $config
@@ -112,7 +112,7 @@ abstract class AbstractField extends AbstractComponent
     {
         return ArrayHelper::getValue(
             $this->getParent()->getErrors(),
-            $this->getName()
+            $this->getInputName()
         );
     }
 
@@ -172,6 +172,26 @@ abstract class AbstractField extends AbstractComponent
     public function setHeadingOptions(array $headingOptions): self
     {
         $this->headingOptions = $headingOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getInputName(): ?string
+    {
+        return $this->inputName;
+    }
+
+    /**
+     * @param string|null $inputName
+     *
+     * @return $this
+     */
+    public function setInputName(?string $inputName): self
+    {
+        $this->inputName = $inputName;
 
         return $this;
     }
@@ -279,33 +299,13 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     *
-     * @return $this
-     */
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
      * @return mixed|null
      */
     public function getValue()
     {
         return ArrayHelper::getValue(
             $this->getParent()->getValues() ?? $this->getParent()->getDefaultValues(),
-            $this->getName()
+            $this->getInputName()
         );
     }
 
@@ -386,7 +386,7 @@ abstract class AbstractField extends AbstractComponent
     {
         $default = null;
 
-        if ($name = $this->getName()) {
+        if ($name = $this->getInputName()) {
             $default = 'field-' . $name;
         }
 

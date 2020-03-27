@@ -23,7 +23,7 @@ class PasswordField extends InputField
     {
         return Html::input(
             $this->getInputType(),
-            $this->getName(),
+            $this->getInputName(),
             null,
             $this->getInputOptions()
         );

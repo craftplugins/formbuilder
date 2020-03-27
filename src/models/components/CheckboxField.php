@@ -25,7 +25,7 @@ class CheckboxField extends InputField
     public function getControlHtml(): string
     {
         return Html::checkbox(
-            $this->getName(),
+            $this->getInputName(),
             $this->isChecked(),
             $this->getInputOptions()
         );

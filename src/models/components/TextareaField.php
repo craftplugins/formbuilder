@@ -24,7 +24,7 @@ class TextareaField extends AbstractField
         return Html::textarea(
             $this->getName(),
             $this->getValue(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 }

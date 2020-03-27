@@ -27,7 +27,7 @@ class CheckboxField extends InputField
         return Html::checkbox(
             $this->getName(),
             $this->isChecked(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 
@@ -41,7 +41,7 @@ class CheckboxField extends InputField
 
         $fieldTags[] = Html::div(
             $this->getControlHtml(),
-            $this->getControlAttributes()
+            $this->getControlOptions()
         );
 
         $fieldTags[] = $this->getHeadingHtml();
@@ -52,7 +52,7 @@ class CheckboxField extends InputField
 
         $fieldHtml = Html::div(
             implode("\n", $fieldTags),
-            $this->getFieldAttributes()
+            $this->getFieldOptions()
         );
 
         return Plugin::getInstance()->getView()->createMarkup($fieldHtml);

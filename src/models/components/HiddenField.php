@@ -26,7 +26,7 @@ class HiddenField extends AbstractField
         return Html::hiddenInput(
             $this->getName(),
             $this->getValue(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 

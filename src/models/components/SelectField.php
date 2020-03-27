@@ -25,7 +25,7 @@ class SelectField extends AbstractField
             $this->getName(),
             $this->getValue(),
             $this->getOptions(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 

@@ -25,7 +25,7 @@ class PasswordField extends InputField
             $this->getInputType(),
             $this->getName(),
             null,
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 }

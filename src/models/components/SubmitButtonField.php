@@ -23,7 +23,7 @@ class SubmitButtonField extends ButtonField
     {
         return Html::submitButton(
             $this->getButtonText(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 }

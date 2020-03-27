@@ -25,7 +25,7 @@ class InputField extends AbstractField
             $this->getInputType(),
             $this->getName(),
             $this->getValue(),
-            $this->getInputAttributes()
+            $this->getInputOptions()
         );
     }
 

@@ -11,7 +11,7 @@ use craftplugins\formbuilder\helpers\ArrayHelper;
  * @package craftplugins\formbuilder\models\components
  * @property callable|null $elementsRenderer
  */
-class ElementsField extends BaseField
+class ElementsField extends InputField
 {
     /**
      * @var \craft\elements\db\ElementQuery|null
@@ -104,8 +104,9 @@ class ElementsField extends BaseField
     {
         return $this->setElementsRenderer(static function (array $elements, self $elementsField) {
             return CheckboxGroupField::create()
+                ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
-                ->setInputItems(ArrayHelper::map($elements, 'id', 'title'));
+                ->setInputOptions($elementsField->getInputOptions());
         });
     }
 
@@ -116,8 +117,9 @@ class ElementsField extends BaseField
     {
         return $this->setElementsRenderer(static function (array $elements, self $elementsField) {
             return RadioGroupField::create()
+                ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
-                ->setInputItems(ArrayHelper::map($elements, 'id', 'title'));
+                ->setInputOptions($elementsField->getInputOptions());
         });
     }
 
@@ -128,8 +130,9 @@ class ElementsField extends BaseField
     {
         return $this->setElementsRenderer(static function (array $elements, self $elementsField) {
             return SelectField::create()
+                ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
-                ->setInputItems(ArrayHelper::map($elements, 'id', 'title'));
+                ->setInputOptions($elementsField->getInputOptions());
         });
     }
 

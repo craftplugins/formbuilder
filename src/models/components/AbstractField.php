@@ -23,22 +23,42 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @var array
      */
-    protected $controlOptions = ['class' => 'field-control'];
+    protected $fieldControlOptions = ['class' => 'field-control'];
 
     /**
      * @var array
      */
-    protected $errorsOptions = ['class' => 'field-errors'];
+    protected $fieldErrorsOptions = ['class' => 'field-errors'];
+
+    /**
+     * @var array
+     */
+    protected $fieldHeadingOptions = ['class' => 'field-heading'];
+
+    /**
+     * @var array
+     */
+    protected $fieldInstructionsOptions = ['class' => 'field-instructions'];
+
+    /**
+     * @var string|null
+     */
+    protected $fieldInstructionsText;
+
+    /**
+     * @var array
+     */
+    protected $fieldLabelOptions = ['class' => 'field-label'];
+
+    /**
+     * @var string|null
+     */
+    protected $fieldLabelText;
 
     /**
      * @var array
      */
     protected $fieldOptions = ['class' => 'field'];
-
-    /**
-     * @var array
-     */
-    protected $headingOptions = ['class' => 'field-heading'];
 
     /**
      * @var string|null
@@ -49,26 +69,6 @@ abstract class AbstractField extends AbstractComponent
      * @var array|null
      */
     protected $inputOptions = [];
-
-    /**
-     * @var array
-     */
-    protected $instructionsOptions = ['class' => 'field-instructions'];
-
-    /**
-     * @var string|null
-     */
-    protected $instructionsText;
-
-    /**
-     * @var array
-     */
-    protected $labelOptions = ['class' => 'field-label'];
-
-    /**
-     * @var string|null
-     */
-    protected $labelText;
 
     /**
      * @param array $config
@@ -86,26 +86,6 @@ abstract class AbstractField extends AbstractComponent
     abstract public function getControlHtml(): string;
 
     /**
-     * @return array
-     */
-    public function getControlOptions(): array
-    {
-        return $this->controlOptions;
-    }
-
-    /**
-     * @param array $controlOptions
-     *
-     * @return $this
-     */
-    public function setControlOptions(array $controlOptions): self
-    {
-        $this->controlOptions = $controlOptions;
-
-        return $this;
-    }
-
-    /**
      * @return array|null
      */
     public function getErrors(): ?array
@@ -119,19 +99,139 @@ abstract class AbstractField extends AbstractComponent
     /**
      * @return array
      */
-    public function getErrorsOptions(): array
+    public function getFieldControlOptions(): array
     {
-        return $this->errorsOptions;
+        return $this->fieldControlOptions;
     }
 
     /**
-     * @param array $errorsOptions
+     * @param array $fieldControlOptions
      *
      * @return $this
      */
-    public function setErrorsOptions(array $errorsOptions): self
+    public function setFieldControlOptions(array $fieldControlOptions): self
     {
-        $this->errorsOptions = $errorsOptions;
+        $this->fieldControlOptions = $fieldControlOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFieldErrorsOptions(): array
+    {
+        return $this->fieldErrorsOptions;
+    }
+
+    /**
+     * @param array $fieldErrorsOptions
+     *
+     * @return $this
+     */
+    public function setFieldErrorsOptions(array $fieldErrorsOptions): self
+    {
+        $this->fieldErrorsOptions = $fieldErrorsOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFieldHeadingOptions(): array
+    {
+        return $this->fieldHeadingOptions;
+    }
+
+    /**
+     * @param array $fieldHeadingOptions
+     *
+     * @return $this
+     */
+    public function setFieldHeadingOptions(array $fieldHeadingOptions): self
+    {
+        $this->fieldHeadingOptions = $fieldHeadingOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFieldInstructionsOptions(): array
+    {
+        return $this->fieldInstructionsOptions;
+    }
+
+    /**
+     * @param array $fieldInstructionsOptions
+     *
+     * @return $this
+     */
+    public function setFieldInstructionsOptions(array $fieldInstructionsOptions): self
+    {
+        $this->fieldInstructionsOptions = $fieldInstructionsOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFieldInstructionsText(): ?string
+    {
+        return $this->fieldInstructionsText;
+    }
+
+    /**
+     * @param string|null $fieldInstructionsText
+     *
+     * @return $this
+     */
+    public function setFieldInstructionsText(?string $fieldInstructionsText): self
+    {
+        $this->fieldInstructionsText = $fieldInstructionsText;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFieldLabelOptions(): array
+    {
+        return $this->fieldLabelOptions;
+    }
+
+    /**
+     * @param array $fieldLabelOptions
+     *
+     * @return $this
+     */
+    public function setFieldLabelOptions(array $fieldLabelOptions): self
+    {
+        $this->fieldLabelOptions = $fieldLabelOptions;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFieldLabelText(): ?string
+    {
+        return $this->fieldLabelText;
+    }
+
+    /**
+     * @param string|null $fieldLabelText
+     *
+     * @return $this
+     */
+    public function setFieldLabelText(?string $fieldLabelText): self
+    {
+        $this->fieldLabelText = $fieldLabelText;
 
         return $this;
     }
@@ -152,26 +252,6 @@ abstract class AbstractField extends AbstractComponent
     public function setFieldOptions(array $fieldOptions): self
     {
         $this->fieldOptions = $fieldOptions;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getHeadingOptions(): array
-    {
-        return $this->headingOptions;
-    }
-
-    /**
-     * @param array $headingOptions
-     *
-     * @return $this
-     */
-    public function setHeadingOptions(array $headingOptions): self
-    {
-        $this->headingOptions = $headingOptions;
 
         return $this;
     }
@@ -219,86 +299,6 @@ abstract class AbstractField extends AbstractComponent
     }
 
     /**
-     * @return array
-     */
-    public function getInstructionsOptions(): array
-    {
-        return $this->instructionsOptions;
-    }
-
-    /**
-     * @param array $instructionsOptions
-     *
-     * @return $this
-     */
-    public function setInstructionsOptions(array $instructionsOptions): self
-    {
-        $this->instructionsOptions = $instructionsOptions;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getInstructionsText(): ?string
-    {
-        return $this->instructionsText;
-    }
-
-    /**
-     * @param string|null $instructionsText
-     *
-     * @return $this
-     */
-    public function setInstructionsText(?string $instructionsText): self
-    {
-        $this->instructionsText = $instructionsText;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLabelOptions(): array
-    {
-        return $this->labelOptions;
-    }
-
-    /**
-     * @param array $labelOptions
-     *
-     * @return $this
-     */
-    public function setLabelOptions(array $labelOptions): self
-    {
-        $this->labelOptions = $labelOptions;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getLabelText(): ?string
-    {
-        return $this->labelText;
-    }
-
-    /**
-     * @param string|null $labelText
-     *
-     * @return $this
-     */
-    public function setLabelText(?string $labelText): self
-    {
-        $this->labelText = $labelText;
-
-        return $this;
-    }
-
-    /**
      * @return mixed|null
      */
     public function getValue()
@@ -321,7 +321,7 @@ abstract class AbstractField extends AbstractComponent
 
         $fieldTags[] = Html::div(
             $this->getControlHtml(),
-            $this->getControlOptions()
+            $this->getFieldControlOptions()
         );
 
         if ($this->getErrors()) {
@@ -343,7 +343,7 @@ abstract class AbstractField extends AbstractComponent
     {
         return Html::errors(
             $this->getErrors(),
-            $this->getErrorsOptions()
+            $this->getFieldErrorsOptions()
         );
     }
 
@@ -354,18 +354,18 @@ abstract class AbstractField extends AbstractComponent
     {
         $headingTags = [];
 
-        if ($labelText = $this->getLabelText()) {
+        if ($labelText = $this->getFieldLabelText()) {
             $headingTags[] = Html::label(
                 $labelText,
                 $this->getInputId(),
-                $this->getLabelOptions()
+                $this->getFieldLabelOptions()
             );
         }
 
-        if ($instructionsText = $this->getInstructionsText()) {
+        if ($instructionsText = $this->getFieldInstructionsText()) {
             $headingTags[] = Html::div(
                 $instructionsText,
-                $this->getInstructionsOptions()
+                $this->getFieldInstructionsOptions()
             );
         }
 
@@ -375,7 +375,7 @@ abstract class AbstractField extends AbstractComponent
 
         return Html::div(
             implode("\n", $headingTags),
-            $this->getHeadingOptions()
+            $this->getFieldHeadingOptions()
         );
     }
 

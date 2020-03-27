@@ -15,7 +15,7 @@ class CheckboxField extends InputField
     /**
      * @var string|null
      */
-    protected $inputLabel;
+    protected $inputLabelText;
 
     /**
      * @var string
@@ -40,24 +40,24 @@ class CheckboxField extends InputField
     public function getInputOptions(): array
     {
         return ArrayHelper::filterAndMerge([
-            'label' => $this->getInputLabel(),
+            'label' => $this->getInputLabelText(),
         ], parent::getInputOptions());
     }
 
     /**
      * @return string|null
      */
-    public function getInputLabel(): ?string
+    public function getInputLabelText(): ?string
     {
-        return $this->inputLabel;
+        return $this->inputLabelText;
     }
 
     /**
-     * @param string|null $inputLabel
+     * @param string|null $inputLabelText
      */
-    public function setInputLabel(?string $inputLabel): void
+    public function setInputLabelText(?string $inputLabelText): void
     {
-        $this->inputLabel = $inputLabel;
+        $this->inputLabelText = $inputLabelText;
     }
 
     /**

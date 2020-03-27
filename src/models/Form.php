@@ -206,10 +206,10 @@ class Form extends BaseObject implements ParentInterface
 
         foreach ($this->getComponents() as $component) {
             if ($component instanceof Row === false) {
-                $component = Row::create([$component])->setForm($this);
+                $component = Row::create([$component])->setParent($this);
             }
 
-            $componentTags[] = $component->setForm($this)->render();
+            $componentTags[] = $component->render();
         }
 
         return implode("\n", $componentTags);

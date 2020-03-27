@@ -30,7 +30,7 @@ class CheckboxField extends InputField
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::checkbox(
             $this->getInputName(),

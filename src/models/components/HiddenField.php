@@ -21,7 +21,7 @@ class HiddenField extends BaseField
     /**
      * @inheritDoc
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::hiddenInput(
             $this->getInputName(),
@@ -37,7 +37,7 @@ class HiddenField extends BaseField
     public function render(): Markup
     {
         return Plugin::getInstance()->getView()->createMarkup(
-            $this->getControlHtml()
+            $this->getFieldControlHtml()
         );
     }
 }

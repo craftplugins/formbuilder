@@ -45,7 +45,7 @@ class ButtonField extends BaseField
     public function render(): Markup
     {
         $content = Html::div(
-            $this->getControlHtml(),
+            $this->getFieldControlHtml(),
             $this->getFieldOptions()
         );
 
@@ -55,7 +55,7 @@ class ButtonField extends BaseField
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::button(
             $this->getButtonText(),

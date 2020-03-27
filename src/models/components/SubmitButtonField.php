@@ -19,7 +19,7 @@ class SubmitButtonField extends ButtonField
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::submitButton(
             $this->getButtonText(),

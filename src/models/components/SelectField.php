@@ -17,7 +17,7 @@ class SelectField extends BaseField
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::dropDownList(
             $this->getInputName(),

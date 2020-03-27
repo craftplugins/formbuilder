@@ -23,7 +23,7 @@ class BaseField extends AbstractComponent
     /**
      * @var string|null
      */
-    protected $controlHtml;
+    protected $fieldControlHtml;
 
     /**
      * @var array
@@ -88,19 +88,19 @@ class BaseField extends AbstractComponent
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
-        return $this->controlHtml;
+        return $this->fieldControlHtml;
     }
 
     /**
-     * @param string $controlHtml
+     * @param string $fieldControlHtml
      *
      * @return $this
      */
-    public function setControlHtml(string $controlHtml): self
+    public function setFieldControlHtml(string $fieldControlHtml): self
     {
-        $this->controlHtml = $controlHtml;
+        $this->fieldControlHtml = $fieldControlHtml;
 
         return $this;
     }
@@ -340,7 +340,7 @@ class BaseField extends AbstractComponent
         $fieldTags[] = $this->getHeadingHtml();
 
         $fieldTags[] = Html::div(
-            $this->getControlHtml(),
+            $this->getFieldControlHtml(),
             $this->getFieldControlOptions()
         );
 

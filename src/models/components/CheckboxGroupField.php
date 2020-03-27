@@ -18,7 +18,7 @@ class CheckboxGroupField extends BaseField
     /**
      * @inheritDoc
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::checkboxList(
             $this->getInputName(),

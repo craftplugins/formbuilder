@@ -19,7 +19,7 @@ class PasswordField extends InputField
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::input(
             $this->getInputType(),

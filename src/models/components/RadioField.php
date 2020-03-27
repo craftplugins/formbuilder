@@ -19,7 +19,7 @@ class RadioField extends CheckboxField
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::radio(
             $this->getInputName(),

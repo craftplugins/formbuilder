@@ -19,7 +19,7 @@ class TextareaField extends BaseField
     /**
      * @return string
      */
-    public function getControlHtml(): string
+    public function getFieldControlHtml(): string
     {
         return Html::textarea(
             $this->getInputName(),

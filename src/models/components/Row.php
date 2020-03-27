@@ -3,8 +3,6 @@
 namespace craftplugins\formbuilder\models\components;
 
 use craftplugins\formbuilder\helpers\Html;
-use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
-use craftplugins\formbuilder\models\components\traits\ParentTrait;
 use craftplugins\formbuilder\Plugin;
 use Twig\Markup;
 
@@ -12,71 +10,10 @@ use Twig\Markup;
  * Class Row
  *
  * @package craftplugins\formbuilder\models\components
- * @property string     $componentsHtml
- * @property null|array $values
- * @property array      $columnOptions
- * @property null|array $defaultValues
- * @property null|array $errors
- * @property array      $rowOptions
+ * @property string $componentsHtml
  */
-class Row extends AbstractComponent implements ParentInterface
+class Row extends BaseFieldGroup
 {
-    use ParentTrait;
-
-    /**
-     * @param \craftplugins\formbuilder\models\components\interfaces\ComponentInterface[] $components
-     * @param array                                                                       $config
-     *
-     * @return \craftplugins\formbuilder\models\components\AbstractComponent
-     */
-    public static function create(array $components = [], $config = []): AbstractComponent
-    {
-        $instance = new self($config);
-        $instance->setComponents($components);
-
-        return $instance;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getColumnOptions(): array
-    {
-        return $this->getParent()->getColumnOptions();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRowOptions(): array
-    {
-        return $this->getParent()->getRowOptions();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getErrors(): ?array
-    {
-        return $this->getParent()->getErrors();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValues(): ?array
-    {
-        return $this->getParent()->getValues();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultValues(): ?array
-    {
-        return $this->getParent()->getDefaultValues();
-    }
-
     /**
      * @return string
      */

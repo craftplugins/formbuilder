@@ -2,10 +2,8 @@
 
 namespace craftplugins\formbuilder\models\components;
 
-use craft\helpers\ArrayHelper;
+use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
-use craftplugins\formbuilder\Plugin;
-use Twig\Markup;
 
 /**
  * Class CheckboxField
@@ -14,6 +12,11 @@ use Twig\Markup;
  */
 class CheckboxField extends InputField
 {
+    /**
+     * @var string|null
+     */
+    protected $inputLabel;
+
     /**
      * @var string
      */
@@ -32,30 +35,29 @@ class CheckboxField extends InputField
     }
 
     /**
-     * @return \Twig\Markup
-     * @throws \yii\base\InvalidConfigException
+     * @inheritDoc
      */
-    public function render(): Markup
+    public function getInputOptions(): array
     {
-        $fieldTags = [];
+        return ArrayHelper::filterAndMerge([
+            'label' => $this->getInputLabel(),
+        ], parent::getInputOptions());
+    }
 
-        $fieldTags[] = Html::div(
-            $this->getControlHtml(),
-            $this->getControlOptions()
-        );
+    /**
+     * @return string|null
+     */
+    public function getInputLabel(): ?string
+    {
+        return $this->inputLabel;
+    }
 
-        $fieldTags[] = $this->getHeadingHtml();
-
-        if ($this->getErrors()) {
-            $fieldTags[] = $this->getErrorsHtml();
-        }
-
-        $fieldHtml = Html::div(
-            implode("\n", $fieldTags),
-            $this->getFieldOptions()
-        );
-
-        return Plugin::getInstance()->getView()->createMarkup($fieldHtml);
+    /**
+     * @param string|null $inputLabel
+     */
+    public function setInputLabel(?string $inputLabel): void
+    {
+        $this->inputLabel = $inputLabel;
     }
 
     /**
@@ -63,9 +65,6 @@ class CheckboxField extends InputField
      */
     public function isChecked(): bool
     {
-        return ArrayHelper::keyExists(
-            $this->getName(),
-            $this->getParent()->getValues() ?? $this->getParent()->getDefaultValues()
-        );
+        return $this->getValue() !== null;
     }
 }

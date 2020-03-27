@@ -3,6 +3,7 @@
 namespace craftplugins\formbuilder\models\components;
 
 use craft\helpers\Html;
+use craftplugins\formbuilder\models\components\traits\InputItemsTrait;
 
 /**
  * Class SelectField
@@ -11,10 +12,7 @@ use craft\helpers\Html;
  */
 class SelectField extends AbstractField
 {
-    /**
-     * @var array
-     */
-    protected $options = [];
+    use InputItemsTrait;
 
     /**
      * @return string
@@ -24,28 +22,8 @@ class SelectField extends AbstractField
         return Html::dropDownList(
             $this->getInputName(),
             $this->getValue(),
-            $this->getOptions(),
+            $this->getInputItems(),
             $this->getInputOptions()
         );
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
-     * @param array $options
-     *
-     * @return $this
-     */
-    public function setOptions(array $options): self
-    {
-        $this->options = $options;
-
-        return $this;
     }
 }

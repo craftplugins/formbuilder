@@ -2,6 +2,8 @@
 
 namespace craftplugins\formbuilder\models\components;
 
+use craftplugins\formbuilder\helpers\Html;
+
 /**
  * Class RadioField
  *
@@ -13,4 +15,16 @@ class RadioField extends CheckboxField
      * @var string
      */
     protected $inputType = 'radio';
+
+    /**
+     * @return string
+     */
+    public function getControlHtml(): string
+    {
+        return Html::radio(
+            $this->getInputName(),
+            $this->isChecked(),
+            $this->getInputOptions()
+        );
+    }
 }

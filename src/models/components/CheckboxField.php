@@ -13,6 +13,11 @@ use craftplugins\formbuilder\helpers\Html;
 class CheckboxField extends InputField
 {
     /**
+     * @var array|null
+     */
+    protected $inputLabelOptions;
+
+    /**
      * @var string|null
      */
     protected $inputLabelText;
@@ -41,7 +46,24 @@ class CheckboxField extends InputField
     {
         return ArrayHelper::filterAndMerge([
             'label' => $this->getInputLabelText(),
+            'labelOptions' => $this->getInputLabelOptions(),
         ], parent::getInputOptions());
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getInputLabelOptions(): ?array
+    {
+        return $this->inputLabelOptions;
+    }
+
+    /**
+     * @param array|null $inputLabelOptions
+     */
+    public function setInputLabelOptions(?array $inputLabelOptions): void
+    {
+        $this->inputLabelOptions = $inputLabelOptions;
     }
 
     /**

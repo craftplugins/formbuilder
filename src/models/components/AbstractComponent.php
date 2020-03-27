@@ -3,7 +3,7 @@
 namespace craftplugins\formbuilder\models\components;
 
 use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
-use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
+use craftplugins\formbuilder\models\Form;
 use yii\base\BaseObject;
 
 /**
@@ -14,9 +14,9 @@ use yii\base\BaseObject;
 abstract class AbstractComponent extends BaseObject implements ComponentInterface
 {
     /**
-     * @var \craftplugins\formbuilder\models\components\interfaces\ParentInterface
+     * @var \craftplugins\formbuilder\models\Form
      */
-    protected $parent;
+    protected $form;
 
     /**
      * @return string
@@ -27,21 +27,19 @@ abstract class AbstractComponent extends BaseObject implements ComponentInterfac
     }
 
     /**
-     * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface
+     * @inheritDoc
      */
-    public function getParent(): ParentInterface
+    public function getForm(): Form
     {
-        return $this->parent;
+        return $this->form;
     }
 
     /**
-     * @param \craftplugins\formbuilder\models\components\interfaces\ParentInterface $parent
-     *
-     * @return \craftplugins\formbuilder\models\components\interfaces\ComponentInterface
+     * @inheritDoc
      */
-    public function setParent(ParentInterface $parent): ComponentInterface
+    public function setForm(Form $form): ComponentInterface
     {
-        $this->parent = $parent;
+        $this->form = $form;
 
         return $this;
     }

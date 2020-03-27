@@ -92,7 +92,7 @@ class BaseField extends AbstractComponent
     public function getErrors(): ?array
     {
         return ArrayHelper::getValue(
-            $this->getParent()->getErrors(),
+            $this->getForm()->getErrors(),
             $this->getInputName()
         );
     }
@@ -327,7 +327,7 @@ class BaseField extends AbstractComponent
     public function getValue()
     {
         return ArrayHelper::getValue(
-            $this->getParent()->getValues() ?? $this->getParent()->getDefaultValues(),
+            $this->getForm()->getValues() ?? $this->getForm()->getDefaultValues(),
             $this->getInputName()
         );
     }

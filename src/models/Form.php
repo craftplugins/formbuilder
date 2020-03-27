@@ -5,6 +5,7 @@ namespace craftplugins\formbuilder\models;
 use Craft;
 use craft\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
+use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
 use craftplugins\formbuilder\models\components\Row;
 use craftplugins\formbuilder\models\components\traits\ParentTrait;
@@ -118,6 +119,16 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function addComponent(ComponentInterface $component): ParentInterface
+    {
+        $this->components[] = $component->setForm($this);
+
+        return $this;
+    }
+
+    /**
      * @param array|null $errors
      *
      * @return $this
@@ -178,6 +189,30 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @return array
      */
+    public function getColumnOptions(): array
+    {
+        return $this->columnAttributes;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getComponents(): array
+    {
+        $components = $this->components;
+
+        foreach ($components as &$component) {
+            if (!$component instanceof Row) {
+                $component = Row::create([$component])->setForm($this);
+            }
+        }
+
+        return $components;
+    }
+
+    /**
+     * @return array
+     */
     public function getComponentsAttributes(): array
     {
         return $this->componentsAttributes;
@@ -208,58 +243,6 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @return array|null
      */
-    public function getErrors(): ?array
-    {
-        return $this->errors;
-    }
-
-    /**
-     * @param array|null $errors
-     *
-     * @return $this
-     */
-    public function setErrors(?array $errors): self
-    {
-        $this->errors = $errors;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRowOptions(): array
-    {
-        return $this->rowAttributes;
-    }
-
-    /**
-     * @param array $rowAttributes
-     */
-    public function setRowAttributes(array $rowAttributes): void
-    {
-        $this->rowAttributes = $rowAttributes;
-    }
-
-    /**
-     * @return array
-     */
-    public function getColumnOptions(): array
-    {
-        return $this->columnAttributes;
-    }
-
-    /**
-     * @param array $columnAttributes
-     */
-    public function setColumnAttributes(array $columnAttributes): void
-    {
-        $this->columnAttributes = $columnAttributes;
-    }
-
-    /**
-     * @return array|null
-     */
     public function getDefaultValues(): ?array
     {
         return $this->defaultValues;
@@ -280,37 +263,21 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @return array|null
      */
-    public function getValues(): ?array
+    public function getErrors(): ?array
     {
-        return $this->values;
+        return $this->errors;
     }
 
     /**
-     * @param array|null $values
+     * @param array|null $errors
      *
      * @return $this
      */
-    public function setValues(?array $values): self
+    public function setErrors(?array $errors): self
     {
-        $this->values = $values;
+        $this->errors = $errors;
 
         return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getComponents(): array
-    {
-        $components = $this->components;
-
-        foreach ($components as &$component) {
-            if (!$component instanceof Row) {
-                $component = Row::create([$component])->setParent($this);
-            }
-        }
-
-        return $components;
     }
 
     /**
@@ -434,6 +401,14 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
+     * @return array
+     */
+    public function getRowOptions(): array
+    {
+        return $this->rowAttributes;
+    }
+
+    /**
      * @return array|null
      */
     public function getRules(): ?array
@@ -449,6 +424,26 @@ class Form extends BaseObject implements ParentInterface
     public function setRules(?array $rules): self
     {
         $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getValues(): ?array
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param array|null $values
+     *
+     * @return $this
+     */
+    public function setValues(?array $values): self
+    {
+        $this->values = $values;
 
         return $this;
     }
@@ -540,5 +535,21 @@ class Form extends BaseObject implements ParentInterface
         $charset = Craft::$app->getView()->getTwig()->getCharset();
 
         return new Markup($content, $charset);
+    }
+
+    /**
+     * @param array $columnAttributes
+     */
+    public function setColumnAttributes(array $columnAttributes): void
+    {
+        $this->columnAttributes = $columnAttributes;
+    }
+
+    /**
+     * @param array $rowAttributes
+     */
+    public function setRowAttributes(array $rowAttributes): void
+    {
+        $this->rowAttributes = $rowAttributes;
     }
 }

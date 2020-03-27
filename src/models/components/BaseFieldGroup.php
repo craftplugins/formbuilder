@@ -2,6 +2,7 @@
 
 namespace craftplugins\formbuilder\models\components;
 
+use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
 use craftplugins\formbuilder\models\components\traits\ParentTrait;
 use craftplugins\formbuilder\Plugin;
@@ -38,41 +39,11 @@ class BaseFieldGroup extends AbstractComponent implements ParentInterface
     /**
      * @inheritDoc
      */
-    public function getColumnOptions(): array
+    public function addComponent(ComponentInterface $component): ParentInterface
     {
-        return $this->getParent()->getColumnOptions();
-    }
+        $this->components[] = $component->setForm($this->getForm());
 
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultValues(): ?array
-    {
-        return $this->getParent()->getDefaultValues();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getErrors(): ?array
-    {
-        return $this->getParent()->getErrors();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRowOptions(): array
-    {
-        return $this->getParent()->getRowOptions();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValues(): ?array
-    {
-        return $this->getParent()->getValues();
+        return $this;
     }
 
     /**

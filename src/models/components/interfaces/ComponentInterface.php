@@ -2,6 +2,7 @@
 
 namespace craftplugins\formbuilder\models\components\interfaces;
 
+use craftplugins\formbuilder\models\Form;
 use Twig\Markup;
 
 /**
@@ -12,9 +13,9 @@ use Twig\Markup;
 interface ComponentInterface
 {
     /**
-     * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface
+     * @return \craftplugins\formbuilder\models\Form
      */
-    public function getParent(): ParentInterface;
+    public function getForm(): Form;
 
     /**
      * @return \Twig\Markup
@@ -22,9 +23,9 @@ interface ComponentInterface
     public function render(): Markup;
 
     /**
-     * @param \craftplugins\formbuilder\models\components\interfaces\ParentInterface $parent
+     * @param \craftplugins\formbuilder\models\Form $form
      *
      * @return $this
      */
-    public function setParent(ParentInterface $parent): self;
+    public function setForm(Form $form): self;
 }

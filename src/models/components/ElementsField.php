@@ -4,7 +4,6 @@ namespace craftplugins\formbuilder\models\components;
 
 use craft\base\Element;
 use craftplugins\formbuilder\helpers\ArrayHelper;
-use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 
 /**
  * Class ElementsField
@@ -108,7 +107,7 @@ class ElementsField extends InputField
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
                 ->setInputOptions($elementsField->getInputOptions())
-                ->setParent($elementsField->getParent())
+                ->setForm($elementsField->getForm())
                 ->getFieldControlHtml();
         });
     }
@@ -123,7 +122,7 @@ class ElementsField extends InputField
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
                 ->setInputOptions($elementsField->getInputOptions())
-                ->setParent($elementsField->getParent())
+                ->setForm($elementsField->getForm())
                 ->getFieldControlHtml();
         });
     }
@@ -138,7 +137,7 @@ class ElementsField extends InputField
                 ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
                 ->setInputName($elementsField->getInputName())
                 ->setInputOptions($elementsField->getInputOptions())
-                ->setParent($elementsField->getParent())
+                ->setForm($elementsField->getForm())
                 ->getFieldControlHtml();
         });
     }

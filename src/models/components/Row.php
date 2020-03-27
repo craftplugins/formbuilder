@@ -24,7 +24,7 @@ class Row extends BaseFieldGroup
         foreach ($this->getComponents() as $component) {
             $columnTags[] = Html::div(
                 $component->render(),
-                $this->getColumnOptions()
+                $this->getForm()->getColumnOptions()
             );
         }
 
@@ -39,7 +39,7 @@ class Row extends BaseFieldGroup
     {
         $content = Html::div(
             $this->getComponentsHtml(),
-            $this->getRowOptions()
+            $this->getForm()->getRowOptions()
         );
 
         return Plugin::getInstance()->getView()->createMarkup($content);

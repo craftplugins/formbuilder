@@ -77,16 +77,6 @@ class BaseField extends AbstractComponent
     protected $inputOptions = ['class' => 'input'];
 
     /**
-     * @param array $config
-     *
-     * @return static
-     */
-    public static function create($config = []): self
-    {
-        return new static($config);
-    }
-
-    /**
      * @return array|null
      */
     public function getErrors(): ?array

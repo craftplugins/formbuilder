@@ -2,6 +2,7 @@
 
 namespace craftplugins\formbuilder\models\components;
 
+use craft\helpers\StringHelper;
 use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
 use craftplugins\formbuilder\Plugin;
@@ -387,7 +388,7 @@ abstract class AbstractField extends AbstractComponent
         $default = null;
 
         if ($name = $this->getInputName()) {
-            $default = 'field-' . $name;
+            $default = 'field-' . StringHelper::slugify($name);
         }
 
         return ArrayHelper::getValue($this->inputOptions, 'id', $default);

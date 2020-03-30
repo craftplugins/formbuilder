@@ -19,15 +19,16 @@ trait ParentTrait
 
     /**
      * @param \craftplugins\formbuilder\models\components\interfaces\ComponentInterface $component
+     * @param null                                                                      $key
      *
      * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface|\craftplugins\formbuilder\models\components\traits\ParentTrait
      */
-    public function addComponent(ComponentInterface $component): ParentInterface
+    public function addComponent(ComponentInterface $component, $key = null): ParentInterface
     {
         /** @var ParentInterface $parent */
         $parent = $this;
 
-        $this->components[] = $component->setParent($parent);
+        $this->components[$key] = $component->setParent($parent);
 
         return $this;
     }
@@ -39,8 +40,8 @@ trait ParentTrait
      */
     public function addComponents(array $components): ParentInterface
     {
-        foreach ($components as $component) {
-            $this->addComponent($component);
+        foreach ($components as $key => $component) {
+            $this->addComponent($component, $key);
         }
 
         return $this;

@@ -15,6 +15,11 @@ class SelectField extends BaseField
     use InputItemsTrait;
 
     /**
+     * @var array|null
+     */
+    protected $inputOptions = ['class' => 'input', 'prompt' => ' '];
+
+    /**
      * @return string
      */
     public function getFieldControlHtml(): string

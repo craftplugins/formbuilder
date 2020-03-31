@@ -9,7 +9,7 @@
   ],
   "require": {
     "craftcms/cms": "^3.2",
-    "tightenco/collect": "^7.3"
+    "tightenco/collect": "^5.7|^6.0|^7.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"

@@ -497,14 +497,15 @@ class Form extends BaseObject implements ParentInterface
         $pieces = [];
 
         $pieces[] = Html::beginForm(
-            $this->getFormAction(),
+            $this->getFormAction() ?? 'formbuilder/forms/process',
             $this->getFormMethod(),
             $this->getFormOptions()
         );
 
-        $pieces[] = Html::actionInput('formbuilder/forms/process');
-        $pieces[] = Html::hiddenInput(self::ACTION_NAME, $this->getActionRoute());
-        $pieces[] = Html::hiddenInput(self::HANDLE_NAME, $this->getHandle());
+        if ($actionRoute = $this->getActionRoute()) {
+            $pieces[] = Html::hiddenInput(self::ACTION_NAME, $actionRoute);
+            $pieces[] = Html::hiddenInput(self::HANDLE_NAME, $this->getHandle());
+        }
 
         if ($redirectUrl = $this->getRedirectUrl()) {
             $pieces[] = Html::redirectInput($redirectUrl);

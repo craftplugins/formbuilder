@@ -29,6 +29,16 @@ class ElementsField extends InputField
     protected $elements;
 
     /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        $this->renderAsSelectField();
+    }
+
+    /**
      * @return \craft\elements\db\ElementQuery|null
      */
     public function getElementQuery(): ?\craft\elements\db\ElementQuery

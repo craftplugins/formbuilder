@@ -3,8 +3,7 @@
 namespace craftplugins\formbuilder\models\components;
 
 use craftplugins\formbuilder\helpers\Html;
-use craftplugins\formbuilder\Plugin;
-use Twig\Markup;
+use craftplugins\formbuilder\models\components\traits\ButtonTrait;
 
 /**
  * Class ButtonField
@@ -13,44 +12,7 @@ use Twig\Markup;
  */
 class ButtonField extends BaseField
 {
-    /**
-     * @var string
-     */
-    protected $buttonText = 'Button';
-
-    /**
-     * @return string
-     */
-    public function getButtonText(): string
-    {
-        return $this->buttonText;
-    }
-
-    /**
-     * @param string $buttonText
-     *
-     * @return $this
-     */
-    public function setButtonText(string $buttonText): self
-    {
-        $this->buttonText = $buttonText;
-
-        return $this;
-    }
-
-    /**
-     * @return \Twig\Markup
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function render(): Markup
-    {
-        $content = Html::div(
-            $this->getFieldControlHtml(),
-            $this->getFieldOptions()
-        );
-
-        return Plugin::getInstance()->getView()->createMarkup($content);
-    }
+    use ButtonTrait;
 
     /**
      * @return string

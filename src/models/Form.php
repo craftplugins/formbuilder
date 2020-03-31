@@ -15,6 +15,7 @@ use yii\base\BaseObject;
  * Class Form
  *
  * @package craftplugins\formbuilder\models
+ * @property string $componentsHtml
  */
 class Form extends BaseObject implements ParentInterface
 {

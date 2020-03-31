@@ -3,6 +3,7 @@
 namespace craftplugins\formbuilder\models\components;
 
 use craft\base\Element;
+use craft\elements\db\ElementQuery;
 use craftplugins\formbuilder\helpers\ArrayHelper;
 
 /**
@@ -41,7 +42,7 @@ class ElementsField extends InputField
     /**
      * @return \craft\elements\db\ElementQuery|null
      */
-    public function getElementQuery(): ?\craft\elements\db\ElementQuery
+    public function getElementQuery(): ?ElementQuery
     {
         return $this->elementQuery;
     }
@@ -51,7 +52,7 @@ class ElementsField extends InputField
      *
      * @return $this
      */
-    public function setElementQuery(?\craft\elements\db\ElementQuery $elementQuery): self
+    public function setElementQuery(?ElementQuery $elementQuery): self
     {
         $this->elementQuery = $elementQuery;
 

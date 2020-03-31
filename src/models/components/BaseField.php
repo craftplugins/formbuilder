@@ -93,7 +93,7 @@ class BaseField extends AbstractComponent
     {
         return ArrayHelper::getValue(
             $this->getForm()->getErrors(),
-            $this->getInputName()
+            $this->getInputNameDot()
         );
     }
 
@@ -328,7 +328,7 @@ class BaseField extends AbstractComponent
     {
         return ArrayHelper::getValue(
             $this->getForm()->getValues() ?? $this->getForm()->getDefaultValues(),
-            $this->getInputName()
+            $this->getInputNameDot()
         );
     }
 
@@ -426,5 +426,17 @@ class BaseField extends AbstractComponent
         }
 
         return ArrayHelper::getValue($this->inputOptions, 'id', $default);
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function getInputNameDot(): ?string
+    {
+        if ($inputName = $this->getInputName()) {
+            return preg_replace('/\[(\w+)\]/', '.$1', $inputName);
+        }
+
+        return null;
     }
 }

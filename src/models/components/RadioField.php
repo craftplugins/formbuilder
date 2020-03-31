@@ -21,10 +21,15 @@ class RadioField extends CheckboxField
      */
     public function getFieldControlHtml(): string
     {
-        return Html::radio(
-            $this->getInputName(),
-            $this->isChecked(),
-            $this->getInputOptions()
-        );
+        return implode("\n", [
+            Html::hiddenInput(
+                $this->getInputName()
+            ),
+            Html::radio(
+                $this->getInputName(),
+                $this->isChecked(),
+                $this->getInputOptions()
+            )
+        ]);
     }
 }

@@ -19,11 +19,16 @@ class RadioGroupField extends BaseField
      */
     public function getFieldControlHtml(): string
     {
-        return Html::radioList(
-            $this->getInputName(),
-            $this->getValue(),
-            $this->getInputItems(),
-            $this->getInputOptions()
-        );
+        return implode("\n", [
+            Html::hiddenInput(
+                $this->getInputName()
+            ),
+            Html::radioList(
+                $this->getInputName(),
+                $this->getValue(),
+                $this->getInputItems(),
+                $this->getInputOptions()
+            )
+        ]);
     }
 }

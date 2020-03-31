@@ -20,12 +20,17 @@ class CheckboxGroupField extends BaseField
      */
     public function getFieldControlHtml(): string
     {
-        return Html::checkboxList(
-            $this->getInputName(),
-            $this->getValue(),
-            $this->getInputItems(),
-            $this->getInputOptions()
-        );
+        return implode("\n", [
+            Html::hiddenInput(
+                $this->getInputName()
+            ),
+            Html::checkboxList(
+                $this->getInputName(),
+                $this->getValue(),
+                $this->getInputItems(),
+                $this->getInputOptions()
+            )
+        ]);
     }
 
     /**

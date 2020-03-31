@@ -32,11 +32,16 @@ class CheckboxField extends InputField
      */
     public function getFieldControlHtml(): string
     {
-        return Html::checkbox(
-            $this->getInputName(),
-            $this->isChecked(),
-            $this->getInputOptions()
-        );
+        return implode("\n", [
+            Html::hiddenInput(
+                $this->getInputName()
+            ),
+            Html::checkbox(
+                $this->getInputName(),
+                $this->isChecked(),
+                $this->getInputOptions()
+            )
+        ]);
     }
 
     /**
@@ -91,6 +96,6 @@ class CheckboxField extends InputField
      */
     public function isChecked(): bool
     {
-        return $this->getValue() !== null;
+        return !empty($this->getValue());
     }
 }

@@ -12,13 +12,35 @@ use Tightenco\Collect\Support\Arr;
 class ArrayHelper extends \craft\helpers\ArrayHelper
 {
     /**
-     * @param $array
+     * @param        $array
+     * @param string $prepend
      *
      * @return array
      */
-    public static function dot($array): array
+    public static function dot($array, $prepend = ''): array
     {
-        return Arr::dot($array);
+        return Arr::dot($array, $prepend);
+    }
+
+    /**
+     * @param        $array
+     * @param string $prepend
+     *
+     * @return array
+     */
+    public static function dotAssoc($array, $prepend = ''): array
+    {
+        $results = [];
+
+        foreach ($array as $key => $value) {
+            if (self::isAssociative($value)) {
+                $results = self::merge($results, self::dotAssoc($value, $prepend . $key . '.'));
+            } else {
+                $results[$prepend . $key] = $value;
+            }
+        }
+
+        return $results;
     }
 
     /**

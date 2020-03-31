@@ -20,7 +20,7 @@ class DynamicModel extends \yii\base\DynamicModel
     public function __construct(array $attributes = [], $config = [])
     {
         parent::__construct(
-            ArrayHelper::dot($attributes),
+            ArrayHelper::dotAssoc($attributes),
             $config
         );
     }

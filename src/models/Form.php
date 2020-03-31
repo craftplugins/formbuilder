@@ -191,6 +191,7 @@ class Form extends BaseObject implements ParentInterface
 
     /**
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     public function getComponentsHtml(): string
     {
@@ -504,6 +505,7 @@ class Form extends BaseObject implements ParentInterface
         );
 
         if ($actionRoute = $this->getActionRoute()) {
+            $pieces[] = Html::actionInput('formbuilder/forms/process');
             $pieces[] = Html::hiddenInput(self::ACTION_NAME, $actionRoute);
             $pieces[] = Html::hiddenInput(self::HANDLE_NAME, $this->getHandle());
         }

@@ -39,12 +39,12 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @var array
      */
-    protected $columnOptions = ['class' => 'form-column'];
+    protected $columnOptions = ['class' => ['form-column']];
 
     /**
      * @var array
      */
-    protected $componentsOptions = ['class' => 'form-components'];
+    protected $componentsOptions = ['class' => ['form-components']];
 
     /**
      * @var array|null
@@ -74,7 +74,7 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @var array
      */
-    protected $formOptions = ['class' => 'form'];
+    protected $formOptions = ['class' => ['form']];
 
     /**
      * @var string|null
@@ -89,7 +89,7 @@ class Form extends BaseObject implements ParentInterface
     /**
      * @var array
      */
-    protected $rowOptions = ['class' => 'form-row'];
+    protected $rowOptions = ['class' => ['form-row']];
 
     /**
      * @var array|null

@@ -205,7 +205,7 @@ class Form extends BaseObject implements ParentInterface
         $componentTags = [];
 
         foreach ($this->getComponents() as $component) {
-            if ($component instanceof Row === false) {
+            if ($component instanceof Row === false && $component->isGridComponent()) {
                 $component = Row::create([$component])->setParent($this);
             }
 

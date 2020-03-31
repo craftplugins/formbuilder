@@ -14,6 +14,11 @@ use Twig\Markup;
 class HiddenField extends BaseField
 {
     /**
+     * @var bool
+     */
+    protected $isGridComponent = false;
+
+    /**
      * @var string
      */
     protected $type = 'hidden';

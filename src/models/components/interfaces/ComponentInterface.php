@@ -23,6 +23,11 @@ interface ComponentInterface
     public function getParent(): ParentInterface;
 
     /**
+     * @return bool
+     */
+    public function isGridComponent(): bool;
+
+    /**
      * @return \Twig\Markup
      */
     public function render(): Markup;

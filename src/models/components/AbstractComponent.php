@@ -20,6 +20,11 @@ abstract class AbstractComponent extends BaseObject implements ComponentInterfac
     protected $form;
 
     /**
+     * @var bool
+     */
+    protected $isGridComponent = true;
+
+    /**
      * @var ParentInterface
      */
     protected $parent;
@@ -64,5 +69,21 @@ abstract class AbstractComponent extends BaseObject implements ComponentInterfac
         $this->parent = $parent;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGridComponent(): bool
+    {
+        return $this->isGridComponent;
+    }
+
+    /**
+     * @param bool $isGridComponent
+     */
+    public function setIsGridComponent(bool $isGridComponent): void
+    {
+        $this->isGridComponent = $isGridComponent;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace craftplugins\formbuilder\models\components\traits;
 
+use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
 
@@ -19,29 +20,34 @@ trait ParentTrait
 
     /**
      * @param \craftplugins\formbuilder\models\components\interfaces\ComponentInterface $component
-     * @param null                                                                      $key
+     * @param bool                                                                      $prepend
      *
      * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface|\craftplugins\formbuilder\models\components\traits\ParentTrait
      */
-    public function addComponent(ComponentInterface $component, $key = null): ParentInterface
+    public function prependOrAppendComponent(ComponentInterface $component, bool $prepend = false): ParentInterface
     {
         /** @var ParentInterface $parent */
         $parent = $this;
 
-        $this->components[$key] = $component->setParent($parent);
+        ArrayHelper::prependOrAppend(
+            $this->components,
+            $component->setParent($parent),
+            $prepend
+        );
 
         return $this;
     }
 
     /**
      * @param \craftplugins\formbuilder\models\components\interfaces\ComponentInterface[] $components
+     * @param bool                                                                        $prepend
      *
      * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface|\craftplugins\formbuilder\models\components\traits\ParentTrait
      */
-    public function addComponents(array $components): ParentInterface
+    public function prependOrAppendComponents(array $components, bool $prepend = false): ParentInterface
     {
-        foreach ($components as $key => $component) {
-            $this->addComponent($component, $key);
+        foreach ($components as $component) {
+            $this->prependOrAppendComponent($component, $prepend);
         }
 
         return $this;
@@ -63,7 +69,7 @@ trait ParentTrait
     public function setComponents(array $components): ParentInterface
     {
         $this->components = [];
-        $this->addComponents($components);
+        $this->prependOrAppendComponents($components);
 
         return $this;
     }

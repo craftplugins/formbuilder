@@ -499,7 +499,7 @@ class Form extends BaseObject implements ParentInterface
         $pieces = [];
 
         $pieces[] = Html::beginForm(
-            $this->getFormAction() ?? 'formbuilder/forms/process',
+            $this->getFormAction(),
             $this->getFormMethod(),
             $this->getFormOptions()
         );

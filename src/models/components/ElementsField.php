@@ -118,12 +118,18 @@ class ElementsField extends InputField
     public function renderAsRadioGroupField(): self
     {
         return $this->setElementsRenderer(static function (array $elements, self $elementsField) {
-            return RadioGroupField::create()
-                ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
-                ->setInputName($elementsField->getInputName())
-                ->setInputOptions($elementsField->getInputOptions())
-                ->setParent($elementsField->getParent())
-                ->getFieldControlHtml();
+            return implode("\n", [
+                HiddenField::create()
+                    ->setInputName($elementsField->getInputName())
+                    ->setParent($elementsField->getParent())
+                    ->getFieldControlHtml(),
+                RadioGroupField::create()
+                    ->setInputItems(ArrayHelper::map($elements, 'id', 'title'))
+                    ->setInputName($elementsField->getInputName())
+                    ->setInputOptions($elementsField->getInputOptions())
+                    ->setParent($elementsField->getParent())
+                    ->getFieldControlHtml(),
+            ]);
         });
     }
 

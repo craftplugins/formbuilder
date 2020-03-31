@@ -26,9 +26,9 @@ class BaseFieldGroup extends AbstractComponent implements ParentInterface
      * @param \craftplugins\formbuilder\models\components\interfaces\ComponentInterface[] $components
      * @param array                                                                       $config
      *
-     * @return \craftplugins\formbuilder\models\components\AbstractComponent
+     * @return self
      */
-    public static function create(array $components = [], $config = []): AbstractComponent
+    public static function create(array $components = [], $config = []): self
     {
         $instance = new static($config);
         $instance->setComponents($components);

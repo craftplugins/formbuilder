@@ -5,7 +5,6 @@ namespace craftplugins\formbuilder\models;
 use Craft;
 use craft\helpers\ArrayHelper;
 use craftplugins\formbuilder\helpers\Html;
-use craftplugins\formbuilder\models\components\interfaces\ComponentInterface;
 use craftplugins\formbuilder\models\components\interfaces\ParentInterface;
 use craftplugins\formbuilder\models\components\Row;
 use craftplugins\formbuilder\models\components\traits\ParentTrait;
@@ -63,11 +62,6 @@ class Form extends BaseObject implements ParentInterface
     protected $formAction;
 
     /**
-     * @var array
-     */
-    protected $formOptions = ['class' => 'form'];
-
-    /**
      * @var array|null
      */
     protected $formErrors;
@@ -76,6 +70,11 @@ class Form extends BaseObject implements ParentInterface
      * @var string
      */
     protected $formMethod = 'post';
+
+    /**
+     * @var array
+     */
+    protected $formOptions = ['class' => 'form'];
 
     /**
      * @var string|null
@@ -182,19 +181,11 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
-     * @return array
+     * @param array $columnOptions
      */
-    public function getComponentsOptions(): array
+    public function setColumnOptions(array $columnOptions): void
     {
-        return $this->componentsOptions;
-    }
-
-    /**
-     * @param array $componentsOptions
-     */
-    public function setComponentsOptions(array $componentsOptions): void
-    {
-        $this->componentsOptions = $componentsOptions;
+        $this->columnOptions = $columnOptions;
     }
 
     /**
@@ -213,6 +204,22 @@ class Form extends BaseObject implements ParentInterface
         }
 
         return implode("\n", $componentTags);
+    }
+
+    /**
+     * @return array
+     */
+    public function getComponentsOptions(): array
+    {
+        return $this->componentsOptions;
+    }
+
+    /**
+     * @param array $componentsOptions
+     */
+    public function setComponentsOptions(array $componentsOptions): void
+    {
+        $this->componentsOptions = $componentsOptions;
     }
 
     /**
@@ -276,26 +283,6 @@ class Form extends BaseObject implements ParentInterface
     }
 
     /**
-     * @return array
-     */
-    public function getFormOptions(): array
-    {
-        return $this->formOptions;
-    }
-
-    /**
-     * @param array $formOptions
-     *
-     * @return $this
-     */
-    public function setFormOptions(array $formOptions): self
-    {
-        $this->formOptions = $formOptions;
-
-        return $this;
-    }
-
-    /**
      * @return array|null
      */
     public function getFormErrors(): ?array
@@ -331,6 +318,26 @@ class Form extends BaseObject implements ParentInterface
     public function setFormMethod(string $formMethod): self
     {
         $this->formMethod = $formMethod;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFormOptions(): array
+    {
+        return $this->formOptions;
+    }
+
+    /**
+     * @param array $formOptions
+     *
+     * @return $this
+     */
+    public function setFormOptions(array $formOptions): self
+    {
+        $this->formOptions = $formOptions;
 
         return $this;
     }
@@ -381,6 +388,14 @@ class Form extends BaseObject implements ParentInterface
     public function getRowOptions(): array
     {
         return $this->rowOptions;
+    }
+
+    /**
+     * @param array $rowOptions
+     */
+    public function setRowOptions(array $rowOptions): void
+    {
+        $this->rowOptions = $rowOptions;
     }
 
     /**
@@ -510,21 +525,5 @@ class Form extends BaseObject implements ParentInterface
         $charset = Craft::$app->getView()->getTwig()->getCharset();
 
         return new Markup($content, $charset);
-    }
-
-    /**
-     * @param array $columnOptions
-     */
-    public function setColumnOptions(array $columnOptions): void
-    {
-        $this->columnOptions = $columnOptions;
-    }
-
-    /**
-     * @param array $rowOptions
-     */
-    public function setRowOptions(array $rowOptions): void
-    {
-        $this->rowOptions = $rowOptions;
     }
 }

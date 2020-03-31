@@ -5,9 +5,9 @@ namespace craftplugins\formbuilder\controllers;
 use Craft;
 use craft\web\Controller;
 use craft\web\Response;
+use craftplugins\formbuilder\models\DynamicModel;
 use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\Plugin;
-use yii\base\DynamicModel;
 
 /**
  * Class FormsController
@@ -38,7 +38,10 @@ class FormsController extends Controller
         $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);
 
         $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
-        $model = DynamicModel::validateData($request->getBodyParams(), $form->getRules());
+        $model = DynamicModel::validateData(
+            $request->getBodyParams(),
+            $form->getRules()
+        );
 
         Craft::$app->getUrlManager()->setRouteParams([
             Form::VALUES_KEY => $model,

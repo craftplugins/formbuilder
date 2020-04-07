@@ -41,10 +41,14 @@ class Html extends AbstractComponent
 
     /**
      * @param string|null $content
+     *
+     * @return $this
      */
-    public function setContent(?string $content): void
+    public function setContent(?string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
     /**

@@ -12,12 +12,13 @@ use Twig\Markup;
  * Class BaseField
  *
  * @package craftplugins\formbuilder\models\components
- * @property null|string $inputId
- * @property string      $headingHtml
- * @property string      $errorsHtml
- * @property null|mixed  $value
  * @property null|array  $errors
+ * @property null|mixed  $value
  * @property null|string $fieldId
+ * @property null|string $inputId
+ * @property null|string $inputNameDot
+ * @property string      $errorsHtml
+ * @property string      $headingHtml
  */
 class BaseField extends AbstractComponent
 {

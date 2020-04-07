@@ -434,7 +434,9 @@ class BaseField extends AbstractComponent
     protected function getInputNameDot(): ?string
     {
         if ($inputName = $this->getInputName()) {
-            return preg_replace('/\[(\w+)\]/', '.$1', $inputName);
+            $inputName = StringHelper::replace('[]', '.*', $inputName);
+
+            return preg_replace('/\[(\w+)]/', '.$1', $inputName);
         }
 
         return null;

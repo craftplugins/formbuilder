@@ -56,6 +56,18 @@ class ArrayHelper extends \craft\helpers\ArrayHelper
     }
 
     /**
+     * @param array|object          $array
+     * @param array|\Closure|string $key
+     * @param null                  $default
+     *
+     * @return mixed
+     */
+    public static function getValue($array, $key, $default = null)
+    {
+        return data_get($array, $key, $default);
+    }
+
+    /**
      * @param $array
      *
      * @return array

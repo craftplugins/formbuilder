@@ -18,6 +18,20 @@ class Html extends AbstractComponent
     protected $content;
 
     /**
+     * @param string|null $content
+     * @param array       $config
+     *
+     * @return static
+     */
+    public static function create(string $content = null, $config = []): self
+    {
+        $instance = new static($config);
+        $instance->setContent($content);
+
+        return $instance;
+    }
+
+    /**
      * @return string|null
      */
     public function getContent(): ?string

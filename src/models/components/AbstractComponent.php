@@ -54,6 +54,9 @@ abstract class AbstractComponent extends BaseObject implements ComponentInterfac
         return $parent;
     }
 
+    /**
+     * @return \craftplugins\formbuilder\models\components\interfaces\ParentInterface
+     */
     public function getParent(): ParentInterface
     {
         return $this->parent;

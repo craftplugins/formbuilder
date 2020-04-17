@@ -329,7 +329,9 @@ class Form extends BaseObject implements ParentInterface
      */
     public function getFormOptions(): array
     {
-        return $this->formOptions;
+        return ArrayHelper::merge([
+            'enctype' => 'multipart/form-data',
+        ], $this->formOptions);
     }
 
     /**

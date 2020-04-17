@@ -5,6 +5,8 @@ namespace craftplugins\formbuilder\controllers;
 use Craft;
 use craft\web\Controller;
 use craft\web\Response;
+use craft\web\UploadedFile;
+use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\models\DynamicModel;
 use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\Plugin;
@@ -38,10 +40,22 @@ class FormsController extends Controller
         $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);
 
         $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
-        $model = DynamicModel::validateData(
-            $request->getBodyParams(),
-            $form->getRules()
-        );
+        $rules = $form->getRules();
+        $values = $request->getBodyParams();
+
+        foreach ($rules as $rule) {
+            $attribute = $rule[0];
+
+            if (ArrayHelper::getValue($values, $attribute) !== null) {
+                continue;
+            }
+
+            if ($uploadedFile = UploadedFile::getInstanceByName($attribute)) {
+                ArrayHelper::setValue($values, $attribute, $uploadedFile);
+            }
+        }
+
+        $model = DynamicModel::validateData($values, $rules);
 
         Craft::$app->getUrlManager()->setRouteParams([
             Form::VALUES_KEY => $model,

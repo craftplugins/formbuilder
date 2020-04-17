@@ -10,6 +10,7 @@ use craftplugins\formbuilder\helpers\ArrayHelper;
 use craftplugins\formbuilder\models\DynamicModel;
 use craftplugins\formbuilder\models\Form;
 use craftplugins\formbuilder\Plugin;
+use yii\validators\FileValidator;
 
 /**
  * Class FormsController
@@ -40,7 +41,7 @@ class FormsController extends Controller
         $handle = $request->getRequiredBodyParam(Form::HANDLE_NAME);
 
         $form = Plugin::getInstance()->getForms()->getFormByHandle($handle);
-        $rules = $form->getRules();
+        $rules = (array) $form->getRules();
         $values = $request->getBodyParams();
 
         foreach ($rules as $rule) {
@@ -50,7 +51,8 @@ class FormsController extends Controller
                 continue;
             }
 
-            if ($uploadedFile = UploadedFile::getInstanceByName($attribute)) {
+            if ($rule[1] === 'file' || $rule[1] === FileValidator::class) {
+                $uploadedFile = UploadedFile::getInstanceByName($attribute);
                 ArrayHelper::setValue($values, $attribute, $uploadedFile);
             }
         }

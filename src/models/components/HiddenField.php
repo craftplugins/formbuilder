@@ -28,11 +28,17 @@ class HiddenField extends BaseField
      */
     public function getFieldControlHtml(): string
     {
-        return Html::hiddenInput(
-            $this->getInputName(),
-            $this->getValue(),
-            $this->getInputOptions()
-        );
+        $inputs = [];
+
+        foreach ((array) $this->getValue() as $value) {
+            $inputs[] = Html::hiddenInput(
+                $this->getInputName(),
+                $value,
+                $this->getInputOptions()
+            );
+        }
+
+        return implode("\n", $inputs);
     }
 
     /**
